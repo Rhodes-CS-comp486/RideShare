@@ -32,6 +32,8 @@ const register = async (req, res) => {
     // Generate verification link
     const verificationLink = `http://localhost:5001/api/auth/verify?token=${rhodesid}`; // AHHH
 
+    console.log('made it here 4');
+
     // Send verification email
     // NEED TO FIGURE OUT THIS TRAINWRECK
     const transporter = nodemailer.createTransport({
@@ -42,6 +44,8 @@ const register = async (req, res) => {
       },
     });
 
+    console.log('made it here 5');
+
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: user.email,
@@ -49,7 +53,9 @@ const register = async (req, res) => {
       text: `Click the link to verify your account: ${verificationLink}`,
     };
 
-    await transporter.sendMail(mailOptions);
+    console.log('made it here 6');
+
+    await transporter.sendMail(mailOptions); // IT BREAKS HERE
     console.log('Verification email sent to:', email);
 
     res.status(201).json({ message: 'User registered. Verification email sent.' });

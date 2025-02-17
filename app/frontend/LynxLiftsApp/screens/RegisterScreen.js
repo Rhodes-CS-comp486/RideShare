@@ -31,16 +31,16 @@ const RegisterScreen = () => {
     }),
     React.createElement(TextInput, {
       style: styles.input,
-      placeholder: 'Password',
+      placeholder: 'Username',
       value: password,
-      onChangeText: setPassword,
+      onChangeText: setUsername,
       secureTextEntry: true,
     }),
     React.createElement(TextInput, {
       style: styles.input,
-      placeholder: 'Username',
+      placeholder: 'Password',
       value: username,
-      onChangeText: setUsername,
+      onChangeText: setPassword,
     }),
     React.createElement(Button, {
       title: 'Register',
