@@ -1,4 +1,7 @@
 {
   "name": "LynxLiftsApp",
-  "displayName": "LynxLiftsApp"
+  "displayName": "LynxLiftsApp",
+  "plugins": [
+    "expo-font"
+  ]
 }
