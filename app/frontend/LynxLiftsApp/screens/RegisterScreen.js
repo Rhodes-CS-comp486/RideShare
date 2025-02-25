@@ -24,7 +24,10 @@ const RegisterScreen = () => {
       return;
     }
     try {
-      const response = await axios.post('http://localhost:5001/api/auth/register', {
+
+      const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
+
+      const response = await axios.post(`${API_URL}/api/auth/register`, {
         email,
         password,
         username,
