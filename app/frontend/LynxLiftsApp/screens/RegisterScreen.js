@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { SafeAreaView, TextInput, TouchableOpacity, Text, Image, StyleSheet, View } from 'react-native';
 import axios from 'axios';
+import { Platform } from 'react-native';
 //import { useFonts } from 'expo-font';
 //import { Poppins_400Regular } from '@expo-google-fonts/poppins'; 
 
