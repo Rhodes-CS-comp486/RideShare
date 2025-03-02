@@ -3,8 +3,8 @@ const nodemailer = require('nodemailer');
 const pool = require('../db');
 
 const register = async (req, res) => {
-  console.log('Request Body:', req.body);
   const { email, password, username } = req.body;
+
 
   // Check if required fields are present
   if (!email || !password || !username) {
@@ -30,35 +30,37 @@ const register = async (req, res) => {
     const user = await User.create({ rhodesid, email, password, username });
 
     // Generate verification link
-    const verificationLink = `http://localhost:5001/api/auth/verify?token=${rhodesid}`; // AHHH
-
-    console.log('made it here 4');
+    const verificationLink = `http://localhost:5001/api/auth/verify?token=${rhodesid}`;
 
     // Send verification email
-    // NEED TO FIGURE OUT THIS TRAINWRECK
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: 'smtp.mail.yahoo.com',
+      port: 587, 
+      secure: false, 
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASSWORD,
       },
+      tls: {
+        rejectUnauthorized: false, // Security bypass
+      },
     });
-
-    console.log('made it here 5');
 
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: user.email,
       subject: 'Verify Your LynxLifts Account',
-      text: `Click the link to verify your account: ${verificationLink}`,
+      text: `Thank you for sending up to LynxLifts. Click the link to verify your account: ${verificationLink}`,
     };
 
-    console.log('made it here 6');
-
-    await transporter.sendMail(mailOptions); // IT BREAKS HERE
-    console.log('Verification email sent to:', email);
-
-    res.status(201).json({ message: 'User registered. Verification email sent.' });
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error('Email error:', error);
+        return res.status(500).json({ error: 'Email failed to send', details: error.toString() });
+      }
+      console.log('Email sent:', info.response);
+      res.status(201).json({ message: 'User registered. Verification email sent.' });
+    });
   } catch (error) {
     console.error('Registration Error:', error);
     res.status(500).json({ error: error.message });
