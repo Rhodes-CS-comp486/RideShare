@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, Image, StyleSheet } from 'react-native';
+import { View, TextInput, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native-gesture-handler';
 
 const CreatePostScreen = ({ navigation, route }) => {
@@ -30,11 +30,13 @@ const CreatePostScreen = ({ navigation, route }) => {
             <TextInput 
                 style={styles.input}
                 placeholder="Rhodes ID"
+                placeholderTextColor="#FAF2E6"
                 onChangeText={setRhodesID}
             />
             <TextInput 
                 style={styles.input}
                 placeholder="Pickup Time (HH:MM AM/PM)"
+                placeholderTextColor="#FAF2E6"
                 value={pickupTime}
                 onChangeText={setPickupTime}
             />
@@ -42,19 +44,52 @@ const CreatePostScreen = ({ navigation, route }) => {
             <TextInput
                 style={styles.input}
                 placeholder="Write your post"
-                multiline
+                placeholderTextColor="#FAF2E6"
                 value={postText}
                 onChangeText={setPostText}
+                multiline
             />
-            <Button title="Post" onPress={handlePost} />
+            <TouchableOpacity style={styles.button} onPress={handlePost}>
+                <Text style={styles.buttonText}>Post</Text>
+            </TouchableOpacity>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 20 },
-    input: { borderWidth: 1, padding: 10, marginBottom: 10 },
-    errorText: { color: 'red', marginBottom: 10},
+    container: { 
+        flex: 1,
+        backgroundColor: '#80A1C2',
+        padding: 20,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    input: {
+        width: '90%',
+        height: 40,
+        backgroundColor: '#BF4146',
+        borderRadius: 8,
+        paddingHorizontal: 15,
+        marginVertical: 5,
+        color: '#FAF2E6',
+        fontSize: 14,
+        fontFamily: 'Poppins',
+    },
+    button: {
+        color: '#A62C2C',
+        fontSize: 18,
+        fontWeight: '600',
+        fontFamily: 'Poppins',
+    },
+    buttonText: {
+        color: '#FAF2E6',
+        fontSize: 18,
+        fontWeight: '600',
+        fontFamily: 'Poppins',
+    },
+    errorText: { 
+        color: '#FAF2E6', 
+        marginBottom: 10 },
 });
 
 export default CreatePostScreen;
