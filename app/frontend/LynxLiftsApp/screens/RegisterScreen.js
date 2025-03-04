@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { SafeAreaView, TextInput, TouchableOpacity, Text, Image, StyleSheet, View } from 'react-native';
+import { SafeAreaView, TextInput, TouchableOpacity, Text, Image, StyleSheet, View, Alert} from 'react-native';
 import axios from 'axios';
 import { Platform } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 //import { useFonts } from 'expo-font';
 //import { Poppins_400Regular } from '@expo-google-fonts/poppins'; 
 
@@ -10,6 +11,7 @@ const RegisterScreen = () => {
   const [password, setPassword] = useState('');
   const [username, setUsername] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const navigation = useNavigation();
 
   //const [fontsLoaded] = useFonts({
     //Poppins_400Regular,
@@ -33,11 +35,17 @@ const RegisterScreen = () => {
         password,
         username,
       });
-      alert('Success: ' + response.data.message);
+      if (!response.data) {
+        throw new Error("No response from server");
+      }
+      Alert.alert("User registered", "Verification email sent.");
+      navigation.navigate('BufferScreen', {user: { username }});
+
     } catch (error) {
-      alert('Error: ' + (error.response?.data?.error || 'Something went wrong.'));
+        console.error("Registration failed:", error);
+        alert('Error: ' + (error.response?.data?.error || 'Something went wrong.'));
     }
-  };
+};
 
   return React.createElement(
     SafeAreaView,
