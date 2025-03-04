@@ -27,8 +27,15 @@ const FeedScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20 },
-    post: { padding: 10, borderBottomWidth: 1, marginBottom: 10 }
+  container: { 
+    flex: 1, 
+    backgroundColor: '#80A1C2',
+    padding: 20 
+  },
+    post: { 
+      padding: 10, 
+      borderBottomWidth: 1, 
+      marginBottom: 10 }
 });
 
 export default FeedScreen;
