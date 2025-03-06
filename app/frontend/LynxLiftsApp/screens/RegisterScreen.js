@@ -38,8 +38,9 @@ const RegisterScreen = () => {
       if (!response.data) {
         throw new Error("No response from server");
       }
+      const { rhodesid } = response.data;
       Alert.alert("User registered", "Verification email sent.");
-      navigation.navigate('Status', {user: { username }});
+      navigation.navigate('Welcome', {user: { username, rhodesid } });
 
     } catch (error) {
         console.error("Registration failed:", error);
