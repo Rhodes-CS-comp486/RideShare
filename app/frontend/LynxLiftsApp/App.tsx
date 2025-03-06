@@ -14,10 +14,10 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Register">
         <Stack.Screen name="Register" component={RegisterScreen} />
-        <Stack.Screen name="BufferScreen" component={BufferScreen} />
+        <Stack.Screen name="Welcome" component={BufferScreen} />
         <Stack.Screen name="Feed" component={FeedScreen} />
         <Stack.Screen name="Driver" component={DriverScreen} />
-        <Stack.Screen name="CreatePost" component={CreatePostScreen} />
+        <Stack.Screen name="Post" component={CreatePostScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -19,7 +19,8 @@ const BufferScreen = ({ navigation, route }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.welcomeText}>Welcome {user.username}, I am logging in as</Text>
+            <Text style={styles.welcomeText}><Text style={styles.boldText}>Welcome {user.username},</Text></Text>
+            <Text style={styles.welcomeText}>I want to login as the:</Text>
             
             <TouchableOpacity style={styles.button} onPress={() => handleNavigation('driver')}>
                 <Text style={styles.buttonText}>Driver</Text>
@@ -42,8 +43,10 @@ const styles = StyleSheet.create({
     welcomeText: {
         color: '#FAF2E6',
         fontSize: 20,
-        marginBottom: 30,
-        textAlign: 'center',
+        marginBottom: 10,
+    },
+    boldText: {
+        fontWeight: '700',
     },
     button: {
         backgroundColor: '#A62C2C',
@@ -52,7 +55,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 25,
-        marginBottom: 15,
+        marginTop: 15,
     },
     buttonText: {
         color: '#FAF2E6',
