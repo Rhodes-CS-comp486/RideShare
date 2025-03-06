@@ -28,6 +28,7 @@ const register = async (req, res) => {
 
     // Create user
     const user = await User.create({ rhodesid, email, password, username });
+    console.log("RhodesID", user.rhodesid);
 
     // Generate verification link
     const verificationLink = `http://localhost:5001/api/auth/verify?token=${rhodesid}`;
@@ -53,13 +54,19 @@ const register = async (req, res) => {
       text: `Thank you for sending up to LynxLifts. Click the link to verify your account: ${verificationLink}`,
     };
 
+    res.status(201).json({ 
+      rhodesid: user.rhodesid 
+    });
+
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.error('Email error:', error);
         return res.status(500).json({ error: 'Email failed to send', details: error.toString() });
       }
       console.log('Email sent:', info.response);
-      res.status(201).json({ message: 'User registered. Verification email sent.', rhodesid: user.rhodesid });
+      res.status(201).json({ 
+        message: 'User registered. Verification email sent.'
+      });
     });
   } catch (error) {
     console.error('Registration Error:', error);
