@@ -42,7 +42,7 @@ const StatusScreen = ({ route }) => {
     <View style={styles.container}>
       <Text style={styles.title}>Driver Status</Text>
       <Text style={styles.subtitle}>
-        {driverID}, You can only view ride requests when you're online.
+        You can only view ride requests when you're online.
       </Text>
 
       <Text style={styles.subtitle}>

@@ -28,7 +28,6 @@ const register = async (req, res) => {
 
     // Create user
     const user = await User.create({ rhodesid, email, password, username });
-    console.log("RhodesID", user.rhodesid);
 
     // Generate verification link
     const verificationLink = `http://localhost:5001/api/auth/verify?token=${rhodesid}`;
