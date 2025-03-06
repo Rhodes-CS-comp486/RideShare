@@ -12,7 +12,7 @@ const FeedScreen = ({ navigation }) => {
     <View style={styles.container}>
       <TouchableOpacity 
         style={styles.createPostButton} 
-        onPress={() => navigation.navigate('CreatePost', { addPost })}
+        onPress={() => navigation.navigate('Post', { addPost })}
       >
         <Text style={styles.buttonText}>Create Post</Text>
       </TouchableOpacity>
