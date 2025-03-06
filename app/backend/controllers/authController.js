@@ -59,7 +59,7 @@ const register = async (req, res) => {
         return res.status(500).json({ error: 'Email failed to send', details: error.toString() });
       }
       console.log('Email sent:', info.response);
-      res.status(201).json({ message: 'User registered. Verification email sent.' });
+      res.status(201).json({ message: 'User registered. Verification email sent.', rhodesid: user.rhodesid });
     });
   } catch (error) {
     console.error('Registration Error:', error);
