@@ -32,6 +32,13 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+
+	<key>GOOGLE_MAPS_API_KEY</key>
+	<string>AIzaSyDzWdj0T5aMdhvyWujil7HS0sQEuSwHNvQ</string>
+
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We need access to your location to provide better service</string>
+
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>UILaunchStoryboardName</key>
