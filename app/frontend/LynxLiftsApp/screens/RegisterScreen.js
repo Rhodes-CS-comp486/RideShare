@@ -48,50 +48,59 @@ const RegisterScreen = () => {
     }
 };
 
-  return React.createElement(
-    SafeAreaView,
-    { style: styles.container },
-    React.createElement(View, { style: styles.header },
-      React.createElement(Image, { source: require('../assets/tire.png'), style: styles.tireImage }),
-      React.createElement(Image, { source: require('../assets/car.png'), style: styles.carImage }),
-      React.createElement(Text, { style: styles.title }, 'Welcome to LynxLifts')
-    ),
-    React.createElement(TextInput, {
-      style: styles.input,
-      placeholder: 'email',
-      value: email,
-      onChangeText: setEmail,
-      placeholderTextColor: '#FAF2E6'
-    }),
-    React.createElement(TextInput, {
-      style: styles.input,
-      placeholder: 'username',
-      value: username,
-      onChangeText: setUsername,
-      placeholderTextColor: '#FAF2E6'
-    }),
-    React.createElement(TextInput, {
-      style: styles.input,
-      placeholder: 'password',
-      value: password,
-      onChangeText: setPassword,
-      secureTextEntry: true,
-      placeholderTextColor: '#FAF2E6'
-    }),
-    React.createElement(TextInput, {
-      style: styles.input,
-      placeholder: 'confirmed password',
-      value: confirmPassword,
-      onChangeText: setConfirmPassword,
-      secureTextEntry: true,
-      placeholderTextColor: '#FAF2E6'
-    }),
-    React.createElement(TouchableOpacity, { style: styles.button, onPress: handleRegister },
-      React.createElement(Text, { style: styles.buttonText }, 'sign up')
-    ),
-    React.createElement(Text, { style: styles.signInText }, 'Already have an account? ',
-      React.createElement(Text, { style: styles.signInLink }, 'Sign in')
-    )
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
+        <Image source={require('../assets/tire.png')} style={styles.tireImage} />
+        <Image source={require('../assets/car.png')} style={styles.carImage} />
+        <Text style={styles.title}>Welcome to LynxLifts</Text>
+      </View>
+
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+        placeholderTextColor="#FAF2E6"
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Username"
+        value={username}
+        onChangeText={setUsername}
+        placeholderTextColor="#FAF2E6"
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
+        placeholderTextColor="#FAF2E6"
+      />
+
+      <TextInput
+        style={styles.input}
+        placeholder="Confirm Password"
+        value={confirmPassword}
+        onChangeText={setConfirmPassword}
+        secureTextEntry
+        placeholderTextColor="#FAF2E6"
+      />
+
+      <TouchableOpacity style={styles.button} onPress={handleRegister}>
+        <Text style={styles.buttonText}>Sign Up</Text>
+      </TouchableOpacity>
+
+      <Text style={styles.signInText}>
+        Already have an account?{' '}
+        <Text style={styles.signInLink} onPress={() => navigation.navigate('SignIn')}>
+          Sign In
+        </Text>
+      </Text>
+    </SafeAreaView>
   );
 };
 
