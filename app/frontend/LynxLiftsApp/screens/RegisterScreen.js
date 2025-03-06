@@ -39,7 +39,7 @@ const RegisterScreen = () => {
         throw new Error("No response from server");
       }
       Alert.alert("User registered", "Verification email sent.");
-      navigation.navigate('Welcome', {user: { username }});
+      navigation.navigate('Status', {user: { username }});
 
     } catch (error) {
         console.error("Registration failed:", error);

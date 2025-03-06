@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 
 const BufferScreen = ({ navigation, route }) => {
     const { user } = route.params;
+    const rhodesid = user.rhodesid
 
     const handleNavigation = (role) => {
         // if (!user.is_verified) {
@@ -11,7 +12,7 @@ const BufferScreen = ({ navigation, route }) => {
         // }
         
         if (role === 'driver') {
-            navigation.navigate('Driver'); 
+            navigation.navigate('Status', { user: { rhodesid } });
         } else {
             navigation.navigate('Feed'); 
         }
