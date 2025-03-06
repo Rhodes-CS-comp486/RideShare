@@ -2,12 +2,16 @@ import UIKit
 import React
 import React_RCTAppDelegate
 import ReactAppDependencyProvider
+import GoogleMaps
 
 @main
 class AppDelegate: RCTAppDelegate {
   override func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
     self.moduleName = "LynxLiftsApp"
     self.dependencyProvider = RCTAppDependencyProvider()
+
+    // Provide Google Maps API Key
+    GMSServices.provideAPIKey("AIzaSyDzWdj0T5aMdhvyWujil7HS0sQEuSwHNvQ")
 
     // You can add your custom initial props in the dictionary below.
     // They will be passed down to the ViewController used by React Native.
