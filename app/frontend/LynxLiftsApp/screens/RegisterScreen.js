@@ -89,11 +89,10 @@ const RegisterScreen = () => {
         secureTextEntry
         placeholderTextColor="#FAF2E6"
       />
-
+      
       <TouchableOpacity style={styles.button} onPress={handleRegister}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
-
       <Text style={styles.signInText}>
         Already have an account?{' '}
         <Text style={styles.signInLink} onPress={() => navigation.navigate('SignIn')}>
