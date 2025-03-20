@@ -15,13 +15,13 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Register" component={RegisterScreen} />
-        <Stack.Screen name="Reset" component={ForgotPasswordScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Welcome" component={BufferScreen} />
-        <Stack.Screen name="Feed" component={FeedScreen} />
-        <Stack.Screen name="Status" component={StatusScreen} />
-        <Stack.Screen name="Post" component={CreatePostScreen} />
+        <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Reset" component={ForgotPasswordScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Welcome" component={BufferScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Feed" component={FeedScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Status" component={StatusScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Post" component={CreatePostScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );
