@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image } from 'react-native';
-// import Post from '../components/Post';
-
 
 const FeedScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
