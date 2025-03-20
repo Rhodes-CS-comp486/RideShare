@@ -5,8 +5,9 @@ import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const LoginScreen = () => {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
   const navigation = useNavigation();
 
   const handleLogin = async () => {
@@ -23,12 +24,12 @@ const LoginScreen = () => {
       }
 
       const { username, rhodesid } = response.data;
-      Alert.alert("Login Successful", `Welcome back, ${username}!`);
+      alert("Login Successful");
       navigation.navigate('Welcome', { user: { username, rhodesid } });
 
     } catch (error) {
       console.error("Login failed:", error);
-      Alert.alert('Login Failed', error.response?.data?.error || 'Invalid username or password, please try again.');
+      Alert.alert('Login Failed', error.response?.data?.error || 'Invalid email or password, please try again.');
     }
   };
 
@@ -42,9 +43,9 @@ const LoginScreen = () => {
 
       <TextInput
         style={styles.input}
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
         placeholderTextColor="#FAF2E6"
       />
 
