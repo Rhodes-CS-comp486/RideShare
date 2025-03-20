@@ -7,6 +7,7 @@ import FeedScreen from './screens/FeedScreen';
 import StatusScreen from './screens/StatusScreen';
 import CreatePostScreen from './screens/CreatePostScreen';
 import LoginScreen from './screens/LoginScreen';
+import ForgotPasswordScreen from './screens/ForgotPassword';
 
 const Stack = createStackNavigator();
 
@@ -15,6 +16,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="Reset" component={ForgotPasswordScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Welcome" component={BufferScreen} />
         <Stack.Screen name="Feed" component={FeedScreen} />
