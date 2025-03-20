@@ -6,14 +6,16 @@ import BufferScreen from './screens/BufferScreen';
 import FeedScreen from './screens/FeedScreen';
 import StatusScreen from './screens/StatusScreen';
 import CreatePostScreen from './screens/CreatePostScreen';
+import LoginScreen from './screens/LoginScreen';
 
 const Stack = createStackNavigator();
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Register">
+      <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Register" component={RegisterScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Welcome" component={BufferScreen} />
         <Stack.Screen name="Feed" component={FeedScreen} />
         <Stack.Screen name="Status" component={StatusScreen} />

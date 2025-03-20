@@ -1,59 +1,43 @@
 import React, { useState } from 'react';
-import { SafeAreaView, TextInput, TouchableOpacity, Text, Image, StyleSheet, View, Alert} from 'react-native';
+import { SafeAreaView, TextInput, TouchableOpacity, Text, Image, StyleSheet, View, Alert } from 'react-native';
 import axios from 'axios';
 import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-//import { useFonts } from 'expo-font';
-//import { Poppins_400Regular } from '@expo-google-fonts/poppins'; 
 
-const RegisterScreen = () => {
+const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [username, setUsername] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const navigation = useNavigation();
 
-  //const [fontsLoaded] = useFonts({
-    //Poppins_400Regular,
-  //});
-
-  //if (!fontsLoaded) {
-    //return null;
-  //}
-
-  const handleRegister = async () => {
-    if (password !== confirmPassword) {
-      alert('Passwords do not match');
-      return;
-    }
+  const handleLogin = async () => {
     try {
-
       const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
 
-      const response = await axios.post(`${API_URL}/api/auth/register`, {
+      const response = await axios.post(`${API_URL}/api/auth/login`, {
         email,
         password,
-        username,
       });
+
       if (!response.data) {
         throw new Error("No response from server");
       }
-      const { rhodesid } = response.data;
-      Alert.alert("User registered", "Verification email sent.");
-      navigation.navigate('Login', {user: { username, rhodesid } });
+
+      const { username, rhodesid } = response.data;
+      Alert.alert("Login Successful", `Welcome back, ${username}!`);
+      navigation.navigate('Welcome', { user: { username, rhodesid } });
 
     } catch (error) {
-        console.error("Registration failed:", error);
-        alert('Error: ' + (error.response?.data?.error || 'Something went wrong.'));
+      console.error("Login failed:", error);
+      Alert.alert('Login Failed', error.response?.data?.error || 'Invalid username or password, please try again.');
     }
-};
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <Image source={require('../assets/tire.png')} style={styles.tireImage} />
         <Image source={require('../assets/car.png')} style={styles.carImage} />
-        <Text style={styles.title}>Welcome to LynxLifts</Text>
+        <Text style={styles.title}>LynxLifts</Text>
       </View>
 
       <TextInput
@@ -66,37 +50,21 @@ const RegisterScreen = () => {
 
       <TextInput
         style={styles.input}
-        placeholder="Username"
-        value={username}
-        onChangeText={setUsername}
-        placeholderTextColor="#FAF2E6"
-      />
-
-      <TextInput
-        style={styles.input}
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
         placeholderTextColor="#FAF2E6"
       />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Confirm Password"
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        secureTextEntry
-        placeholderTextColor="#FAF2E6"
-      />
       
-      <TouchableOpacity style={styles.button} onPress={handleRegister}>
-        <Text style={styles.buttonText}>Sign Up</Text>
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>Sign In</Text>
       </TouchableOpacity>
-      <Text style={styles.signInText}>
-        Already have an account?{' '}
-        <Text style={styles.signInLink} onPress={() => navigation.navigate('Login')}>
-          Sign In
+
+      <Text style={styles.signUpText}>
+        Have an account?{' '}
+        <Text style={styles.signUpLink} onPress={() => navigation.navigate('Register')}>
+          Sign Up
         </Text>
       </Text>
     </SafeAreaView>
@@ -115,25 +83,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
   },
-  imageContainer: {
-    position: 'relative',
-    width: 300,
-    height: 150,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    marginBottom: -10,
-  },
   carImage: {
     width: 100,
     height: 100,
-    zIndex: 1,
     marginTop: -20,
   },
   tireImage: {
     width: 300,
     height: 100,
     position: 'absolute',
-    zIndex: 0,
     opacity: 0.6,
     transform: [{ rotate: '90deg' }],
   },
@@ -145,7 +103,6 @@ const styles = StyleSheet.create({
     textShadowColor: 'rgba(0, 0, 0, 0.5)',
     textShadowOffset: { width: -1, height: 1 },
     textShadowRadius: 10,
-    fontFamily: 'Poppins_400Regular',
   },
   input: {
     width: '90%',
@@ -156,7 +113,6 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     color: '#FAF2E6',
     fontSize: 14,
-    fontFamily: 'Poppins',
   },
   button: {
     width: '50%',
@@ -171,20 +127,17 @@ const styles = StyleSheet.create({
     color: '#FAF2E6',
     fontSize: 18,
     fontWeight: '600',
-    fontFamily: 'Poppins',
   },
-  signInText: {
+  signUpText: {
     color: '#FAF2E6',
     marginTop: 20,
     fontSize: 14,
-    fontFamily: 'Poppins',
   },
-  signInLink: {
+  signUpLink: {
     color: '#FAF2E6',
     textDecorationLine: 'underline',
     fontSize: 14,
-    fontFamily: 'Poppins',
-  }
+  },
 });
 
-export default RegisterScreen;
+export default LoginScreen;
