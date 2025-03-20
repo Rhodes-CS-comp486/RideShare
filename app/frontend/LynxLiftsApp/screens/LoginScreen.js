@@ -5,7 +5,7 @@ import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
@@ -42,9 +42,9 @@ const LoginScreen = () => {
 
       <TextInput
         style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
+        placeholder="Username"
+        value={username}
+        onChangeText={setUsername}
         placeholderTextColor="#FAF2E6"
       />
 
@@ -55,11 +55,15 @@ const LoginScreen = () => {
         onChangeText={setPassword}
         secureTextEntry
         placeholderTextColor="#FAF2E6"
-      />
+      />   
       
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Sign In</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity onPress={() => navigation.navigate('Reset')}>
+        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+        </TouchableOpacity>
 
       <Text style={styles.signUpText}>
         Have an account?{' '}
@@ -128,9 +132,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '600',
   },
+  forgotPasswordText: {
+    color: '#FAF2E6',
+    textDecorationLine: 'underline',
+    fontSize: 14,
+    marginTop: 15,
+  },
   signUpText: {
     color: '#FAF2E6',
-    marginTop: 20,
+    marginTop: 5,
     fontSize: 14,
   },
   signUpLink: {
