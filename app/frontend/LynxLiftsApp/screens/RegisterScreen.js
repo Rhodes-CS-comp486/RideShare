@@ -40,7 +40,7 @@ const RegisterScreen = () => {
       }
       const { rhodesid } = response.data;
       Alert.alert("User registered", "Verification email sent.");
-      navigation.navigate('Welcome', {user: { username, rhodesid } });
+      navigation.navigate('Login', {user: { username, rhodesid } });
 
     } catch (error) {
         console.error("Registration failed:", error);
@@ -95,7 +95,7 @@ const RegisterScreen = () => {
       </TouchableOpacity>
       <Text style={styles.signInText}>
         Already have an account?{' '}
-        <Text style={styles.signInLink} onPress={() => navigation.navigate('SignIn')}>
+        <Text style={styles.signInLink} onPress={() => navigation.navigate('Login')}>
           Sign In
         </Text>
       </Text>
