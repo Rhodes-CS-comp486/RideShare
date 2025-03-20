@@ -9,11 +9,6 @@ const BufferScreen = ({ navigation, route }) => {
     }
 
     const handleNavigation = (role) => {
-        // if (!user.is_verified) {
-        //     Alert.alert("Verification Required", "Your account is not verified yet. Please check your email.");
-        //     return;
-        // }
-        
         if (role === 'driver') {
             navigation.navigate('Status', { user: { rhodesid: user.rhodesid } });
         } else {
