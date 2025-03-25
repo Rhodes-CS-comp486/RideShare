@@ -12,9 +12,11 @@ class AppDelegate: RCTAppDelegate {
     self.moduleName = "LynxLiftsApp"
     self.dependencyProvider = RCTAppDependencyProvider()
 
-    // Read API Key
-    if let apiKey = ProcessInfo.processInfo.environment["GOOGLE_MAPS_API_KEY"] {
-    GMSServices.provideAPIKey(apiKey)
+    // Read API Key from Info.plist
+    if let apiKey = Bundle.main.object(forInfoDictionaryKey: "GMSApiKey") as? String {
+        GMSServices.provideAPIKey(apiKey)
+    } else {
+        print("Google Maps API Key not found in Info.plist!")
     }
 
     // You can add your custom initial props in the dictionary below.
