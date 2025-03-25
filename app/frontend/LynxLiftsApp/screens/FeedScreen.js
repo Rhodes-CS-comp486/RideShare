@@ -1,11 +1,38 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import axios from 'axios';
+
+const API_URL = 'http://localhost:5001/api/feed';
 
 const FeedScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
-  const addPost = (newPost) => {
-    setPosts([newPost, ...posts]);
-  }
+
+  // function to fetch posts from the backend
+  const fetchPosts = async () => {
+    try {
+      const response = await axios.get(API_URL);
+      setPosts(response.data);
+    } 
+    catch (error) {
+      console.error("Error fetching posts:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []); // Fetch posts when the screen loads
+
+
+  const addPost = async (newPost) => {
+    try {
+      await axios.post(API_URL, newPost);
+      fetchPosts(); // Refresh posts after adding a new one
+    } 
+    catch (error) {
+      console.error("Error adding post:", error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <TouchableOpacity 
@@ -20,9 +47,12 @@ const FeedScreen = ({ navigation }) => {
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
           <View style={styles.post}>
-            <Text style={styles.postText}>Pickup Time: {item.time}</Text>
-            <Image></Image>
-            <Text style={styles.postText}>{item.text}</Text>
+            <Text style={styles.postText}>Rhodes ID: {item.passengerrhodesid}</Text>
+            <Text style={styles.postText}>Pickup Time: {item.pickuptime}</Text>
+            <Text style={styles.postText}>Pickup Location: {item.pickuplocation}</Text>
+            <Text style={styles.postText}>Dropoff Location: {item.dropofflocation}</Text>
+            <Text style={styles.postText}>Ride State: {item.ridestate}</Text>
+            <Text style={styles.postText}>Payment: {item.payment}</Text>
           </View>
         )}
       />
