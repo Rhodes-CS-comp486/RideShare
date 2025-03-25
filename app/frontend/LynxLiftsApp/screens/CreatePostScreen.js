@@ -1,28 +1,50 @@
 import React, { useState } from 'react';
-import { View, TextInput, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, TextInput, Alert, StyleSheet, TouchableOpacity } from 'react-native';
 import { Text } from 'react-native-gesture-handler';
+import axios from 'axios';
 
 const CreatePostScreen = ({ navigation, route }) => {
-    const [rhodesID, setRhodesID] = useState('');
+    const [passengerrhodesID, setPassengerRhodesID] = useState('');
     const [pickupTime, setPickupTime] = useState('');
-    const [postText, setPostText] = useState('');
-    const [postImage, setPostImage] = useState(null); // You can implement image selection later
+    const [pickupLocation, setPickupLocation] = useState('');
+    const [dropoffLocation, setDropoffLocation] = useState('');
+    const [rideState, setRideState] = useState(false);
+    const [payment, setPayment] = useState('');
     const [error, setError] = useState('');
+
 
     const validateTimeFormat = (time) => {
         const timeRegex = /^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/i;
         return timeRegex.test(time);
     }
 
-    const handlePost = () => {
+    const handlePost = async () => {
         if (!validateTimeFormat(pickupTime)) {
             setError("Invalid time format. Use HH:MM AM/PM (e.g., 10:30 AM).")
             return;
         } 
 
-        route.params.addPost({ time: pickupTime, text: postText, image: postImage });
-        
-        navigation.goBack();
+        setError('');
+
+        try {
+            const response = await axios.post('http://localhost:5001/api/feed', {
+                passengerrhodesid: passengerrhodesID,
+                pickuptime: pickupTime,
+                pickuplocation: pickupLocation,
+                dropofflocation: dropoffLocation,
+                ridestate: rideState,
+                payment: payment
+            });
+
+            console.log("Post created:", response.data);
+            Alert.alert("Success", "Your ride post has been created!");
+
+            navigation.goBack();
+        }
+        catch (error) {
+            console.error("Error posting:", error);
+            Alert.alert("Error", "Failed to create post. Please try again.");
+        }
     };
 
     return (
@@ -31,7 +53,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                 style={styles.input}
                 placeholder="Rhodes ID"
                 placeholderTextColor="#FAF2E6"
-                onChangeText={setRhodesID}
+                onChangeText={setPassengerRhodesID}
             />
             <TextInput 
                 style={styles.input}
@@ -43,11 +65,30 @@ const CreatePostScreen = ({ navigation, route }) => {
             {error ? <Text style={styles.errorText}>{error}</Text> : null}
             <TextInput
                 style={styles.input}
-                placeholder="Write your post"
+                placeholder="Pickup Location"
                 placeholderTextColor="#FAF2E6"
-                value={postText}
-                onChangeText={setPostText}
-                multiline
+                value={pickupLocation}
+                onChangeText={setPickupLocation}
+            />
+            <TextInput
+                style={styles.input}
+                placeholder="Dropoff Location"
+                placeholderTextColor="#FAF2E6"
+                value={dropoffLocation}
+                onChangeText={setDropoffLocation}
+            />
+            <TouchableOpacity 
+                style={[styles.toggleButton, rideState ? styles.activeButton : styles.inactiveButton]}
+                onPress={() => setRideState(!rideState)}
+            >
+                <Text style={styles.buttonText}>{rideState ? "Active" : "Inactive"}</Text>
+            </TouchableOpacity>
+            <TextInput
+                style={styles.input}
+                placeholder="Payment"
+                placeholderTextColor="#FAF2E6"
+                value={payment}
+                onChangeText={setPayment}
             />
             <TouchableOpacity style={styles.button} onPress={handlePost}>
                 <Text style={styles.buttonText}>Post</Text>
@@ -90,7 +131,21 @@ const styles = StyleSheet.create({
     },
     errorText: { 
         color: '#FAF2E6', 
-        marginBottom: 10 },
+        marginBottom: 10 
+    },
+    toggleButton: {
+        padding: 12,
+        borderRadius: 8,
+        alignItems: 'center',
+        marginVertical: 10,
+    },
+    activeButton: {
+        backgroundColor: '#4CAF50',  // green when active
+    },
+    inactiveButton: {
+        backgroundColor: '#A62C2C',  // red when inactive
+    },
+    
 });
 
 export default CreatePostScreen;
