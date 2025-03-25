@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image } from 'react-native';
-// import Post from '../components/Post';
-
 
 const FeedScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
@@ -12,7 +10,7 @@ const FeedScreen = ({ navigation }) => {
     <View style={styles.container}>
       <TouchableOpacity 
         style={styles.createPostButton} 
-        onPress={() => navigation.navigate('CreatePost', { addPost })}
+        onPress={() => navigation.navigate('Post', { addPost })}
       >
         <Text style={styles.buttonText}>Create Post</Text>
       </TouchableOpacity>
