@@ -33,7 +33,7 @@
 		<true/>
 	</dict>
 
-	<key>GoogleMapsAPIKey</key>
+	<key>GMSApiKey</key>
 	<string>$(MAPS_API_KEY)</string>
 
 	<key>NSLocationWhenInUseUsageDescription</key>
