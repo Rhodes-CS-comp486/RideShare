@@ -6,6 +6,7 @@ const express = require('express');
 const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const statRoutes = require('./routes/stat');
+const feedRoutes = require('./routes/feed');
 
 const app = express();
 const PORT = process.env.PORT;
@@ -15,6 +16,7 @@ app.use(express.json());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/stat', statRoutes);
+app.use('/api/feed', feedRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
