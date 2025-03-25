@@ -1,20 +1,44 @@
 {
-  "root": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp",
-  "reactNativePath": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/node_modules/react-native",
+  "root": "C:\\RideShare\\app\\frontend\\LynxLiftsApp",
+  "reactNativePath": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native",
   "reactNativeVersion": "0.77",
   "dependencies": {
+    "react-native-config": {
+      "root": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-config",
+      "name": "react-native-config",
+      "platforms": {
+        "ios": {
+          "podspecPath": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-config\\react-native-config.podspec",
+          "version": "1.5.5",
+          "configurations": [],
+          "scriptPhases": []
+        },
+        "android": {
+          "sourceDir": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-config\\android",
+          "packageImportPath": "import com.lugg.RNCConfig.RNCConfigPackage;",
+          "packageInstance": "new RNCConfigPackage()",
+          "buildTypes": [],
+          "componentDescriptors": [],
+          "cmakeListsPath": "C:/RideShare/app/frontend/LynxLiftsApp/node_modules/react-native-config/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cxxModuleCMakeListsModuleName": null,
+          "cxxModuleCMakeListsPath": null,
+          "cxxModuleHeaderName": null,
+          "isPureCxxDependency": false
+        }
+      }
+    },
     "react-native-gesture-handler": {
-      "root": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/node_modules/react-native-gesture-handler",
+      "root": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-gesture-handler",
       "name": "react-native-gesture-handler",
       "platforms": {
         "ios": {
-          "podspecPath": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/node_modules/react-native-gesture-handler/RNGestureHandler.podspec",
+          "podspecPath": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-gesture-handler\\RNGestureHandler.podspec",
           "version": "2.23.0",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/node_modules/react-native-gesture-handler/android",
+          "sourceDir": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-gesture-handler\\android",
           "packageImportPath": "import com.swmansion.gesturehandler.RNGestureHandlerPackage;",
           "packageInstance": "new RNGestureHandlerPackage()",
           "buildTypes": [],
@@ -23,7 +47,56 @@
             "RNGestureHandlerButtonComponentDescriptor",
             "RNGestureHandlerRootViewComponentDescriptor"
           ],
-          "cmakeListsPath": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/RideShare/app/frontend/LynxLiftsApp/node_modules/react-native-gesture-handler/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cxxModuleCMakeListsModuleName": null,
+          "cxxModuleCMakeListsPath": null,
+          "cxxModuleHeaderName": null,
+          "isPureCxxDependency": false
+        }
+      }
+    },
+    "react-native-maps": {
+      "root": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-maps",
+      "name": "react-native-maps",
+      "platforms": {
+        "ios": {
+          "podspecPath": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-maps\\react-native-maps.podspec",
+          "version": "1.20.1",
+          "configurations": [],
+          "scriptPhases": []
+        },
+        "android": {
+          "sourceDir": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-maps\\android",
+          "packageImportPath": "import com.rnmaps.maps.MapsPackage;",
+          "packageInstance": "new MapsPackage()",
+          "buildTypes": [],
+          "componentDescriptors": [],
+          "cmakeListsPath": "C:/RideShare/app/frontend/LynxLiftsApp/node_modules/react-native-maps/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cxxModuleCMakeListsModuleName": null,
+          "cxxModuleCMakeListsPath": null,
+          "cxxModuleHeaderName": null,
+          "isPureCxxDependency": false
+        }
+      }
+    },
+    "react-native-permissions": {
+      "root": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-permissions",
+      "name": "react-native-permissions",
+      "platforms": {
+        "ios": {
+          "podspecPath": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-permissions\\RNPermissions.podspec",
+          "version": "5.2.5",
+          "configurations": [],
+          "scriptPhases": []
+        },
+        "android": {
+          "sourceDir": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-permissions\\android",
+          "packageImportPath": "import com.zoontek.rnpermissions.RNPermissionsPackage;",
+          "packageInstance": "new RNPermissionsPackage()",
+          "buildTypes": [],
+          "libraryName": "RNPermissionsSpec",
+          "componentDescriptors": [],
+          "cmakeListsPath": "C:/RideShare/app/frontend/LynxLiftsApp/node_modules/react-native-permissions/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -32,23 +105,23 @@
       }
     },
     "react-native-reanimated": {
-      "root": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/node_modules/react-native-reanimated",
+      "root": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-reanimated",
       "name": "react-native-reanimated",
       "platforms": {
         "ios": {
-          "podspecPath": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/node_modules/react-native-reanimated/RNReanimated.podspec",
+          "podspecPath": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-reanimated\\RNReanimated.podspec",
           "version": "3.16.7",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/node_modules/react-native-reanimated/android",
+          "sourceDir": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-reanimated\\android",
           "packageImportPath": "import com.swmansion.reanimated.ReanimatedPackage;",
           "packageInstance": "new ReanimatedPackage()",
           "buildTypes": [],
           "libraryName": "rnreanimated",
           "componentDescriptors": [],
-          "cmakeListsPath": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/node_modules/react-native-reanimated/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/RideShare/app/frontend/LynxLiftsApp/node_modules/react-native-reanimated/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -57,17 +130,17 @@
       }
     },
     "react-native-safe-area-context": {
-      "root": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/node_modules/react-native-safe-area-context",
+      "root": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-safe-area-context",
       "name": "react-native-safe-area-context",
       "platforms": {
         "ios": {
-          "podspecPath": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/node_modules/react-native-safe-area-context/react-native-safe-area-context.podspec",
+          "podspecPath": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-safe-area-context\\react-native-safe-area-context.podspec",
           "version": "5.2.0",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/node_modules/react-native-safe-area-context/android",
+          "sourceDir": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-safe-area-context\\android",
           "packageImportPath": "import com.th3rdwave.safeareacontext.SafeAreaContextPackage;",
           "packageInstance": "new SafeAreaContextPackage()",
           "buildTypes": [],
@@ -76,7 +149,7 @@
             "RNCSafeAreaProviderComponentDescriptor",
             "RNCSafeAreaViewComponentDescriptor"
           ],
-          "cmakeListsPath": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/node_modules/react-native-safe-area-context/android/src/main/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/RideShare/app/frontend/LynxLiftsApp/node_modules/react-native-safe-area-context/android/src/main/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -85,17 +158,17 @@
       }
     },
     "react-native-screens": {
-      "root": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/node_modules/react-native-screens",
+      "root": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-screens",
       "name": "react-native-screens",
       "platforms": {
         "ios": {
-          "podspecPath": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/node_modules/react-native-screens/RNScreens.podspec",
+          "podspecPath": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-screens\\RNScreens.podspec",
           "version": "4.6.0",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/node_modules/react-native-screens/android",
+          "sourceDir": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-screens\\android",
           "packageImportPath": "import com.swmansion.rnscreens.RNScreensPackage;",
           "packageInstance": "new RNScreensPackage()",
           "buildTypes": [],
@@ -113,7 +186,7 @@
             "RNSScreenContentWrapperComponentDescriptor",
             "RNSModalScreenComponentDescriptor"
           ],
-          "cmakeListsPath": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/node_modules/react-native-screens/android/src/main/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/RideShare/app/frontend/LynxLiftsApp/node_modules/react-native-screens/android/src/main/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -122,23 +195,23 @@
       }
     },
     "react-native-vector-icons": {
-      "root": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/node_modules/react-native-vector-icons",
+      "root": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-vector-icons",
       "name": "react-native-vector-icons",
       "platforms": {
         "ios": {
-          "podspecPath": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/node_modules/react-native-vector-icons/RNVectorIcons.podspec",
+          "podspecPath": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-vector-icons\\RNVectorIcons.podspec",
           "version": "10.2.0",
           "configurations": [],
           "scriptPhases": []
         },
         "android": {
-          "sourceDir": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/node_modules/react-native-vector-icons/android",
+          "sourceDir": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-vector-icons\\android",
           "packageImportPath": "import com.oblador.vectoricons.VectorIconsPackage;",
           "packageInstance": "new VectorIconsPackage()",
           "buildTypes": [],
           "libraryName": "RNVectorIconsSpec",
           "componentDescriptors": [],
-          "cmakeListsPath": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/node_modules/react-native-vector-icons/android/build/generated/source/codegen/jni/CMakeLists.txt",
+          "cmakeListsPath": "C:/RideShare/app/frontend/LynxLiftsApp/node_modules/react-native-vector-icons/android/build/generated/source/codegen/jni/CMakeLists.txt",
           "cxxModuleCMakeListsModuleName": null,
           "cxxModuleCMakeListsPath": null,
           "cxxModuleHeaderName": null,
@@ -304,7 +377,7 @@
         {
           "name": "--path <path>",
           "description": "Path to the React Native project root.",
-          "default": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp"
+          "default": "C:\\RideShare\\app\\frontend\\LynxLiftsApp"
         },
         {
           "name": "--platform <string>",
@@ -355,7 +428,8 @@
         },
         {
           "name": "--terminal <string>",
-          "description": "Launches the Metro Bundler in a new window using the specified terminal path."
+          "description": "Launches the Metro Bundler in a new window using the specified terminal path.",
+          "default": "cmd.exe"
         },
         {
           "name": "--binary-path <string>",
@@ -514,7 +588,8 @@
         },
         {
           "name": "--terminal <string>",
-          "description": "Launches the Metro Bundler in a new window using the specified terminal path."
+          "description": "Launches the Metro Bundler in a new window using the specified terminal path.",
+          "default": "cmd.exe"
         },
         {
           "name": "--appId <string>",
@@ -589,7 +664,7 @@
   "assets": [],
   "project": {
     "ios": {
-      "sourceDir": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/ios",
+      "sourceDir": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\ios",
       "xcodeProject": {
         "name": "LynxLiftsApp.xcworkspace",
         "path": ".",
@@ -598,7 +673,7 @@
       "assets": []
     },
     "android": {
-      "sourceDir": "/Users/nalvi/Downloads/lynxlifts/app/frontend/LynxLiftsApp/android",
+      "sourceDir": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\android",
       "appName": "app",
       "packageName": "com.lynxliftsapp",
       "applicationId": "com.lynxliftsapp",
