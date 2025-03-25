@@ -3,6 +3,8 @@ import React
 import React_RCTAppDelegate
 import ReactAppDependencyProvider
 import GoogleMaps
+import ReactNativeConfig
+
 
 @main
 class AppDelegate: RCTAppDelegate {
@@ -10,8 +12,12 @@ class AppDelegate: RCTAppDelegate {
     self.moduleName = "LynxLiftsApp"
     self.dependencyProvider = RCTAppDependencyProvider()
 
-    // Provide Google Maps API Key
-    GMSServices.provideAPIKey("AIzaSyDzWdj0T5aMdhvyWujil7HS0sQEuSwHNvQ")
+     // Read API Key from UserDefaults (set in index.js)
+    if let apiKey = UserDefaults.standard.string(forKey: "GoogleMapsAPIKey") {
+        GMSServices.provideAPIKey(apiKey)
+    } else {
+        print("Google Maps API Key is missing!")
+    }
 
     // You can add your custom initial props in the dictionary below.
     // They will be passed down to the ViewController used by React Native.
