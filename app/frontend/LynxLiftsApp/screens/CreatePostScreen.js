@@ -3,8 +3,6 @@ import { View, TextInput, StyleSheet, TouchableOpacity, Keyboard, TouchableWitho
 import MapView, { Marker } from 'react-native-maps';
 import { Text } from 'react-native-gesture-handler';
 
-const GOOGLE_MAPS_API_KEY = 'AIzaSyDzWdj0T5aMdhvyWujil7HS0sQEuSwHNvQ';
-
 const CreatePostScreen = ({ navigation, route }) => {
     const [rhodesID, setRhodesID] = useState('');
     const [pickupTime, setPickupTime] = useState('');
@@ -82,7 +80,15 @@ const CreatePostScreen = ({ navigation, route }) => {
                             longitude: coords.longitude,
                             address: `Lat: ${coords.latitude}, Lng: ${coords.longitude}`,
                         };
-                        selectingPickup ? setPickupLocation(location) : setDropoffLocation(location);
+
+                        if (selectingPickup) {
+                            setPickupLocation(location);
+                            //console.log("Selected Pickup Location:", location);
+                        } else {
+                            setDropoffLocation(location);
+                            //console.log("Selected Dropoff Location:", location);
+                        }
+                    
                     }}
                 >
                     {pickupLocation && (

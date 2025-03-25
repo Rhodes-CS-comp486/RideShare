@@ -72,6 +72,10 @@ def enableProguardInReleaseBuilds = false
  */
 def jscFlavor = 'org.webkit:android-jsc:+'
 
+def keystorePropertiesFile = rootProject.file("apikey.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     ndkVersion rootProject.ext.ndkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
@@ -84,7 +88,13 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+
+        buildConfigField "String", "MAPS_API_KEY", "\"${keystoreProperties['MAPS_API_KEY']}\""
+        manifestPlaceholders = [ MAPS_API_KEY: keystoreProperties['MAPS_API_KEY'] ]
+
+        println "Loaded MAPS_API_KEY: ${keystoreProperties['MAPS_API_KEY']}"
     }
+
     signingConfigs {
         debug {
             storeFile file('debug.keystore')
