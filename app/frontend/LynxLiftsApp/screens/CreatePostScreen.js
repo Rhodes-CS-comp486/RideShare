@@ -1,29 +1,50 @@
 import React, { useState } from 'react';
-import { View, TextInput, Alert, StyleSheet, TouchableOpacity } from 'react-native';
+import { 
+    View, 
+    TextInput, 
+    StyleSheet, 
+    TouchableOpacity, 
+    Keyboard, 
+    TouchableWithoutFeedback, 
+    Alert 
+} from 'react-native';
+import MapView, { Marker } from 'react-native-maps';
 import { Text } from 'react-native-gesture-handler';
 import axios from 'axios';
 
 const CreatePostScreen = ({ navigation, route }) => {
     const [passengerrhodesID, setPassengerRhodesID] = useState('');
     const [pickupTime, setPickupTime] = useState('');
-    const [pickupLocation, setPickupLocation] = useState('');
-    const [dropoffLocation, setDropoffLocation] = useState('');
     const [rideState, setRideState] = useState(false);
     const [payment, setPayment] = useState('');
     const [error, setError] = useState('');
-
+    const [pickupLocation, setPickupLocation] = useState(null);
+    const [dropoffLocation, setDropoffLocation] = useState(null);
+    const [selectingPickup, setSelectingPickup] = useState(true);
 
     const validateTimeFormat = (time) => {
         const timeRegex = /^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/i;
         return timeRegex.test(time);
-    }
+    };
 
     const handlePost = async () => {
         if (!validateTimeFormat(pickupTime)) {
-            setError("Invalid time format. Use HH:MM AM/PM (e.g., 10:30 AM).")
+            setError("Invalid time format. Use HH:MM AM/PM (e.g., 10:30 AM).");
             return;
-        } 
+        }
+        if (!pickupLocation || !dropoffLocation) {
+            setError("Please select both pickup and dropoff locations.");
+            return;
+        }
 
+        route.params.addPost({
+            rhodesID: passengerrhodesID,
+            time: pickupTime,
+            pickup: pickupLocation,
+            dropoff: dropoffLocation
+        });
+
+        navigation.goBack();
         setError('');
 
         try {
@@ -48,52 +69,81 @@ const CreatePostScreen = ({ navigation, route }) => {
     };
 
     return (
-        <View style={styles.container}>
-            <TextInput 
-                style={styles.input}
-                placeholder="Rhodes ID"
-                placeholderTextColor="#FAF2E6"
-                onChangeText={setPassengerRhodesID}
-            />
-            <TextInput 
-                style={styles.input}
-                placeholder="Pickup Time (HH:MM AM/PM)"
-                placeholderTextColor="#FAF2E6"
-                value={pickupTime}
-                onChangeText={setPickupTime}
-            />
-            {error ? <Text style={styles.errorText}>{error}</Text> : null}
-            <TextInput
-                style={styles.input}
-                placeholder="Pickup Location"
-                placeholderTextColor="#FAF2E6"
-                value={pickupLocation}
-                onChangeText={setPickupLocation}
-            />
-            <TextInput
-                style={styles.input}
-                placeholder="Dropoff Location"
-                placeholderTextColor="#FAF2E6"
-                value={dropoffLocation}
-                onChangeText={setDropoffLocation}
-            />
-            <TouchableOpacity 
-                style={[styles.toggleButton, rideState ? styles.activeButton : styles.inactiveButton]}
-                onPress={() => setRideState(!rideState)}
-            >
-                <Text style={styles.buttonText}>{rideState ? "Active" : "Inactive"}</Text>
-            </TouchableOpacity>
-            <TextInput
-                style={styles.input}
-                placeholder="Payment"
-                placeholderTextColor="#FAF2E6"
-                value={payment}
-                onChangeText={setPayment}
-            />
-            <TouchableOpacity style={styles.button} onPress={handlePost}>
-                <Text style={styles.buttonText}>Post</Text>
-            </TouchableOpacity>
-        </View>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.container}>
+                <TextInput 
+                    style={styles.input}
+                    placeholder="Rhodes ID"
+                    placeholderTextColor="#FAF2E6"
+                    onChangeText={setPassengerRhodesID}
+                />
+                <TextInput 
+                    style={styles.input}
+                    placeholder="Pickup Time (HH:MM AM/PM)"
+                    placeholderTextColor="#FAF2E6"
+                    value={pickupTime}
+                    onChangeText={setPickupTime}
+                />
+                {error ? <Text style={styles.errorText}>{error}</Text> : null}
+                <TextInput
+                    style={styles.input}
+                    placeholder="Pickup Location"
+                    placeholderTextColor="#FAF2E6"
+                    value={pickupLocation?.address || ''}
+                />
+                <TextInput
+                    style={styles.input}
+                    placeholder="Dropoff Location"
+                    placeholderTextColor="#FAF2E6"
+                    value={dropoffLocation?.address || ''}
+                />
+                <TouchableOpacity 
+                    style={[styles.toggleButton, rideState ? styles.activeButton : styles.inactiveButton]}
+                    onPress={() => setRideState(!rideState)}
+                >
+                    <Text style={styles.buttonText}>{rideState ? "Active" : "Inactive"}</Text>
+                </TouchableOpacity>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Payment"
+                    placeholderTextColor="#FAF2E6"
+                    value={payment}
+                    onChangeText={setPayment}
+                />
+                <MapView
+                    style={styles.map}
+                    initialRegion={{
+                        latitude: 35.1495,
+                        longitude: -90.0490,
+                        latitudeDelta: 0.1,
+                        longitudeDelta: 0.1,
+                    }}
+                    onPress={(e) => {
+                        const coords = e.nativeEvent.coordinate;
+                        const location = {
+                            latitude: coords.latitude,
+                            longitude: coords.longitude,
+                            address: `Lat: ${coords.latitude}, Lng: ${coords.longitude}`,
+                        };
+                        selectingPickup ? setPickupLocation(location) : setDropoffLocation(location);
+                    }}
+                >
+                    {pickupLocation && <Marker coordinate={pickupLocation} title="Pickup Location" pinColor="blue" />}
+                    {dropoffLocation && <Marker coordinate={dropoffLocation} title="Dropoff Location" pinColor="red" />}
+                </MapView>
+                <TouchableOpacity 
+                    style={styles.toggleButton} 
+                    onPress={() => setSelectingPickup(!selectingPickup)}
+                >
+                    <Text style={styles.toggleButtonText}>
+                        {selectingPickup ? "Set Dropoff Location" : "Set Pickup Location"}
+                    </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={handlePost}>
+                    <Text style={styles.buttonText}>Post</Text>
+                </TouchableOpacity>
+            </View>
+        </TouchableWithoutFeedback>
     );
 };
 
@@ -103,6 +153,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#80A1C2',
         justifyContent: 'center',
         alignItems: 'center',
+        padding: 10,
     },
     input: {
         width: '90%',
@@ -114,10 +165,15 @@ const styles = StyleSheet.create({
         color: '#FAF2E6',
         fontSize: 14,
     },
+    map: {
+        width: '90%',
+        height: 300,
+        marginVertical: 10,
+        borderRadius: 10,
+    },
     button: {
         backgroundColor: '#A62C2C',
         width: '30%',
-        fontSize: 18,
         paddingHorizontal: 22,
         paddingVertical: 6,
         borderRadius: 25,
@@ -129,23 +185,10 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '600',
     },
-    errorText: { 
-        color: '#FAF2E6', 
-        marginBottom: 10 
-    },
-    toggleButton: {
-        padding: 12,
-        borderRadius: 8,
-        alignItems: 'center',
-        marginVertical: 10,
-    },
-    activeButton: {
-        backgroundColor: '#4CAF50',  // green when active
-    },
-    inactiveButton: {
-        backgroundColor: '#A62C2C',  // red when inactive
-    },
-    
+    errorText: { color: '#FAF2E6', marginBottom: 10 },
+    toggleButton: { padding: 12, borderRadius: 8, alignItems: 'center', marginVertical: 10 },
+    activeButton: { backgroundColor: '#4CAF50' },
+    inactiveButton: { backgroundColor: '#A62C2C' },
 });
 
 export default CreatePostScreen;

@@ -34,6 +34,11 @@ local.properties
 *.keystore
 !debug.keystore
 
+#API Key Files
+apikey.properties
+config.js
+.env
+
 # node.js
 #
 node_modules/
