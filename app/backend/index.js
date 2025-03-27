@@ -7,8 +7,10 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const statRoutes = require('./routes/stat');
 const feedRoutes = require('./routes/feed');
-
 const app = express();
+
+app.use(express.urlencoded({ extended: true })); // for HTML form body
+
 const PORT = process.env.PORT;
 
 app.use(cors());
