@@ -28,6 +28,8 @@ const CreatePostScreen = ({ navigation, route }) => {
     };
 
     const handlePost = async () => {
+        console.log("Posting..."); // Debugging
+
         if (!validateTimeFormat(pickupTime)) {
             setError("Invalid time format. Use HH:MM AM/PM (e.g., 10:30 AM).");
             return;
@@ -51,7 +53,8 @@ const CreatePostScreen = ({ navigation, route }) => {
         setError('');
 
         try {
-            const response = await axios.post('http://localhost:5001/api/feed', {
+            const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
+            const response = await axios.post(`${API_URL}/api/feed`, {
                 passengerrhodesid: passengerrhodesID,
                 pickuptime: pickupTime,
                 pickuplocation: pickupLocation?.address,
