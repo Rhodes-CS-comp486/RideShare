@@ -33,7 +33,7 @@
       "platforms": {
         "ios": {
           "podspecPath": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-gesture-handler\\RNGestureHandler.podspec",
-          "version": "2.23.0",
+          "version": "2.24.0",
           "configurations": [],
           "scriptPhases": []
         },
@@ -85,7 +85,7 @@
       "platforms": {
         "ios": {
           "podspecPath": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-permissions\\RNPermissions.podspec",
-          "version": "5.2.5",
+          "version": "5.3.0",
           "configurations": [],
           "scriptPhases": []
         },
@@ -110,7 +110,7 @@
       "platforms": {
         "ios": {
           "podspecPath": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-reanimated\\RNReanimated.podspec",
-          "version": "3.16.7",
+          "version": "3.17.1",
           "configurations": [],
           "scriptPhases": []
         },
@@ -135,7 +135,7 @@
       "platforms": {
         "ios": {
           "podspecPath": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-safe-area-context\\react-native-safe-area-context.podspec",
-          "version": "5.2.0",
+          "version": "5.3.0",
           "configurations": [],
           "scriptPhases": []
         },
@@ -163,7 +163,7 @@
       "platforms": {
         "ios": {
           "podspecPath": "C:\\RideShare\\app\\frontend\\LynxLiftsApp\\node_modules\\react-native-screens\\RNScreens.podspec",
-          "version": "4.6.0",
+          "version": "4.9.2",
           "configurations": [],
           "scriptPhases": []
         },

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 import axios from 'axios';
 
-const API_URL = 'http://localhost:5001/api/feed';
+const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
 
 const FeedScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
@@ -10,7 +10,7 @@ const FeedScreen = ({ navigation }) => {
   // function to fetch posts from the backend
   const fetchPosts = async () => {
     try {
-      const response = await axios.get(API_URL);
+      const response = await axios.get(`${API_URL}/api/feed`);
       setPosts(response.data);
     } 
     catch (error) {
@@ -25,7 +25,7 @@ const FeedScreen = ({ navigation }) => {
 
   const addPost = async (newPost) => {
     try {
-      await axios.post(API_URL, newPost);
+      await axios.post(`${API_URL}/api/feed`, newPost);
       fetchPosts(); // Refresh posts after adding a new one
     } 
     catch (error) {
