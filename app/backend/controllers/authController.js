@@ -5,8 +5,6 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 
-const path = require('path');
-
 const serveResetForm = async (req, res) => {
   const { token, email } = req.query;
 
@@ -187,8 +185,8 @@ const forgotPassword = async (req, res) => {
       'UPDATE users SET reset_token = $1, reset_token_expiry = $2 WHERE email = $3',
       [resetToken, tokenExpiry, email.toLowerCase()]
     );
-
-    const resetLink = `http://localhost:5001/api/auth/reset-password?token=${resetToken}&email=${encodeURIComponent(email)}`;
+    
+    const resetLink = `${process.env.BASE_URL}/api/auth/reset-password?token=${resetToken}&email=${encodeURIComponent(email)}`;
 
     const transporter = nodemailer.createTransport({
       host: 'smtp.mail.yahoo.com',
@@ -242,15 +240,6 @@ const resetPassword = async (req, res) => {
       'SELECT * FROM users WHERE reset_token = $1 AND email = $2 AND reset_token_expiry > NOW()',
       [cleanedToken, cleanedEmail]
     );
-
-    // DEBUG 
-    console.log('DB rows returned:', rows.length);
-    console.log('Token found:', rows.length);
-    if (rows.length > 0) {
-      console.log('Token expires at:', rows[0].reset_token_expiry);
-      console.log('Current time:', new Date());
-    }
-
 
     if (rows.length === 0) {
       console.log('Token not found or expired');
