@@ -45,7 +45,7 @@ const LoginScreen = () => {
         style={styles.input}
         placeholder="Email"
         value={email}
-        onChangeText={setEmail}
+        onChangeText={(text) => setEmail(text.toLowerCase())}
         placeholderTextColor="#FAF2E6"
       />
 
