@@ -5,7 +5,8 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 const register = async (req, res) => {
-  const { email, password, username } = req.body;
+  const email = req.body.email?.toLowerCase();
+  const { password, username } = req.body;
 
 
   // Check if required fields are present
