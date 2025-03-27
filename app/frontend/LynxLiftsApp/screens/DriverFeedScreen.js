@@ -12,7 +12,7 @@ const DriverFeedScreen = ({ route }) => {
 
       <TouchableOpacity 
         style={styles.button} 
-        onPress={() => navigation.navigate('DriverAccountScreen', { user })}
+        onPress={() => navigation.navigate('DriverAccount', { user })}
       >
         <Text style={styles.buttonText}>My Account</Text>
       </TouchableOpacity>
