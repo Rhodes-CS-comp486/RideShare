@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const StatusScreen = ({ route }) => {
+  const navigation = useNavigation();
   const { user } = route.params;
   const driverID = user.rhodesid;
   const [status, setStatus] = useState(null);
   useEffect(() => {
     fetchStatus();
   }, []);
+  useEffect(() => {
+    if (status === true) {
+      navigation.navigate('DriverFeed', { user });
+    }
+  }, [status]);  
 
   const fetchStatus = async () => {
     try {
@@ -48,23 +55,21 @@ const StatusScreen = ({ route }) => {
       <Text style={styles.subtitle}>
         My current status: {status === null ? "Loading . . ." : status ? "Online" : "Offline"}
       </Text>
-
       <TouchableOpacity
-  style={[styles.button, status ? styles.buttonActive : styles.onlineButton]}
-  onPress={() => updateStatus(true)}
-  disabled={status === true}
-  >
+      style={[styles.button, status ? styles.buttonActive : styles.onlineButton]}
+      onPress={() => updateStatus(true)}
+      disabled={status === true}
+      >
     <Text style={styles.buttonText}>Online</Text>
-  </TouchableOpacity>
-
-  <TouchableOpacity
-    style={[styles.button, status === false ? styles.buttonActive : styles.offlineButton]}
-    onPress={() => updateStatus(false)}
-    disabled={status === false}
-  >
-    <Text style={styles.buttonText}>Offline</Text>
-  </TouchableOpacity>
-    </View>
+      </TouchableOpacity>
+    <TouchableOpacity
+      style={[styles.button, status === false ? styles.buttonActive : styles.offlineButton]}
+      onPress={() => updateStatus(false)}
+      disabled={status === false}
+    >
+      <Text style={styles.buttonText}>Offline</Text>
+    </TouchableOpacity>
+      </View>
   );
 };
 
