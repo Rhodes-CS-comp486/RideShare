@@ -44,12 +44,6 @@ const CreatePostScreen = ({ navigation, route }) => {
             return;
         }
 
-        route.params.addPost({
-            rhodesID: passengerrhodesID,
-            time: pickupTime,
-            pickup: pickupLocation,
-            dropoff: dropoffLocation
-        });
         setError('');
 
         try {
