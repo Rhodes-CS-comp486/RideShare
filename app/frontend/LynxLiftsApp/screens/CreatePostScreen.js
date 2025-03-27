@@ -37,26 +37,29 @@ const CreatePostScreen = ({ navigation, route }) => {
             return;
         }
 
+        if (!pickupLocation?.address || !dropoffLocation?.address) {
+            setError("Please select both pickup and dropoff locations.");
+            return;
+        }
+
         route.params.addPost({
             rhodesID: passengerrhodesID,
             time: pickupTime,
             pickup: pickupLocation,
             dropoff: dropoffLocation
         });
-
-        navigation.goBack();
         setError('');
 
         try {
             const response = await axios.post('http://localhost:5001/api/feed', {
                 passengerrhodesid: passengerrhodesID,
                 pickuptime: pickupTime,
-                pickuplocation: pickupLocation,
-                dropofflocation: dropoffLocation,
+                pickuplocation: pickupLocation?.address,
+                dropofflocation: dropoffLocation?.address,
                 ridestate: rideState,
                 payment: payment
             });
-
+            
             console.log("Post created:", response.data);
             Alert.alert("Success", "Your ride post has been created!");
 
@@ -105,7 +108,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                 </TouchableOpacity>
                 <TextInput
                     style={styles.input}
-                    placeholder="Payment"
+                    placeholder="Payment Type (e.g. Venmo, Cashapp, etc."
                     placeholderTextColor="#FAF2E6"
                     value={payment}
                     onChangeText={setPayment}
