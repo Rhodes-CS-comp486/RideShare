@@ -8,6 +8,8 @@ import StatusScreen from './screens/StatusScreen';
 import CreatePostScreen from './screens/CreatePostScreen';
 import LoginScreen from './screens/LoginScreen';
 import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
+import DriverFeedScreen from './screens/DriverFeedScreen';
+import DriverAccountScreen from './screens/DriverAccountScreen';
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -21,6 +23,8 @@ const App = () => {
         <Stack.Screen name="Status" component={StatusScreen} />
         <Stack.Screen name="Post" component={CreatePostScreen} />
         <Stack.Screen name="Forgot" component={ForgotPasswordScreen} />
+        <Stack.Screen name="DriverFeed" component={DriverFeedScreen} />
+        <Stack.Screen name="DriverAccount" component={DriverAccountScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
