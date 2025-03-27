@@ -8,14 +8,13 @@ const DriverFeedScreen = ({ route }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome, {user.name}!</Text>
       <Text style={styles.subtitle}>You are now online and ready to receive ride requests.</Text>
 
       <TouchableOpacity 
         style={styles.button} 
         onPress={() => navigation.navigate('DriverAccountScreen', { user })}
       >
-        <Text style={styles.buttonText}>Go to My Account</Text>
+        <Text style={styles.buttonText}>My Account</Text>
       </TouchableOpacity>
     </View>
   );
