@@ -7,8 +7,8 @@ import FeedScreen from './screens/FeedScreen';
 import StatusScreen from './screens/StatusScreen';
 import CreatePostScreen from './screens/CreatePostScreen';
 import LoginScreen from './screens/LoginScreen';
-import ForgotPasswordScreen from './screens/ForgotPassword';
-
+import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
+import ResetPasswordScreen from './screens/ResetPasswordScreen';
 const Stack = createStackNavigator();
 
 const App = () => {
@@ -16,12 +16,13 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Register">
         <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
-        <Stack.Screen name="Reset" component={ForgotPasswordScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Welcome" component={BufferScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Feed" component={FeedScreen} />
         <Stack.Screen name="Status" component={StatusScreen} />
         <Stack.Screen name="Post" component={CreatePostScreen} />
+        <Stack.Screen name="Forgot" component={ForgotPasswordScreen} />
+        <Stack.Screen name="Reset" component={ResetPasswordScreen} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
   );

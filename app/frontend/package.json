@@ -1,6 +1,0 @@
-{
-  "dependencies": {
-    "react-native-config": "^1.5.5",
-    "react-native-dotenv": "^3.4.11"
-  }
-}

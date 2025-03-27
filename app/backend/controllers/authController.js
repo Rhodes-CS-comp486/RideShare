@@ -3,6 +3,33 @@ const nodemailer = require('nodemailer');
 const pool = require('../db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+
+const path = require('path');
+
+const serveResetForm = async (req, res) => {
+  const { token, email } = req.query;
+
+  if (!token) {
+    return res.status(400).send('Invalid reset link.');
+  }
+
+  // Serve the reset form HTML page
+  res.send(`
+    <html>
+      <head><title>Reset Password</title></head>
+      <body style="font-family: sans-serif; margin: 40px;">
+        <h2>Reset Your Password</h2>
+        <form method="POST" action="/api/auth/reset-password?token=${token}">
+          <input type="hidden" name="email" value="${email}" />
+          <label>New Password:</label><br/>
+          <input type="password" name="newPassword" required style="margin: 10px 0; padding: 8px; width: 300px;"><br/>
+          <button type="submit" style="padding: 8px 16px;">Reset Password</button>
+        </form>
+      </body>
+    </html>
+  `);  
+};
 
 const register = async (req, res) => {
   const email = req.body.email?.toLowerCase();
@@ -143,4 +170,106 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, verify, login };
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+
+  try {
+    const user = await User.findByEmail(email.toLowerCase());
+
+    if (!user) {
+      return res.status(404).json({ error: 'No user found with this email.' });
+    }
+
+    const resetToken = crypto.randomBytes(32).toString('hex');
+    const tokenExpiry = new Date(Date.now() + 2 * 60 * 60 * 1000); // 2 hours
+
+    await pool.query(
+      'UPDATE users SET reset_token = $1, reset_token_expiry = $2 WHERE email = $3',
+      [resetToken, tokenExpiry, email.toLowerCase()]
+    );
+
+    const resetLink = `http://localhost:5001/api/auth/reset-password?token=${resetToken}&email=${encodeURIComponent(email)}`;
+
+    const transporter = nodemailer.createTransport({
+      host: 'smtp.mail.yahoo.com',
+      port: 587,
+      secure: false,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
+      },
+      tls: { rejectUnauthorized: false },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: 'Reset Your LynxLifts Password',
+      text: `Click this link to reset your password: ${resetLink}`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return res.status(500).json({ error: 'Email failed to send.' });
+      }
+
+      res.status(200).json({ success: true, message: 'Reset link sent.' });
+    });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  const { token } = req.query;
+  const { newPassword, email } = req.body;
+
+  if (!token || !email || !newPassword) {
+    return res.status(400).send('Missing token, email, or password.');
+  }
+
+  const cleanedToken = token.trim();
+  const cleanedEmail = email.trim().toLowerCase();
+
+  // DEBUG 
+  console.log('Reset request received');
+  console.log('Token:', token);
+  console.log('Email:', email);
+  console.log('New Password:', newPassword);
+
+  try {
+    const { rows } = await pool.query(
+      'SELECT * FROM users WHERE reset_token = $1 AND email = $2 AND reset_token_expiry > NOW()',
+      [cleanedToken, cleanedEmail]
+    );
+
+    // DEBUG 
+    console.log('DB rows returned:', rows.length);
+    console.log('Token found:', rows.length);
+    if (rows.length > 0) {
+      console.log('Token expires at:', rows[0].reset_token_expiry);
+      console.log('Current time:', new Date());
+    }
+
+
+    if (rows.length === 0) {
+      console.log('Token not found or expired');
+      return res.status(400).send('Reset token is invalid or expired.');
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+    await pool.query(
+      'UPDATE users SET password = $1, reset_token = NULL, reset_token_expiry = NULL WHERE reset_token = $2 AND email = $3',
+      [hashedPassword, cleanedToken, cleanedEmail]
+    );
+    
+    console.log('Password successfully updated');
+    res.send('Your password has been successfully reset. You can now log in.');
+  } catch (err) {
+    console.error('Server error:', err);
+    res.status(500).send('Server error. Please try again.');
+  }
+};
+
+module.exports = { register, verify, login, forgotPassword, resetPassword, serveResetForm };
