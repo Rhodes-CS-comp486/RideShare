@@ -7,6 +7,8 @@ const StatusScreen = ({ route }) => {
   const { user } = route.params;
   const driverID = user.rhodesid;
   const [status, setStatus] = useState(null);
+  const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
+
   useEffect(() => {
     fetchStatus();
   }, []);
@@ -14,11 +16,15 @@ const StatusScreen = ({ route }) => {
     if (status === true) {
       navigation.navigate('DriverFeed', { user });
     }
+    else if(status === false) {
+      navigation.navigate('DriverAccount', { user });
+    }
+
   }, [status]);  
 
   const fetchStatus = async () => {
     try {
-      const response = await fetch(`http://localhost:5001/api/stat/get-status/${driverID}`);
+      const response = await fetch(`${API_URL}/api/stat/get-status/${driverID}`);
       const data = await response.json();
       setStatus(data.status);
     } catch (error) {
@@ -28,7 +34,7 @@ const StatusScreen = ({ route }) => {
 
   const updateStatus = async (newStatus) => {
     try {
-      const response = await fetch('http://localhost:5001/api/stat/update-status', {
+      const response = await fetch(`${API_URL}/api/stat/update-status`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
