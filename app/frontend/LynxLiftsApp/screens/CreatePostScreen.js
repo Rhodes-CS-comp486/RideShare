@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { 
     View, 
     TextInput, 
@@ -14,6 +14,7 @@ import { Calendar } from 'react-native-calendars';
 import DatePicker from 'react-native-date-picker';
 import { Text } from 'react-native-gesture-handler';
 import axios from 'axios';
+import { API_KEY } from '@env';
 
 const CreatePostScreen = ({ navigation, route }) => {
     const [passengerrhodesID, setPassengerRhodesID] = useState('');
@@ -27,7 +28,42 @@ const CreatePostScreen = ({ navigation, route }) => {
     const [pickupLocation, setPickupLocation] = useState(null);
     const [dropoffLocation, setDropoffLocation] = useState(null);
     const [selectingPickup, setSelectingPickup] = useState(true);
+    const [distance, setDistance] = useState('');
+    const [duration, setDuration] = useState('');
+    const [mapKey, setMapKey] = useState(0);
 
+    const refreshMap = () => setMapKey((prevKey) => prevKey + 1);
+
+    const fetchDistanceAndDuration = async () => {
+        if (pickupLocation && dropoffLocation) {
+            try {
+                const distanceMatrixURL = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${pickupLocation.latitude},${pickupLocation.longitude}&destinations=${dropoffLocation.latitude},${dropoffLocation.longitude}&key=${API_KEY}`;
+                
+                const distanceResponse = await axios.get(distanceMatrixURL);
+                const data = distanceResponse.data;
+    
+                if (data.status === "OK" && data.rows[0].elements[0].status === "OK") {
+                    const fetchedDistance = data.rows[0].elements[0].distance.text;  // e.g., "10 km"
+                    const fetchedDuration = data.rows[0].elements[0].duration.text;  // e.g., "15 mins"
+    
+                    setDistance(fetchedDistance);
+                    setDuration(fetchedDuration);
+            
+                } else {
+                    throw new Error("Unable to fetch distance or duration.");
+                }
+            } catch (error) {
+                console.error("Error fetching distance and duration:", error);
+            }
+        }
+    };
+
+    useEffect(() => {
+        if (pickupLocation && dropoffLocation) {
+            fetchDistanceAndDuration();
+        }
+    }, [pickupLocation, dropoffLocation]);
+    
     const validateTimeFormat = (time) => {
         const timeRegex = /^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/i;
         return timeRegex.test(time);
@@ -49,6 +85,16 @@ const CreatePostScreen = ({ navigation, route }) => {
 
         });
     };
+
+    const handleMapPress = useCallback((e) => {
+        const coords = e.nativeEvent.coordinate;
+        if (selectingPickup) {
+            setPickupLocation(coords);
+        } else {
+            setDropoffLocation(coords);
+        }
+        refreshMap(); 
+    }, [selectingPickup]);
 
     const handlePost = async () => {
         console.log("Posting..."); // Debugging
@@ -82,6 +128,8 @@ const CreatePostScreen = ({ navigation, route }) => {
                 dropofflocation: dropoffLocation?.address,
                 ridestate: rideState,
                 payment: payment,
+                distance: distance,
+                duration: duration,
                 pickupdate: pickupDate
             });
             
@@ -129,15 +177,17 @@ const CreatePostScreen = ({ navigation, route }) => {
                     {error ? <Text style={styles.errorText}>{error}</Text> : null}
                     <TextInput
                         style={styles.input}
-                        placeholder="Pickup Location"
+                    editable={false}
+                        placeholder="Distance"
                         placeholderTextColor="#FAF2E6"
-                        value={pickupLocation?.address || ''}
+                        value={distance} 
                     />
                     <TextInput
                         style={styles.input}
-                        placeholder="Dropoff Location"
+                    editable={false} 
+                        placeholder="Estimated Time"
                         placeholderTextColor="#FAF2E6"
-                        value={dropoffLocation?.address || ''}
+                        value={duration}
                     />
                     <TouchableOpacity 
                         style={[styles.toggleButton, rideState ? styles.activeButton : styles.inactiveButton]}
@@ -152,6 +202,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                         value={payment}
                         onChangeText={setPayment}
                     />
+                <View style={styles.mapContainer}>
                     <MapView
                         style={styles.map}
                         initialRegion={{
@@ -160,19 +211,29 @@ const CreatePostScreen = ({ navigation, route }) => {
                             latitudeDelta: 0.1,
                             longitudeDelta: 0.1,
                         }}
-                        onPress={(e) => {
+                        onPress={async (e) => {
                             const coords = e.nativeEvent.coordinate;
                             const location = {
                                 latitude: coords.latitude,
                                 longitude: coords.longitude,
                                 address: `Lat: ${coords.latitude}, Lng: ${coords.longitude}`,
                             };
-                            selectingPickup ? setPickupLocation(location) : setDropoffLocation(location);
+
+                            if (selectingPickup) {
+                            setPickupLocation(location);
+                        } else {
+                            setDropoffLocation(location);
+                        }
+
+                        if (pickupLocation && dropoffLocation) {
+                            await fetchDistanceAndDuration();
+                        }
                         }}
                     >
                         {pickupLocation && <Marker coordinate={pickupLocation} title="Pickup Location" pinColor="blue" />}
                         {dropoffLocation && <Marker coordinate={dropoffLocation} title="Dropoff Location" pinColor="red" />}
                     </MapView>
+            </View>
                     <TouchableOpacity 
                         style={styles.toggleButton} 
                         onPress={() => setSelectingPickup(!selectingPickup)}
@@ -208,6 +269,7 @@ const styles = StyleSheet.create({
         color: '#FAF2E6',
         fontSize: 14,
     },
+
     calendar: {
         width: '145%',
         height: 360,
@@ -215,12 +277,20 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         borderRadius: 10,
     },
-    map: {
+    mapContainer: {
         width: '90%',
-        height: 300,
+        height: 310, 
         marginVertical: 10,
         borderRadius: 10,
+        borderWidth: 6, 
+        borderColor: '#A6C9D3', 
+        overflow: 'hidden',
     },
+
+    map: {
+        flex: 1, 
+    },
+
     button: {
         backgroundColor: '#A62C2C',
         width: '30%',
@@ -230,13 +300,28 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 10,
     },
+
     buttonText: {
         color: '#FAF2E6',
         fontSize: 18,
         fontWeight: '600',
     },
+
+    toggleButton: { 
+        backgroundColor: '#A62C2C',
+        padding: 12, 
+        borderRadius: 8, 
+        alignItems: 'center', 
+        marginVertical: 10 
+    },
+
+    toggleButtonText: { 
+        color: '#FAF2E6', // White text
+        fontSize: 16, 
+        fontWeight: 'bold' 
+    },
+
     errorText: { color: '#FAF2E6', marginBottom: 10 },
-    toggleButton: { padding: 12, borderRadius: 8, alignItems: 'center', marginVertical: 10 },
     activeButton: { backgroundColor: '#4CAF50' },
     inactiveButton: { backgroundColor: '#A62C2C' },
 });

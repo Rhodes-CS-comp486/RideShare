@@ -57,6 +57,8 @@ const FeedScreen = ({ navigation }) => {
             <Text style={styles.postText}>Dropoff Location: {item.dropofflocation}</Text>
             <Text style={styles.postText}>Ride State: {item.ridestate}</Text>
             <Text style={styles.postText}>Payment: {item.payment}</Text>
+            <Text style={styles.postText}>Distance: {item.distance}</Text>
+            <Text style={styles.postText}>Duration: {item.duration}</Text>
           </View>
         )}
       />
