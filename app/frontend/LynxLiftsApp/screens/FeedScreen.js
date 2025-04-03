@@ -48,6 +48,7 @@ const FeedScreen = ({ navigation }) => {
         renderItem={({ item }) => (
           <View style={styles.post}>
             <Text style={styles.postText}>Rhodes ID: {item.passengerrhodesid}</Text>
+            <Text style={styles.postText}>Pickup Date: {item.pickupdate}</Text>
             <Text style={styles.postText}>Pickup Time: {item.pickuptime}</Text>
             <Text style={styles.postText}>Pickup Location: {item.pickuplocation}</Text>
             <Text style={styles.postText}>Dropoff Location: {item.dropofflocation}</Text>
