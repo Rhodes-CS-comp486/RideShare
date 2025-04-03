@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Calendar } from 'react-native-calendars';
+import { format } from 'date-fns';
 import { Text } from 'react-native-gesture-handler';
 import axios from 'axios';
 
@@ -33,7 +34,9 @@ const CreatePostScreen = ({ navigation, route }) => {
     };
 
     const handleDayPress = (day) => {
-        setPickupDate(day.dateString);
+        const [year, month, dayOf] = day.dateString.split('-');
+        const formattedDate = `${month}-${dayOf}-${year}`;
+        setPickupDate(formattedDate);
         setMarkedDates({
             [day.dateString]: { selected: true, marked: true, selectedColor: 'blue' }
 
@@ -95,7 +98,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                 <View style={styles.container}>
                     <TextInput 
                         style={styles.input}
-                        placeholder="Pickup Date"
+                        placeholder="Pickup Date (MM-DD-YYYY)" 
                         placeholderTextColor="#FAF2E6"
                         value={pickupDate}
                         onChangeText={setPickupDate}
@@ -198,8 +201,8 @@ const styles = StyleSheet.create({
     },
     calendar: {
         width: '145%',
-        height: 310,
-        marginVertical: 15,
+        height: 360,
+        marginVertical: 10,
         alignSelf: 'center',
         borderRadius: 10,
     },
