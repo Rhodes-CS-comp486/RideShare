@@ -19,9 +19,12 @@ const FeedScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    fetchPosts();
-  }, []); // Fetch posts when the screen loads
-
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchPosts(); // Refresh feed on screen focus
+    });
+  
+    return unsubscribe; // Clean up the listener on unmount
+  }, [navigation]);
 
   const addPost = async (newPost) => {
     try {
