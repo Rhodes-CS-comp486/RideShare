@@ -6,15 +6,21 @@ import {
     TouchableOpacity, 
     Keyboard, 
     TouchableWithoutFeedback, 
-    Alert 
+    Alert,
+    ScrollView, 
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
+import { Calendar } from 'react-native-calendars';
+import DatePicker from 'react-native-date-picker';
 import { Text } from 'react-native-gesture-handler';
 import axios from 'axios';
 
 const CreatePostScreen = ({ navigation, route }) => {
     const [passengerrhodesID, setPassengerRhodesID] = useState('');
-    const [pickupTime, setPickupTime] = useState('');
+    const [pickupDate, setPickupDate] = useState('');
+    const [markedDates, setMarkedDates] = useState({});
+    const [pickupTime, setPickupTime] = useState(new Date());
+    const [openTimePicker, setOpenTimePicker] = useState(false);
     const [rideState, setRideState] = useState(false);
     const [payment, setPayment] = useState('');
     const [error, setError] = useState('');
@@ -27,8 +33,29 @@ const CreatePostScreen = ({ navigation, route }) => {
         return timeRegex.test(time);
     };
 
+    const formatTime = (date) => {
+        const hours = date.getHours() % 12 || 12;
+        const minutes = date.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        return `${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+    }
+
+    const handleDayPress = (day) => {
+        const [year, month, dayOf] = day.dateString.split('-');
+        const formattedDate = `${month}-${dayOf}-${year}`;
+        setPickupDate(formattedDate);
+        setMarkedDates({
+            [day.dateString]: { selected: true, marked: true, selectedColor: 'blue' }
+
+        });
+    };
+
     const handlePost = async () => {
         console.log("Posting..."); // Debugging
+        if (!pickupDate) {
+            setError("Please select a date be picked up.")
+            return;
+        }
 
         if (!validateTimeFormat(pickupTime)) {
             setError("Invalid time format. Use HH:MM AM/PM (e.g., 10:30 AM).");
@@ -54,7 +81,8 @@ const CreatePostScreen = ({ navigation, route }) => {
                 pickuplocation: pickupLocation?.address,
                 dropofflocation: dropoffLocation?.address,
                 ridestate: rideState,
-                payment: payment
+                payment: payment,
+                pickupdate: pickupDate
             });
             
             console.log("Post created:", response.data);
@@ -70,79 +98,94 @@ const CreatePostScreen = ({ navigation, route }) => {
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.container}>
-                <TextInput 
-                    style={styles.input}
-                    placeholder="Rhodes ID"
-                    placeholderTextColor="#FAF2E6"
-                    onChangeText={setPassengerRhodesID}
-                />
-                <TextInput 
-                    style={styles.input}
-                    placeholder="Pickup Time (HH:MM AM/PM)"
-                    placeholderTextColor="#FAF2E6"
-                    value={pickupTime}
-                    onChangeText={setPickupTime}
-                />
-                {error ? <Text style={styles.errorText}>{error}</Text> : null}
-                <TextInput
-                    style={styles.input}
-                    placeholder="Pickup Location"
-                    placeholderTextColor="#FAF2E6"
-                    value={pickupLocation?.address || ''}
-                />
-                <TextInput
-                    style={styles.input}
-                    placeholder="Dropoff Location"
-                    placeholderTextColor="#FAF2E6"
-                    value={dropoffLocation?.address || ''}
-                />
-                <TouchableOpacity 
-                    style={[styles.toggleButton, rideState ? styles.activeButton : styles.inactiveButton]}
-                    onPress={() => setRideState(!rideState)}
-                >
-                    <Text style={styles.buttonText}>{rideState ? "Active" : "Inactive"}</Text>
-                </TouchableOpacity>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Payment Type (e.g. Venmo, Cashapp, etc."
-                    placeholderTextColor="#FAF2E6"
-                    value={payment}
-                    onChangeText={setPayment}
-                />
-                <MapView
-                    style={styles.map}
-                    initialRegion={{
-                        latitude: 35.1495,
-                        longitude: -90.0490,
-                        latitudeDelta: 0.1,
-                        longitudeDelta: 0.1,
-                    }}
-                    onPress={(e) => {
-                        const coords = e.nativeEvent.coordinate;
-                        const location = {
-                            latitude: coords.latitude,
-                            longitude: coords.longitude,
-                            address: `Lat: ${coords.latitude}, Lng: ${coords.longitude}`,
-                        };
-                        selectingPickup ? setPickupLocation(location) : setDropoffLocation(location);
-                    }}
-                >
-                    {pickupLocation && <Marker coordinate={pickupLocation} title="Pickup Location" pinColor="blue" />}
-                    {dropoffLocation && <Marker coordinate={dropoffLocation} title="Dropoff Location" pinColor="red" />}
-                </MapView>
-                <TouchableOpacity 
-                    style={styles.toggleButton} 
-                    onPress={() => setSelectingPickup(!selectingPickup)}
-                >
-                    <Text style={styles.toggleButtonText}>
-                        {selectingPickup ? "Set Dropoff Location" : "Set Pickup Location"}
-                    </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.button} onPress={handlePost}>
-                    <Text style={styles.buttonText}>Post</Text>
-                </TouchableOpacity>
-            </View>
+            <ScrollView 
+                contentContainerStyle={{ flexGrow: 1 }} 
+                keyboardShouldPersistTaps="handled"
+            >
+
+                <View style={styles.container}>
+                    <TextInput 
+                        style={styles.input}
+                        placeholder="Pickup Date (MM-DD-YYYY)" 
+                        placeholderTextColor="#FAF2E6"
+                        value={pickupDate}
+                        onChangeText={setPickupDate}
+                    />
+                    <View>
+                        <Calendar 
+                        style={styles.calendar}
+                        onDayPress={handleDayPress}
+                        markedDates={markedDates}
+                        />
+                    </View>
+                    <TextInput 
+                        style={styles.input}
+                        placeholder="Pickup Time (HH:MM AM/PM)"
+                        placeholderTextColor="#FAF2E6"
+                        value={pickupTime}
+                        onChangeText={setPickupTime}
+                    />
+                    
+                    {error ? <Text style={styles.errorText}>{error}</Text> : null}
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Pickup Location"
+                        placeholderTextColor="#FAF2E6"
+                        value={pickupLocation?.address || ''}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Dropoff Location"
+                        placeholderTextColor="#FAF2E6"
+                        value={dropoffLocation?.address || ''}
+                    />
+                    <TouchableOpacity 
+                        style={[styles.toggleButton, rideState ? styles.activeButton : styles.inactiveButton]}
+                        onPress={() => setRideState(!rideState)}
+                    >
+                        <Text style={styles.buttonText}>{rideState ? "Active" : "Inactive"}</Text>
+                    </TouchableOpacity>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Payment Type (e.g. Venmo, Cashapp, etc."
+                        placeholderTextColor="#FAF2E6"
+                        value={payment}
+                        onChangeText={setPayment}
+                    />
+                    <MapView
+                        style={styles.map}
+                        initialRegion={{
+                            latitude: 35.1495,
+                            longitude: -90.0490,
+                            latitudeDelta: 0.1,
+                            longitudeDelta: 0.1,
+                        }}
+                        onPress={(e) => {
+                            const coords = e.nativeEvent.coordinate;
+                            const location = {
+                                latitude: coords.latitude,
+                                longitude: coords.longitude,
+                                address: `Lat: ${coords.latitude}, Lng: ${coords.longitude}`,
+                            };
+                            selectingPickup ? setPickupLocation(location) : setDropoffLocation(location);
+                        }}
+                    >
+                        {pickupLocation && <Marker coordinate={pickupLocation} title="Pickup Location" pinColor="blue" />}
+                        {dropoffLocation && <Marker coordinate={dropoffLocation} title="Dropoff Location" pinColor="red" />}
+                    </MapView>
+                    <TouchableOpacity 
+                        style={styles.toggleButton} 
+                        onPress={() => setSelectingPickup(!selectingPickup)}
+                    >
+                        <Text style={styles.toggleButtonText}>
+                            {selectingPickup ? "Set Dropoff Location" : "Set Pickup Location"}
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.button} onPress={handlePost}>
+                        <Text style={styles.buttonText}>Post</Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
         </TouchableWithoutFeedback>
     );
 };
@@ -164,6 +207,13 @@ const styles = StyleSheet.create({
         marginVertical: 5,
         color: '#FAF2E6',
         fontSize: 14,
+    },
+    calendar: {
+        width: '145%',
+        height: 360,
+        marginVertical: 10,
+        alignSelf: 'center',
+        borderRadius: 10,
     },
     map: {
         width: '90%',
