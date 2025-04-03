@@ -37,10 +37,18 @@ const CreatePostScreen = ({ navigation, route }) => {
                 const data = distanceResponse.data;
     
                 if (data.status === "OK" && data.rows[0].elements[0].status === "OK") {
-                    const fetchedDistance = data.rows[0].elements[0].distance.text;  // e.g., "10 km"
-                    const fetchedDuration = data.rows[0].elements[0].duration.text;  // e.g., "15 mins"
+                    const fetchedDistance = data.rows[0].elements[0].distance.text;  
+                    const fetchedDuration = data.rows[0].elements[0].duration.text;
     
-                    setDistance(fetchedDistance);
+                    // Convert km to miles
+                    let distanceInMiles = fetchedDistance;
+                    if (fetchedDistance.includes("km")) {
+                    const distanceInKm = parseFloat(fetchedDistance.split(" ")[0]);
+                    const distanceInMilesValue = (distanceInKm * 0.621371).toFixed(2);  // Conversion factor
+                    distanceInMiles = `${distanceInMilesValue} miles`;
+                    }
+
+                    setDistance(distanceInMiles);
                     setDuration(fetchedDuration);
             
                 } else {
