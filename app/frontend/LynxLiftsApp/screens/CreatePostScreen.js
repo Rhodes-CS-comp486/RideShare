@@ -8,19 +8,19 @@ import {
     TouchableWithoutFeedback, 
     Alert,
     ScrollView, 
-    KeyboardAvoidingView, 
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Calendar } from 'react-native-calendars';
-import { format } from 'date-fns';
+import DatePicker from 'react-native-date-picker';
 import { Text } from 'react-native-gesture-handler';
 import axios from 'axios';
 
 const CreatePostScreen = ({ navigation, route }) => {
-    // const [passengerrhodesID, setPassengerRhodesID] = useState('');
+    const [passengerrhodesID, setPassengerRhodesID] = useState('');
     const [pickupDate, setPickupDate] = useState('');
     const [markedDates, setMarkedDates] = useState({});
-    const [pickupTime, setPickupTime] = useState('');
+    const [pickupTime, setPickupTime] = useState(new Date());
+    const [openTimePicker, setOpenTimePicker] = useState(false);
     const [rideState, setRideState] = useState(false);
     const [payment, setPayment] = useState('');
     const [error, setError] = useState('');
@@ -32,6 +32,13 @@ const CreatePostScreen = ({ navigation, route }) => {
         const timeRegex = /^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/i;
         return timeRegex.test(time);
     };
+
+    const formatTime = (date) => {
+        const hours = date.getHours() % 12 || 12;
+        const minutes = date.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        return `${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+    }
 
     const handleDayPress = (day) => {
         const [year, month, dayOf] = day.dateString.split('-');
@@ -74,7 +81,8 @@ const CreatePostScreen = ({ navigation, route }) => {
                 pickuplocation: pickupLocation?.address,
                 dropofflocation: dropoffLocation?.address,
                 ridestate: rideState,
-                payment: payment
+                payment: payment,
+                pickupdate: pickupDate
             });
             
             console.log("Post created:", response.data);
@@ -117,6 +125,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                         value={pickupTime}
                         onChangeText={setPickupTime}
                     />
+                    
                     {error ? <Text style={styles.errorText}>{error}</Text> : null}
                     <TextInput
                         style={styles.input}
