@@ -15,15 +15,34 @@ const serveResetForm = async (req, res) => {
   // Serve the reset form HTML page
   res.send(`
     <html>
-      <head><title>Reset Password</title></head>
-      <body style="font-family: sans-serif; margin: 40px;">
-        <h2>Reset Your Password</h2>
-        <form method="POST" action="/api/auth/reset-password?token=${token}">
-          <input type="hidden" name="email" value="${email}" />
-          <label>New Password:</label><br/>
-          <input type="password" name="newPassword" required style="margin: 10px 0; padding: 8px; width: 300px;"><br/>
-          <button type="submit" style="padding: 8px 16px;">Reset Password</button>
-        </form>
+      <head>
+        <title>Reset Password</title>
+        <style>
+        ::placeholder {
+          color: #FAF2E6;
+          opacity: 1; /* Ensure full opacity */
+        }
+      </style>
+      </head>
+      <body style="margin: 0; padding: 0; background-color: #80A1C2; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh;">
+        <div style="padding: 20px; text-align: center;">
+          <h2 style="font-size: 24px; color: #FAF2E6; font-weight: bold; margin-bottom: 20px;">Reset Your Password</h2>
+          <form method="POST" action="/api/auth/reset-password?token=${token}" style="display: flex; flex-direction: column; align-items: center;">
+            <input type="hidden" name="email" value="${email}" />
+            <input 
+              type="password" 
+              name="newPassword" 
+              required 
+              placeholder="New Password"
+              style="width: 90%; max-width: 300px; height: 40px; background-color: #BF4146; border: none; border-radius: 8px; padding: 0 15px; margin: 5px 0; color: #FAF2E6; font-size: 14px;"
+            />
+            <button 
+              type="submit" 
+              style="background-color: #A62C2C; color: #FAF2E6; font-size: 18px; font-weight: 600; border: none; border-radius: 20px; padding: 10px 20px; margin-top: 10px; cursor: pointer;">
+              Reset Password
+            </button>
+          </form>
+        </div>
       </body>
     </html>
   `);  
