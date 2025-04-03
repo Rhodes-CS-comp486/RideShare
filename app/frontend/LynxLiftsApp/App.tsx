@@ -22,7 +22,7 @@ const App = () => {
         <Stack.Screen name="Feed" component={FeedScreen} />
         <Stack.Screen name="Status" component={StatusScreen} />
         <Stack.Screen name="Post" component={CreatePostScreen} />
-        <Stack.Screen name="Forgot" component={ForgotPasswordScreen} />
+        <Stack.Screen name="Forgot" component={ForgotPasswordScreen} options={{ headerShown: false }} />
         <Stack.Screen name="DriverFeed" component={DriverFeedScreen} />
         <Stack.Screen name="DriverAccount" component={DriverAccountScreen} />
       </Stack.Navigator>
