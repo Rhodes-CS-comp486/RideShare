@@ -38,31 +38,31 @@ const CreatePostScreen = ({ navigation, route }) => {
         if (pickupLocation && dropoffLocation) {
             try {
                 const distanceMatrixURL = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${pickupLocation.latitude},${pickupLocation.longitude}&destinations=${dropoffLocation.latitude},${dropoffLocation.longitude}&key=${API_KEY}`;
-                
+    
                 const distanceResponse = await axios.get(distanceMatrixURL);
                 const data = distanceResponse.data;
     
-                if (data.status === "OK" && data.rows[0].elements[0].status === "OK") {
-                    const fetchedDistance = data.rows[0].elements[0].distance.text;  
-                    const fetchedDuration = data.rows[0].elements[0].duration.text;
+                console.log("Distance API Response:", JSON.stringify(data, null, 2));
     
-                    // km to miles
-                    let distanceInMiles = fetchedDistance;
-                    if (fetchedDistance.includes("km")) {
-                    const distanceInKm = parseFloat(fetchedDistance.split(" ")[0]);
-                    const distanceInMilesValue = (distanceInKm * 0.621371).toFixed(2);  // Conversion factor
-                    distanceInMiles = `${distanceInMilesValue} miles`;
-                    }
+                if (data.status === "OK" && data.rows[0].elements[0].status === "OK") {
+                    const fetchedDistance = data.rows[0].elements[0].distance.text;
+                    const fetchedDuration = data.rows[0].elements[0].duration.text;
 
-                    setDistance(distanceInMiles);
+                    // Update the state with the fetched distance and duration
+                    setDistance(fetchedDistance);
                     setDuration(fetchedDuration);
-            
+
                 } else {
                     throw new Error("Unable to fetch distance or duration.");
                 }
             } catch (error) {
                 console.error("Error fetching distance and duration:", error);
+                setDistance(null);
+                setDuration(null);
             }
+        } else {
+            setDistance(null);
+            setDuration(null);
         }
     };
 
@@ -71,7 +71,7 @@ const CreatePostScreen = ({ navigation, route }) => {
             fetchDistanceAndDuration();
         }
     }, [pickupLocation, dropoffLocation]);
-    
+
     const validateTimeFormat = (time) => {
         const timeRegex = /^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/i;
         return timeRegex.test(time);
@@ -105,7 +105,11 @@ const CreatePostScreen = ({ navigation, route }) => {
     }, [selectingPickup]);
 
     const handlePost = async () => {
-        console.log("Posting..."); // Debugging
+        console.log("Posting..."); 
+    
+        console.log("distance:", distance);
+        console.log("duration:", duration);
+
         if (!pickupDate) {
             setError("Please select a date be picked up.")
             return;
@@ -136,9 +140,9 @@ const CreatePostScreen = ({ navigation, route }) => {
                 dropofflocation: dropoffLocation?.address,
                 ridestate: rideState,
                 payment: payment,
+                pickupdate: pickupDate,
                 distance: distance,
                 duration: duration,
-                pickupdate: pickupDate
             });
             
             console.log("Post created:", response.data);
