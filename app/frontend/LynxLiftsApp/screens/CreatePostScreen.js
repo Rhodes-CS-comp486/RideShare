@@ -46,7 +46,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                     const fetchedDistance = data.rows[0].elements[0].distance.text;  
                     const fetchedDuration = data.rows[0].elements[0].duration.text;
     
-                    // Convert km to miles
+                    // km to miles
                     let distanceInMiles = fetchedDistance;
                     if (fetchedDistance.includes("km")) {
                     const distanceInKm = parseFloat(fetchedDistance.split(" ")[0]);
