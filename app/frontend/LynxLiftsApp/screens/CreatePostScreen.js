@@ -164,6 +164,13 @@ const CreatePostScreen = ({ navigation, route }) => {
             >
 
                 <View style={styles.container}>
+                    <TouchableOpacity 
+                        style={[styles.toggleButton, rideState ? styles.activeButton : styles.inactiveButton]}
+                        onPress={() => setRideState(!rideState)}
+                    >
+                        <Text style={styles.buttonText}>{rideState ? "Active" : "Inactive"}</Text>
+                    </TouchableOpacity>
+                    
                     <TextInput 
                         style={styles.input}
                         placeholder="Pickup Date (MM-DD-YYYY)" 
@@ -187,26 +194,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                     />
                     
                     {error ? <Text style={styles.errorText}>{error}</Text> : null}
-                    <TextInput
-                        style={styles.input}
-                    editable={false}
-                        placeholder="Distance"
-                        placeholderTextColor="#FAF2E6"
-                        value={distance} 
-                    />
-                    <TextInput
-                        style={styles.input}
-                    editable={false} 
-                        placeholder="Estimated Time"
-                        placeholderTextColor="#FAF2E6"
-                        value={duration}
-                    />
-                    <TouchableOpacity 
-                        style={[styles.toggleButton, rideState ? styles.activeButton : styles.inactiveButton]}
-                        onPress={() => setRideState(!rideState)}
-                    >
-                        <Text style={styles.buttonText}>{rideState ? "Active" : "Inactive"}</Text>
-                    </TouchableOpacity>
+                    
                     <TextInput
                         style={styles.input}
                         placeholder="Payment Type (e.g. Venmo, Cashapp, etc."
