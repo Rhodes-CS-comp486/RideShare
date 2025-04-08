@@ -4,7 +4,8 @@ import axios from 'axios';
 
 const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
 
-const FeedScreen = ({ navigation }) => {
+const FeedScreen = ({ navigation, route }) => {
+  const { user } = route.params;
   const [posts, setPosts] = useState([]);
 
   // function to fetch posts from the backend
@@ -40,7 +41,7 @@ const FeedScreen = ({ navigation }) => {
     <View style={styles.container}>
       <TouchableOpacity 
         style={styles.createPostButton} 
-        onPress={() => navigation.navigate('Post', { addPost })}
+        onPress={() => navigation.navigate('Post', { addPost, user })}
       >
         <Text style={styles.buttonText}>Create Post</Text>
       </TouchableOpacity>
