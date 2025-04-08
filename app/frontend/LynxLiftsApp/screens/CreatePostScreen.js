@@ -31,6 +31,7 @@ const CreatePostScreen = ({ navigation, route }) => {
     const [distance, setDistance] = useState('');
     const [duration, setDuration] = useState('');
     const [mapKey, setMapKey] = useState(0);
+    const { user } = route.params;
 
     const refreshMap = () => setMapKey((prevKey) => prevKey + 1);
 
@@ -71,6 +72,12 @@ const CreatePostScreen = ({ navigation, route }) => {
             fetchDistanceAndDuration();
         }
     }, [pickupLocation, dropoffLocation]);
+
+    useEffect(() => {
+        if (user?.rhodesid) {
+            setPassengerRhodesID(user.rhodesid);
+        }
+    }, [user]);    
 
     const validateTimeFormat = (time) => {
         const timeRegex = /^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/i;
@@ -197,7 +204,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                     
                     <TextInput
                         style={styles.input}
-                        placeholder="Payment Type (e.g. Venmo, Cashapp, etc."
+                        placeholder="Payment Type (e.g. Venmo, Cashapp, etc.)"
                         placeholderTextColor="#FAF2E6"
                         value={payment}
                         onChangeText={setPayment}

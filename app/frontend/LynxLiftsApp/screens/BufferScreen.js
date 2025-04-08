@@ -12,7 +12,7 @@ const BufferScreen = ({ navigation, route }) => {
         if (role === 'driver') {
             navigation.navigate('Status', { user: { rhodesid: user.rhodesid } });
         } else {
-            navigation.navigate('Feed'); 
+            navigation.navigate('Feed', { user: { rhodesid: user.rhodesid } }); 
         }
     };
 
