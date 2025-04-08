@@ -142,11 +142,16 @@ const verify = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  let { email, password } = req.body;
 
   // Check if email and password are provided
   if (!email || !password) {
     return res.status(400).json({ error: 'Email and password are required.' });
+  }
+
+  // Append @rhodes.edu if not present
+  if (!email.includes('@')) {
+    email = `${email}@rhodes.edu`;
   }
 
   try {

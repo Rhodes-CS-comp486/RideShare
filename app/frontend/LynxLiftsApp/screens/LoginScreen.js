@@ -41,13 +41,17 @@ const LoginScreen = () => {
         <Text style={styles.title}>LynxLifts</Text>
       </View>
 
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={(text) => setEmail(text.toLowerCase())}
-        placeholderTextColor="#FAF2E6"
-      />
+      <View style={styles.emailContainer}>
+        <TextInput
+          style={styles.emailInput}
+          placeholder="Rhodes ID"
+          value={email}
+          onChangeText={(text) => setEmail(text.toLowerCase())}
+          placeholderTextColor="#FAF2E6"
+          autoCapitalize="none"
+        />
+        <Text style={styles.emailSuffix}>@rhodes.edu</Text>
+      </View>
 
       <TextInput
         style={styles.input}
@@ -149,6 +153,26 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     fontSize: 14,
   },
+  emailContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#BF4146',
+    borderRadius: 8,
+    paddingHorizontal: 15,
+    marginVertical: 5,
+    width: '90%',
+    height: 40,
+  },
+  emailInput: {
+    flex: 1,
+    color: '#FAF2E6',
+    fontSize: 14,
+  },
+  emailSuffix: {
+    color: '#FAF2E6',
+    fontSize: 14,
+    marginLeft: 5,
+  },  
 });
 
 export default LoginScreen;
