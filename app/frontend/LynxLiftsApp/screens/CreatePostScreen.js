@@ -31,6 +31,21 @@ const CreatePostScreen = ({ navigation, route }) => {
     const [distance, setDistance] = useState('');
     const [duration, setDuration] = useState('');
     const [mapKey, setMapKey] = useState(0);
+    const [timePosted, setTimePosted] = useState(new Date());
+
+    const formatTimePosted = () => {
+        const formattedTimestamp = new Intl.DateTimeFormat('en-US', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+        }).format(Date.now());
+        
+        console.log(formattedTimestamp);
+        setTimePosted(formattedTimestamp);
+    }
 
     const refreshMap = () => setMapKey((prevKey) => prevKey + 1);
 
@@ -77,7 +92,7 @@ const CreatePostScreen = ({ navigation, route }) => {
         return timeRegex.test(time);
     };
 
-    const formatTime = (date) => {
+    const formatTimeSelection = (date) => {
         const hours = date.getHours() % 12 || 12;
         const minutes = date.getMinutes();
         const ampm = hours >= 12 ? 'PM' : 'AM';
@@ -90,7 +105,6 @@ const CreatePostScreen = ({ navigation, route }) => {
         setPickupDate(formattedDate);
         setMarkedDates({
             [day.dateString]: { selected: true, marked: true, selectedColor: 'blue' }
-
         });
     };
 
@@ -130,6 +144,7 @@ const CreatePostScreen = ({ navigation, route }) => {
         }
 
         setError('');
+        formatTimePosted();
 
         try {
             const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
@@ -143,6 +158,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                 pickupdate: pickupDate,
                 distance: distance,
                 duration: duration,
+                timeposted: timePosted
             });
             
             console.log("Post created:", response.data);
@@ -192,6 +208,28 @@ const CreatePostScreen = ({ navigation, route }) => {
                         value={pickupTime}
                         onChangeText={setPickupTime}
                     />
+                    
+                    {/* View for time scroller picker */}
+                    <View style={styles.container}>
+                        {/* Time Input Field */}
+                        <TouchableOpacity style={styles.input} onPress={() => setOpenTimePicker(true)}>
+                            <Text style={styles.inputText}>{formatTimeSelection(pickupTime)}</Text>
+                        </TouchableOpacity>
+
+                        {/* Time Picker */}
+                        <DatePicker
+                            modal
+                            open={openTimePicker}
+                            date={pickupTime}
+                            mode="time"
+                            onConfirm={(date) => {
+                                setOpenTimePicker(false);
+                                setPickupTime(date);
+                            }}
+                            onCancel={() => setOpenTimePicker(false)}
+                        />
+                    </View> 
+
                     
                     {error ? <Text style={styles.errorText}>{error}</Text> : null}
                     
