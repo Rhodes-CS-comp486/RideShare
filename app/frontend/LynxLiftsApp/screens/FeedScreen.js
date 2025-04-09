@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, SafeAreaView } from 'react-native';
 import axios from 'axios';
 
 const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
@@ -38,7 +38,7 @@ const FeedScreen = ({ navigation, route }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <TouchableOpacity 
         style={styles.createPostButton} 
         onPress={() => navigation.navigate('Post', { addPost, user })}
@@ -63,7 +63,7 @@ const FeedScreen = ({ navigation, route }) => {
           </View>
         )}
       />
-        </View>
+        </SafeAreaView>
     );
 };
 
@@ -79,6 +79,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
     marginBottom: 15,
+    marginTop: 15,
+    marginHorizontal: 20
   },
   buttonText: {
     color: '#FAF2E6', 

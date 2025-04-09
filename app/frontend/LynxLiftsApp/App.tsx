@@ -25,7 +25,7 @@ const App = () => {
           <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Welcome" component={BufferScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Feed" component={FeedScreen} />
+          <Stack.Screen name="Feed" component={FeedScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Status" component={StatusScreen} />
           <Stack.Screen name="Post" component={CreatePostScreen} />
           <Stack.Screen name="Forgot" component={ForgotPasswordScreen} options={{ headerShown: false }} />
