@@ -1,12 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  Image,
-  StyleSheet, Alert, Platform,
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert, Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -48,8 +41,6 @@ const DriverAccountScreen = ({ route }) => {
     { label: 'Car Make & Model', key: 'car_make_model' },
     { label: 'Car Color', key: 'car_color' },
     { label: 'License Plate', key: 'license_plate' },
-    { label: 'Driving Times', key: 'driving_times' },
-    { label: 'Coverage Area', key: 'coverage_area' },
     { label: 'Bio', key: 'notes' },
     { label: 'Pronouns', key: 'pronouns' },
     { label: 'Pet Friendly', key: 'pet_friendly' },
