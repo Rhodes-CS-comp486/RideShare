@@ -1,14 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { 
-    View, 
-    TextInput, 
-    StyleSheet, 
-    TouchableOpacity, 
-    Keyboard, 
-    TouchableWithoutFeedback, 
-    Alert,
-    ScrollView, 
-} from 'react-native';
+import { View, TextInput, StyleSheet, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Alert, ScrollView } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Calendar } from 'react-native-calendars';
 import DatePicker from 'react-native-date-picker';
