@@ -20,7 +20,7 @@ const CreatePostScreen = ({ navigation, route }) => {
     const [passengerrhodesID, setPassengerRhodesID] = useState('');
     const [pickupDate, setPickupDate] = useState('');
     const [markedDates, setMarkedDates] = useState({});
-    const [pickupTime, setPickupTime] = useState(new Date());
+    const [pickupTime, setPickupTime] = useState(null);
     const [openTimePicker, setOpenTimePicker] = useState(false);
     const [rideState, setRideState] = useState(false);
     const [payment, setPayment] = useState('');
@@ -31,10 +31,9 @@ const CreatePostScreen = ({ navigation, route }) => {
     const [distance, setDistance] = useState('');
     const [duration, setDuration] = useState('');
     const [mapKey, setMapKey] = useState(0);
-    const [timePosted, setTimePosted] = useState(new Date());
 
     const formatTimePosted = () => {
-        const formattedTimestamp = new Intl.DateTimeFormat('en-US', {
+        return new Intl.DateTimeFormat('en-US', {
             year: 'numeric',
             month: '2-digit',
             day: '2-digit',
@@ -42,9 +41,6 @@ const CreatePostScreen = ({ navigation, route }) => {
             minute: '2-digit',
             second: '2-digit',
         }).format(Date.now());
-        
-        console.log(formattedTimestamp);
-        setTimePosted(formattedTimestamp);
     }
 
     const refreshMap = () => setMapKey((prevKey) => prevKey + 1);
@@ -87,16 +83,18 @@ const CreatePostScreen = ({ navigation, route }) => {
         }
     }, [pickupLocation, dropoffLocation]);
 
-    const validateTimeFormat = (time) => {
-        const timeRegex = /^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/i;
-        return timeRegex.test(time);
-    };
+    // const validateTimeFormat = (time) => {
+    //     const timeRegex = /^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/i;
+    //     return timeRegex.test(time);
+    // };
 
     const formatTimeSelection = (date) => {
+        if (!date) return '';
         const hours = date.getHours() % 12 || 12;
         const minutes = date.getMinutes();
-        const ampm = hours >= 12 ? 'PM' : 'AM';
-        return `${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+        const strMinutes = minutes < 10 ? '0' + minutes : minutes;
+        const ampm = date.getHours() >= 12 ? 'PM' : 'AM';
+        return `${hours}:${strMinutes} ${ampm}`;
     }
 
     const handleDayPress = (day) => {
@@ -129,8 +127,8 @@ const CreatePostScreen = ({ navigation, route }) => {
             return;
         }
 
-        if (!validateTimeFormat(pickupTime)) {
-            setError("Invalid time format. Use HH:MM AM/PM (e.g., 10:30 AM).");
+        if (!pickupTime) {
+            setError("Please pick a time to be picked up.");
             return;
         }
         if (!pickupLocation || !dropoffLocation) {
@@ -144,13 +142,12 @@ const CreatePostScreen = ({ navigation, route }) => {
         }
 
         setError('');
-        formatTimePosted();
 
         try {
             const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
             const response = await axios.post(`${API_URL}/api/feed`, {
                 passengerrhodesid: passengerrhodesID,
-                pickuptime: pickupTime,
+                pickuptime: pickupTime ? formatTimeSelection(pickupTime) : '',
                 pickuplocation: pickupLocation?.address,
                 dropofflocation: dropoffLocation?.address,
                 ridestate: rideState,
@@ -158,7 +155,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                 pickupdate: pickupDate,
                 distance: distance,
                 duration: duration,
-                timeposted: timePosted
+                timeposted: formatTimePosted(),
             });
             
             console.log("Post created:", response.data);
@@ -192,7 +189,8 @@ const CreatePostScreen = ({ navigation, route }) => {
                         placeholder="Pickup Date (MM-DD-YYYY)" 
                         placeholderTextColor="#FAF2E6"
                         value={pickupDate}
-                        onChangeText={setPickupDate}
+                        editable={false}
+                        
                     />
                     <View>
                         <Calendar 
@@ -203,32 +201,25 @@ const CreatePostScreen = ({ navigation, route }) => {
                     </View>
                     <TextInput 
                         style={styles.input}
-                        placeholder="Pickup Time (HH:MM AM/PM)"
+                        placeholder="Pickup Time (click here to select)"
                         placeholderTextColor="#FAF2E6"
-                        value={pickupTime}
-                        onChangeText={setPickupTime}
+                        value={pickupTime ? formatTimeSelection(pickupTime) : ''}
+                        editable={false}
+                        onPressIn={() => setOpenTimePicker(true)}
                     />
                     
-                    {/* View for time scroller picker */}
-                    <View style={styles.container}>
-                        {/* Time Input Field */}
-                        <TouchableOpacity style={styles.input} onPress={() => setOpenTimePicker(true)}>
-                            <Text style={styles.inputText}>{formatTimeSelection(pickupTime)}</Text>
-                        </TouchableOpacity>
-
-                        {/* Time Picker */}
-                        <DatePicker
-                            modal
-                            open={openTimePicker}
-                            date={pickupTime}
-                            mode="time"
-                            onConfirm={(date) => {
-                                setOpenTimePicker(false);
-                                setPickupTime(date);
-                            }}
-                            onCancel={() => setOpenTimePicker(false)}
-                        />
-                    </View> 
+                    {/* Time Picker */}
+                    <DatePicker
+                        modal
+                        open={openTimePicker}
+                        date={pickupTime || new Date()} 
+                        mode="time"
+                        onConfirm={(date) => {
+                            setOpenTimePicker(false);
+                            setPickupTime(date); 
+                        }}
+                        onCancel={() => setOpenTimePicker(false)}
+                    />
 
                     
                     {error ? <Text style={styles.errorText}>{error}</Text> : null}
