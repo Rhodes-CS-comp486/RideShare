@@ -14,6 +14,7 @@ import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import DriverFeedScreen from './screens/DriverFeedScreen';
 import DriverAccountScreen from './screens/DriverAccountScreen';
 import SetPreferenceScreen from './screens/SetPreferenceScreen';
+import ChatScreen from './screens/ChatScreen';
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,7 @@ const App = () => {
           <Stack.Screen name="DriverFeed" component={DriverFeedScreen} />
           <Stack.Screen name="DriverAccount" component={DriverAccountScreen} />
           <Stack.Screen name="SetPreference" component={SetPreferenceScreen} />
+          <Stack.Screen name="Chat" component={ChatScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

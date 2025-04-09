@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, SafeAreaView, Image } from 'react-native';
 import axios from 'axios';
 
 const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
@@ -63,6 +63,21 @@ const FeedScreen = ({ navigation, route }) => {
           </View>
         )}
       />
+      
+      <View style={styles.bottomBar}>
+        <TouchableOpacity onPress={() => navigation.navigate('Feed', { user: { rhodesid: user.rhodesid } })}>
+          <Image source={require('../assets/home.png')} style={styles.icon} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => console.log('Driver')}>
+          <Image source={require('../assets/driver.png')} style={styles.icon} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Chat', { user: { rhodesid: user.rhodesid } })}>
+          <Image source={require('../assets/chat.png')} style={styles.icon} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => console.log('Settings')}>
+          <Image source={require('../assets/setting.png')} style={styles.icon} />
+        </TouchableOpacity>
+      </View>
         </SafeAreaView>
     );
 };
@@ -71,7 +86,7 @@ const styles = StyleSheet.create({
   container: { 
     flex: 1, 
     backgroundColor: '#80A1C2',
-    padding: 20 
+    padding: 20,
   },
   createPostButton: {
     backgroundColor: '#A62C2C',
@@ -80,7 +95,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 15,
     marginTop: 15,
-    marginHorizontal: 20
+    marginHorizontal: 20,
   },
   buttonText: {
     color: '#FAF2E6', 
@@ -90,12 +105,27 @@ const styles = StyleSheet.create({
     padding: 10, 
     borderBottomWidth: 1, 
     borderBottomColor: '#6683A9',
-    marginBottom: 10 
+    marginBottom: 10,
   },
   postText: {
     color: '#FAF2E6', 
     fontSize: 16,
-  }
+  },
+  bottomBar: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingVertical: 10,
+    backgroundColor: '#6683A9',
+    borderTopWidth: 1,
+    borderTopColor: '#6683A9',
+    marginTop: 10
+  },
+  icon: {
+    width: 30,
+    height: 30,
+    resizeMode: 'contain',
+  }  
 });
 
 export default FeedScreen;
