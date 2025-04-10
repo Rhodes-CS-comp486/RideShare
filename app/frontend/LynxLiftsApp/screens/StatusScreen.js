@@ -78,7 +78,11 @@ const StatusScreen = ({ route }) => {
     >
       <Text style={styles.buttonText}>Offline</Text>
     </TouchableOpacity>
-      </View>
+
+    <TouchableOpacity onPress={() => navigation.navigate('Welcome', { user: { rhodesid: user.rhodesid } })}>
+      <Text style={styles.linkText}>Go Back</Text>
+    </TouchableOpacity>
+    </View>
   );
 };
 
@@ -122,6 +126,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
+  linkText: {
+    color: '#FAF2E6',
+    textDecorationLine: 'underline',
+    fontSize: 16,
+    marginTop: 20,
+  },  
 });
 
 export default StatusScreen;

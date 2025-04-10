@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert, Platform, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -85,7 +85,7 @@ const PassengerAccountScreen = ({ route }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.profileHeader}>
         <View style={styles.profilePicContainer}>
           <Image
@@ -108,10 +108,10 @@ const PassengerAccountScreen = ({ route }) => {
 
       <TouchableOpacity 
         style={styles.button} 
-        onPress={() => navigation.navigate('DriverFeed', { user })}
+        onPress={() => navigation.navigate('Status', { user })}
         >
         <Text style={styles.buttonText}>Switch to Driver</Text>
-        </TouchableOpacity>
+      </TouchableOpacity>
 
       <TouchableOpacity 
         style={[styles.button, styles.logoutButton]} 
@@ -119,7 +119,22 @@ const PassengerAccountScreen = ({ route }) => {
       >
         <Text style={styles.buttonText}>Log Out</Text>
       </TouchableOpacity>
-    </View>
+
+       <View style={styles.bottomBar}>
+          <TouchableOpacity onPress={() => navigation.navigate('Feed', { user: { rhodesid: user.rhodesid } })}>
+            <Image source={require('../assets/home.png')} style={styles.icon} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log('Driver')}>
+            <Image source={require('../assets/driver.png')} style={styles.icon} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('PassengerChat', { user: { rhodesid: user.rhodesid } })}>
+            <Image source={require('../assets/chat.png')} style={styles.icon} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('PassengerAccount', { user: { rhodesid: user.rhodesid } })}>
+            <Image source={require('../assets/setting.png')} style={styles.icon} />
+          </TouchableOpacity>
+        </View>
+    </SafeAreaView>
   );
 };
 
@@ -203,7 +218,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 25,
     alignSelf: 'center',
-    marginVertical: 10,
+    marginVertical: 5,
   },
   logoutButton: {
     backgroundColor: '#A62C2C',
@@ -213,6 +228,23 @@ const styles = StyleSheet.create({
     color: '#FAF2E6',
     fontSize: 16,
     fontWeight: '600',
+  },
+  bottomBar: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#6683A9',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingBottom: 50,
+  },
+  icon: {
+    width: 30,
+    height: 30,
+    resizeMode: 'contain',
   },
 });
 

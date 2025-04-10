@@ -101,8 +101,7 @@ const DriverFeedScreen = ({ route }) => {
           <TouchableOpacity onPress={() => navigation.navigate('DriverAccount', { user: { rhodesid: user.rhodesid } })}>
             <Image source={require('../assets/setting.png')} style={styles.icon} />
           </TouchableOpacity>
-          </View>
-
+        </View>
       </SafeAreaView>
     </GestureHandlerRootView>
   );
@@ -140,7 +139,7 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     resizeMode: 'contain',
-  } 
+  },
 });
 
 export default DriverFeedScreen;
