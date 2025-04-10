@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert, Platform } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert, Platform, SafeAreaView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -49,7 +49,7 @@ const DriverAccountScreen = ({ route }) => {
   useEffect(() => {
     const fetchBio = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/driver/${user.rhodesid}/bio`);
+        const response = await axios.get(`${API_URL}/api/driver/${user.rhodesid}/profile`); // API DOES NOT EXIST
         setBio(response.data);
       } catch (error) {
         console.error('Error fetching bio:', error);
@@ -65,7 +65,7 @@ const DriverAccountScreen = ({ route }) => {
     setEditingField(null);
 
     try {
-      await axios.put(`${API_URL}/api/driver/${user.rhodesid}/bio`, updated);
+      await axios.put(`${API_URL}/api/driver/${user.rhodesid}/profile`, updated); // API DOES NOT EXIST
     } catch (error) {
       console.error('Error saving field:', error);
     }
@@ -100,11 +100,11 @@ const DriverAccountScreen = ({ route }) => {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.profileHeader}>
         <View style={styles.profilePicContainer}>
           <Image
-            source={{ uri: bio.profile_picture || 'https://via.placeholder.com/100' }}
+            source={'PLACEHOLDER'} // NEED TO UPDATE
             style={styles.profileImage}
           />
           <TouchableOpacity style={styles.editPicButton}>
@@ -129,12 +129,34 @@ const DriverAccountScreen = ({ route }) => {
       </TouchableOpacity>
 
       <TouchableOpacity 
+        style={styles.button} 
+        onPress={() => navigation.navigate('Feed', { user })}
+      >
+        <Text style={styles.buttonText}>Switch to Passenger</Text>
+       </TouchableOpacity>
+
+      <TouchableOpacity 
         style={[styles.button, styles.logoutButton]} 
         onPress={handleLogout}
       >
         <Text style={styles.buttonText}>Log Out</Text>
       </TouchableOpacity>
-    </View>
+
+      <View style={styles.bottomBar}>
+        <TouchableOpacity onPress={() => navigation.navigate('DriverFeed', { user: { rhodesid: user.rhodesid } })}>
+          <Image source={require('../assets/home.png')} style={styles.icon} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => console.log('Driver')}>
+          <Image source={require('../assets/payment.png')} style={styles.icon} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('DriverChat', { user: { rhodesid: user.rhodesid } })}>
+          <Image source={require('../assets/chat.png')} style={styles.icon} />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('DriverAccount', { user: { rhodesid: user.rhodesid } })}>
+          <Image source={require('../assets/setting.png')} style={styles.icon} />
+        </TouchableOpacity>
+      </View>
+    </SafeAreaView>
   );
 };
 
@@ -216,23 +238,35 @@ const styles = StyleSheet.create({
     backgroundColor: '#A62C2C',
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 10,
+    borderRadius: 25,
     alignSelf: 'center',
-    marginVertical: 20,
+    marginVertical: 5,
   },
   logoutButton: {
     backgroundColor: '#A62C2C',
-  },
-  logoutButton: {
-    backgroundColor: '#A62C2C',
-  },
-  logoutButton: {
-    backgroundColor: '#A62C2C',
+    borderRadius: 25,
   },
   buttonText: {
     color: '#FAF2E6',
     fontSize: 16,
     fontWeight: '600',
+  },
+  bottomBar: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#6683A9',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingBottom: 50,
+  },
+  icon: {
+    width: 30,
+    height: 30,
+    resizeMode: 'contain',
   },
 });
 

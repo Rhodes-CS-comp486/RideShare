@@ -14,7 +14,9 @@ import ForgotPasswordScreen from './screens/ForgotPasswordScreen';
 import DriverFeedScreen from './screens/DriverFeedScreen';
 import DriverAccountScreen from './screens/DriverAccountScreen';
 import SetPreferenceScreen from './screens/SetPreferenceScreen';
-import ChatScreen from './screens/ChatScreen';
+import PassengerAccountScreen from './screens/PassengerAccountScreen';
+import PassengerChatScreen from './screens/PassengerChatScreen';
+import DriverChatScreen from './screens/ChatScreen';
 
 const Stack = createStackNavigator();
 
@@ -27,13 +29,15 @@ const App = () => {
           <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Welcome" component={BufferScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Feed" component={FeedScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Status" component={StatusScreen} />
+          <Stack.Screen name="Status" component={StatusScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Post" component={CreatePostScreen} />
           <Stack.Screen name="Forgot" component={ForgotPasswordScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="DriverFeed" component={DriverFeedScreen} />
-          <Stack.Screen name="DriverAccount" component={DriverAccountScreen} />
-          <Stack.Screen name="SetPreference" component={SetPreferenceScreen} />
-          <Stack.Screen name="Chat" component={ChatScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="DriverFeed" component={DriverFeedScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="DriverAccount" component={DriverAccountScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="SetPreference" component={SetPreferenceScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="DriverChat" component={DriverChatScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="PassengerChat" component={PassengerChatScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="PassengerAccount" component={PassengerAccountScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

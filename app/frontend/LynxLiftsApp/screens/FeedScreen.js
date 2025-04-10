@@ -71,10 +71,10 @@ const FeedScreen = ({ navigation, route }) => {
         <TouchableOpacity onPress={() => console.log('Driver')}>
           <Image source={require('../assets/driver.png')} style={styles.icon} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Chat', { user: { rhodesid: user.rhodesid } })}>
+        <TouchableOpacity onPress={() => navigation.navigate('PassengerChat', { user: { rhodesid: user.rhodesid } })}>
           <Image source={require('../assets/chat.png')} style={styles.icon} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log('Settings')}>
+        <TouchableOpacity onPress={() => navigation.navigate('PassengerAccount', { user: { rhodesid: user.rhodesid } })}>
           <Image source={require('../assets/setting.png')} style={styles.icon} />
         </TouchableOpacity>
       </View>
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   createPostButton: {
     backgroundColor: '#A62C2C',
     padding: 12,
-    borderRadius: 8,
+    borderRadius: 25,
     alignItems: 'center',
     marginBottom: 15,
     marginTop: 15,
@@ -112,14 +112,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   bottomBar: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#6683A9',
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
     paddingVertical: 10,
-    backgroundColor: '#6683A9',
-    borderTopWidth: 1,
-    borderTopColor: '#6683A9',
-    marginTop: 10
+    paddingBottom: 50,
   },
   icon: {
     width: 30,

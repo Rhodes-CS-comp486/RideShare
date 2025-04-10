@@ -57,7 +57,7 @@ const ForgotPasswordScreen = () => {
       </TouchableOpacity>
 
       <Text style={styles.backToSignIn} onPress={() => navigation.navigate('Login')}>
-        Back to Sign In
+        Go Back
       </Text>
     </SafeAreaView>
   );
