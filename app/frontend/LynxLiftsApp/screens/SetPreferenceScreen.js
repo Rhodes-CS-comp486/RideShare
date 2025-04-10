@@ -1,17 +1,45 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { useNavigation } from '@react-navigation/native';
 
 const SetPreferenceScreen = ({ route }) => {
-  const { user } = route.params;
   const navigation = useNavigation();
-  const [radius, setRadius] = useState(10);
-  const [time, setTime] = useState(10);
+  const [radius, setRadius] = useState('');
+  const [time, setTime] = useState('');
+  const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
 
-  const handleSave = () => {
-    navigation.navigate('DriverAccount', { user: { ...user, radius, time } });
-  };
+  const savePreferences = async () => {
+    const driverid = route?.params?.user?.rhodesid;
+    try {
+      const response = await fetch(`${API_URL}/api/set-preferences`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          driverid: driverid,
+          radius: radius,
+          time: time
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        console.error("Failed to save preferences:", data.message || data);
+        Alert.alert("Error", data.message || "Something went wrong.");
+        return;
+      }
+
+      console.log("Preferences saved:", data);
+      navigation.navigate('DriverAccount', { user: { rhodesid: driverid } });
+      Alert.alert("Success", "Preferences updated successfully!");
+    } catch (error) {
+      console.error("Network or fetch error:", error.message || error);
+      Alert.alert("Error", "Unable to save preferences.");
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -21,35 +49,35 @@ const SetPreferenceScreen = ({ route }) => {
       <View style={styles.sliderContainer}>
         <Slider
           style={styles.slider}
-          minimumValue={1}
-          maximumValue={100}
+          minimumValue={3}
+          maximumValue={50}
           step={1}
           value={radius}
-          onValueChange={setRadius}
-          minimumTrackTintColor="#4A90E2" 
-          maximumTrackTintColor="#D3D3D3" 
-          thumbTintColor='#A62C2C' 
+          onValueChange={(value) => setRadius(value)}
+          minimumTrackTintColor="#BF4146"
+          maximumTrackTintColor="#FAF2E6"
+          thumbTintColor="#A62C2C"
         />
       </View>
 
       <Text style={styles.title}>Set Your Preferred Drive Time</Text>
-      <Text style={styles.valueText}>{time} min</Text>
+      <Text style={styles.valueText}>{time} minutes</Text>
 
       <View style={styles.sliderContainer}>
         <Slider
           style={styles.slider}
-          minimumValue={1}
-          maximumValue={100}
-          step={1}
+          minimumValue={5}
+          maximumValue={60}
+          step={5}
           value={time}
-          onValueChange={setTime}
-          minimumTrackTintColor="#4A90E2"
-          maximumTrackTintColor="#D3D3D3"
-          thumbTintColor='#A62C2C'
+          onValueChange={(value) => setTime(value)}
+          minimumTrackTintColor="#BF4146"
+          maximumTrackTintColor="#FAF2E6"
+          thumbTintColor="#A62C2C"
         />
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleSave}>
+      <TouchableOpacity style={styles.button} onPress={savePreferences}>
         <Text style={styles.buttonText}>Save</Text>
       </TouchableOpacity>
     </View>

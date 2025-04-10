@@ -123,7 +123,7 @@ const DriverAccountScreen = ({ route }) => {
 
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('SetPreference', { user })}
+        onPress={() => navigation.navigate('SetPreference', { user: { rhodesid: user.rhodesid } })}
       >
         <Text style={styles.buttonText}>Set Radius</Text>
       </TouchableOpacity>
