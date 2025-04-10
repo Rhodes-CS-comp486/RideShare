@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Alert,ScrollView } from 'react-native';
+import { View, TextInput, StyleSheet, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Alert, ScrollView, SafeAreaView } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Calendar } from 'react-native-calendars';
 import DatePicker from 'react-native-date-picker';
@@ -13,15 +13,18 @@ const CreatePostScreen = ({ navigation, route }) => {
     const [markedDates, setMarkedDates] = useState({});
     const [pickupTime, setPickupTime] = useState(null);
     const [openTimePicker, setOpenTimePicker] = useState(false);
-    const [rideState, setRideState] = useState(false);
     const [payment, setPayment] = useState('');
     const [error, setError] = useState('');
     const [pickupLocation, setPickupLocation] = useState(null);
     const [dropoffLocation, setDropoffLocation] = useState(null);
-    const [selectingPickup, setSelectingPickup] = useState(true);
     const [distance, setDistance] = useState('');
     const [duration, setDuration] = useState('');
     const { user } = route.params;
+    const [selectingPickup, setSelectingPickup] = useState(true);
+    const [locationsFinalized, setLocationsFinalized] = useState(false);
+    const [promptText, setPromptText] = useState("Click on the map to select the pickup location");
+    const mapKey = `${pickupLocation?.latitude ?? 0}-${pickupLocation?.longitude ?? 0}-${dropoffLocation?.latitude ?? 0}-${dropoffLocation?.longitude ?? 0}`;
+
 
     const formatTimePosted = () => {
         return new Intl.DateTimeFormat('en-US', {
@@ -67,16 +70,16 @@ const CreatePostScreen = ({ navigation, route }) => {
     };
 
     useEffect(() => {
-        if (pickupLocation && dropoffLocation) {
-            fetchDistanceAndDuration();
-        }
-    }, [pickupLocation, dropoffLocation]);
-
-    useEffect(() => {
         if (user?.rhodesid) {
             setPassengerRhodesID(user.rhodesid);
         }
     }, [user]);  
+
+    useEffect(() => {
+        if (pickupLocation && dropoffLocation) {
+            fetchDistanceAndDuration();
+        }
+    }, [pickupLocation, dropoffLocation]);    
 
     const formatTimeSelection = (date) => {
         if (!date) return '';
@@ -156,13 +159,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                 keyboardShouldPersistTaps="handled"
             >
 
-                <View style={styles.container}>
-                    <TouchableOpacity 
-                        style={[styles.toggleButton, rideState ? styles.activeButton : styles.inactiveButton]}
-                        onPress={() => setRideState(!rideState)}
-                    >
-                        <Text style={styles.buttonText}>{rideState ? "Active" : "Inactive"}</Text>
-                    </TouchableOpacity>
+                <SafeAreaView style={styles.container}>
                     
                     <TextInput 
                         style={styles.input}
@@ -223,8 +220,13 @@ const CreatePostScreen = ({ navigation, route }) => {
                             </TouchableOpacity>
                         ))}
                     </View>
+                    <Text style={{ color: '#FAF2E6', fontSize: 16, textAlign: 'center', marginBottom: 5 }}>
+                        {promptText}
+                    </Text>
+
                 <View style={styles.mapContainer}>
                     <MapView
+                        key={mapKey}
                         style={styles.map}
                         initialRegion={{
                             latitude: 35.1495,
@@ -233,40 +235,34 @@ const CreatePostScreen = ({ navigation, route }) => {
                             longitudeDelta: 0.1,
                         }}
                         onPress={async (e) => {
+                            if (locationsFinalized) return;
                             const coords = e.nativeEvent.coordinate;
                             const location = {
                                 latitude: coords.latitude,
                                 longitude: coords.longitude,
                                 address: `Lat: ${coords.latitude}, Lng: ${coords.longitude}`,
                             };
-
+                        
                             if (selectingPickup) {
-                            setPickupLocation(location);
-                        } else {
-                            setDropoffLocation(location);
-                        }
-
-                        if (pickupLocation && dropoffLocation) {
-                            await fetchDistanceAndDuration();
-                        }
+                                setPickupLocation(location);
+                                setPromptText("Click on the map again to select the dropoff location");
+                                setSelectingPickup(false);
+                            } else {
+                                setDropoffLocation(location);
+                                setPromptText("Pickup and dropoff selection has been made");
+                                setLocationsFinalized(true);
+                            }
+                        
                         }}
                     >
                         {pickupLocation && <Marker coordinate={pickupLocation} title="Pickup Location" pinColor="blue" />}
                         {dropoffLocation && <Marker coordinate={dropoffLocation} title="Dropoff Location" pinColor="red" />}
                     </MapView>
             </View>
-                    <TouchableOpacity 
-                        style={styles.toggleButton} 
-                        onPress={() => setSelectingPickup(!selectingPickup)}
-                    >
-                        <Text style={styles.toggleButtonText}>
-                            {selectingPickup ? "Set Dropoff Location" : "Set Pickup Location"}
-                        </Text>
-                    </TouchableOpacity>
                     <TouchableOpacity style={styles.button1} onPress={handlePost}>
                         <Text style={styles.buttonText}>Post</Text>
                     </TouchableOpacity>
-                </View>
+                </SafeAreaView>
             </ScrollView>
         </TouchableWithoutFeedback>
     );
@@ -337,23 +333,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     },
 
-    toggleButton: { 
-        backgroundColor: '#A62C2C',
-        padding: 12, 
-        borderRadius: 8, 
-        alignItems: 'center', 
-        marginVertical: 10 
-    },
-
-    toggleButtonText: { 
-        color: '#FAF2E6', // White text
-        fontSize: 16, 
-        fontWeight: 'bold' 
-    },
-
     errorText: { color: '#FAF2E6', marginBottom: 10 },
-    activeButton: { backgroundColor: '#4CAF50' },
-    inactiveButton: { backgroundColor: '#A62C2C' },
 });
 
 export default CreatePostScreen;
