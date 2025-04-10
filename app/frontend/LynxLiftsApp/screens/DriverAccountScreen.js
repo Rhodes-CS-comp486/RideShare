@@ -49,7 +49,7 @@ const DriverAccountScreen = ({ route }) => {
   useEffect(() => {
     const fetchBio = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/driver/${user.rhodesid}/bio`);
+        const response = await axios.get(`${API_URL}/api/driver/${user.rhodesid}/profile`); // API DOES NOT EXIST
         setBio(response.data);
       } catch (error) {
         console.error('Error fetching bio:', error);
@@ -65,7 +65,7 @@ const DriverAccountScreen = ({ route }) => {
     setEditingField(null);
 
     try {
-      await axios.put(`${API_URL}/api/driver/${user.rhodesid}/bio`, updated);
+      await axios.put(`${API_URL}/api/driver/${user.rhodesid}/profile`, updated); // API DOES NOT EXIST
     } catch (error) {
       console.error('Error saving field:', error);
     }
@@ -104,7 +104,7 @@ const DriverAccountScreen = ({ route }) => {
       <View style={styles.profileHeader}>
         <View style={styles.profilePicContainer}>
           <Image
-            source={{ uri: bio.profile_picture || 'https://via.placeholder.com/100' }}
+            source={'PLACEHOLDER'} // NEED TO UPDATE
             style={styles.profileImage}
           />
           <TouchableOpacity style={styles.editPicButton}>

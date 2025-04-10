@@ -18,7 +18,7 @@ const ChatScreen = ({ navigation, route }) => {
         <TouchableOpacity onPress={() => navigation.navigate('Chat', { user: { rhodesid: user.rhodesid } })}>
           <Image source={require('../assets/chat.png')} style={styles.icon} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log('Setting')}>
+        <TouchableOpacity onPress={() => navigation.navigate('PassengerAccount', { user: { rhodesid: user.rhodesid } })}>
           <Image source={require('../assets/setting.png')} style={styles.icon} />
         </TouchableOpacity>
       </View>

@@ -74,7 +74,7 @@ const FeedScreen = ({ navigation, route }) => {
         <TouchableOpacity onPress={() => navigation.navigate('Chat', { user: { rhodesid: user.rhodesid } })}>
           <Image source={require('../assets/chat.png')} style={styles.icon} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log('Settings')}>
+        <TouchableOpacity onPress={() => navigation.navigate('PassengerAccount', { user: { rhodesid: user.rhodesid } })}>
           <Image source={require('../assets/setting.png')} style={styles.icon} />
         </TouchableOpacity>
       </View>
@@ -112,14 +112,16 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   bottomBar: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#6683A9',
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
     paddingVertical: 10,
-    backgroundColor: '#6683A9',
-    borderTopWidth: 1,
-    borderTopColor: '#6683A9',
-    marginTop: 10
+    paddingBottom: 50,
   },
   icon: {
     width: 30,
