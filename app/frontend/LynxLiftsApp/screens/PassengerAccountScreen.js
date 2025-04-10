@@ -107,6 +107,13 @@ const PassengerAccountScreen = ({ route }) => {
       </View>
 
       <TouchableOpacity 
+        style={styles.button} 
+        onPress={() => navigation.navigate('DriverFeed', { user })}
+        >
+        <Text style={styles.buttonText}>Switch to Driver</Text>
+        </TouchableOpacity>
+
+      <TouchableOpacity 
         style={[styles.button, styles.logoutButton]} 
         onPress={handleLogout}
       >
@@ -196,7 +203,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 10,
     alignSelf: 'center',
-    marginVertical: 20,
+    marginVertical: 10,
   },
   logoutButton: {
     backgroundColor: '#A62C2C',
