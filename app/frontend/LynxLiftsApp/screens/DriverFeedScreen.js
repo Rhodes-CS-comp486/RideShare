@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, Platform, Alert, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, Platform, Alert, Dimensions, SafeAreaView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, runOnJS } from 'react-native-reanimated';
@@ -74,15 +74,7 @@ const DriverFeedScreen = ({ route }) => {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <View style={styles.container}>
-        <Text style={styles.subtitle}>You are now online and ready to receive ride requests.</Text>
-
-        <TouchableOpacity 
-          style={styles.button} 
-          onPress={() => navigation.navigate('DriverAccount', { user })}
-        >
-          <Text style={styles.buttonText}>My Account</Text>
-        </TouchableOpacity>
+      <SafeAreaView style={styles.container}>
 
         <FlatList
           data={posts}
@@ -95,7 +87,23 @@ const DriverFeedScreen = ({ route }) => {
             />
           )}
         />
-      </View>
+
+        <View style={styles.bottomBar}>
+          <TouchableOpacity onPress={() => navigation.navigate('DriverFeed', { user: { rhodesid: user.rhodesid } })}>
+            <Image source={require('../assets/home.png')} style={styles.icon} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log('Driver')}>
+            <Image source={require('../assets/payment.png')} style={styles.icon} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('DriverChat', { user: { rhodesid: user.rhodesid } })}>
+            <Image source={require('../assets/chat.png')} style={styles.icon} />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('DriverAccount', { user: { rhodesid: user.rhodesid } })}>
+            <Image source={require('../assets/setting.png')} style={styles.icon} />
+          </TouchableOpacity>
+          </View>
+
+      </SafeAreaView>
     </GestureHandlerRootView>
   );
 };
@@ -106,25 +114,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#80A1C2',
     padding: 20,
   },
-  subtitle: {
-    fontSize: 17,
-    color: '#FAF2E6',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  button: {
-    backgroundColor: '#A62C2C',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    alignSelf: 'center',
-    marginBottom: 20,
-  },
-  buttonText: {
-    color: '#FAF2E6',
-    fontSize: 16,
-    fontWeight: '600',
-  },
   post: { 
     padding: 10, 
     borderBottomWidth: 1, 
@@ -134,7 +123,24 @@ const styles = StyleSheet.create({
   postText: {
     color: '#FAF2E6', 
     fontSize: 16,
-  }
+  },
+  bottomBar: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#6683A9',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingBottom: 50,
+  },
+  icon: {
+    width: 30,
+    height: 30,
+    resizeMode: 'contain',
+  } 
 });
 
 export default DriverFeedScreen;

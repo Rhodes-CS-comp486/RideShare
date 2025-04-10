@@ -216,9 +216,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#A62C2C',
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 10,
+    borderRadius: 25,
     alignSelf: 'center',
-    marginVertical: 20,
+    marginVertical: 10,
   },
   logoutButton: {
     backgroundColor: '#A62C2C',
