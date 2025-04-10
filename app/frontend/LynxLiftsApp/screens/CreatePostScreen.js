@@ -83,11 +83,6 @@ const CreatePostScreen = ({ navigation, route }) => {
         }
     }, [pickupLocation, dropoffLocation]);
 
-    // const validateTimeFormat = (time) => {
-    //     const timeRegex = /^(0?[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/i;
-    //     return timeRegex.test(time);
-    // };
-
     const formatTimeSelection = (date) => {
         if (!date) return '';
         const hours = date.getHours() % 12 || 12;
