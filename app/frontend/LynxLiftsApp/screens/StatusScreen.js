@@ -14,13 +14,16 @@ const StatusScreen = ({ route }) => {
   }, []);
   useEffect(() => {
     if (status === true) {
-      navigation.navigate('DriverFeed', { user });
+      Alert.alert(
+        "You're Online",
+        "Do you want to view the ride feed?",
+        [
+          { text: "No", onPress: () => updateStatus(false) },
+          { text: "Yes", onPress: () => navigation.navigate('DriverFeed', { user }) },
+        ]
+      );
     }
-    else if(status === false) {
-      navigation.navigate('DriverAccount', { user });
-    }
-
-  }, [status]);  
+  }, [status]);
 
   const fetchStatus = async () => {
     try {
