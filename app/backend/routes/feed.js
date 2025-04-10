@@ -16,10 +16,11 @@ router.get("/", async (req, res) => {
 // route to add a new feed post
 router.post("/", async (req, res) => {
     try {
-        const { passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration } = req.body; 
+        const { passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted } = req.body; 
         const result = await pool.query(
-            "INSERT INTO feed (passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *",
-            [passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration]
+            "INSERT INTO feed (passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted) " +
+            "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *",
+            [passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted]
         );
         res.json(result.rows[0]);
     } catch (err) {
