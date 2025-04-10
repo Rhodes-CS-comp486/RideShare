@@ -33,11 +33,11 @@ const App = () => {
           <Stack.Screen name="Post" component={CreatePostScreen} />
           <Stack.Screen name="Forgot" component={ForgotPasswordScreen} options={{ headerShown: false }} />
           <Stack.Screen name="DriverFeed" component={DriverFeedScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="DriverAccount" component={DriverAccountScreen} />
+          <Stack.Screen name="DriverAccount" component={DriverAccountScreen} options={{ headerShown: false }} />
           <Stack.Screen name="SetPreference" component={SetPreferenceScreen} options={{ headerShown: false }} />
           <Stack.Screen name="DriverChat" component={DriverChatScreen} options={{ headerShown: false }} />
           <Stack.Screen name="PassengerChat" component={PassengerChatScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="PassengerAccount" component={PassengerAccountScreen} />
+          <Stack.Screen name="PassengerAccount" component={PassengerAccountScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>
