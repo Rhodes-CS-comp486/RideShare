@@ -71,7 +71,7 @@ const FeedScreen = ({ navigation, route }) => {
         <TouchableOpacity onPress={() => console.log('Driver')}>
           <Image source={require('../assets/driver.png')} style={styles.icon} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Chat', { user: { rhodesid: user.rhodesid } })}>
+        <TouchableOpacity onPress={() => navigation.navigate('PassengerChat', { user: { rhodesid: user.rhodesid } })}>
           <Image source={require('../assets/chat.png')} style={styles.icon} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('PassengerAccount', { user: { rhodesid: user.rhodesid } })}>
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
   createPostButton: {
     backgroundColor: '#A62C2C',
     padding: 12,
-    borderRadius: 8,
+    borderRadius: 25,
     alignItems: 'center',
     marginBottom: 15,
     marginTop: 15,
