@@ -5,7 +5,9 @@ const router = express.Router();
 // route to get all feed posts
 router.get("/", async (req, res) => {
     try {
-        const result = await pool.query("SELECT * FROM feed");
+        const result = await pool.query("SELECT passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration " +
+            "FROM feed ORDER BY timeposted DESC");
+          
         res.json(result.rows);
     } catch (err) {
         console.error("Error fetching feed:", err);

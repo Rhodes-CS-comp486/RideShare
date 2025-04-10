@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Alert,ScrollView, Button } from 'react-native';
+import { View, TextInput, StyleSheet, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Alert,ScrollView } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Calendar } from 'react-native-calendars';
 import DatePicker from 'react-native-date-picker';
@@ -21,7 +21,6 @@ const CreatePostScreen = ({ navigation, route }) => {
     const [selectingPickup, setSelectingPickup] = useState(true);
     const [distance, setDistance] = useState('');
     const [duration, setDuration] = useState('');
-    const [mapKey, setMapKey] = useState(0);
     const { user } = route.params;
 
     const formatTimePosted = () => {
@@ -34,8 +33,6 @@ const CreatePostScreen = ({ navigation, route }) => {
             second: '2-digit',
         }).format(Date.now());
     }
-
-    const refreshMap = () => setMapKey((prevKey) => prevKey + 1);
 
     const fetchDistanceAndDuration = async () => {
         if (pickupLocation && dropoffLocation) {
@@ -99,16 +96,6 @@ const CreatePostScreen = ({ navigation, route }) => {
         });
     };
 
-    const handleMapPress = useCallback((e) => {
-        const coords = e.nativeEvent.coordinate;
-        if (selectingPickup) {
-            setPickupLocation(coords);
-        } else {
-            setDropoffLocation(coords);
-        }
-        refreshMap(); 
-    }, [selectingPickup]);
-
     const handlePost = async () => {
         console.log("Posting..."); 
     
@@ -126,11 +113,6 @@ const CreatePostScreen = ({ navigation, route }) => {
         }
         if (!payment) {
             setError("Please select a payment option.")
-            return;
-        }
-
-        if (!pickupLocation || !dropoffLocation) {
-            setError("Please select both pickup and dropoff locations.");
             return;
         }
 
