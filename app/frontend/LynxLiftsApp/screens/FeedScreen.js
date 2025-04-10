@@ -12,6 +12,7 @@ const FeedScreen = ({ navigation, route }) => {
   const fetchPosts = async () => {
     try {
       const response = await axios.get(`${API_URL}/api/feed`);
+      console.log("Fetched posts:", response.data); 
       setPosts(response.data);
     } 
     catch (error) {
