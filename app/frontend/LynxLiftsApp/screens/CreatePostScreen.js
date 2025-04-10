@@ -13,6 +13,7 @@ const CreatePostScreen = ({ navigation, route }) => {
     const [markedDates, setMarkedDates] = useState({});
     const [pickupTime, setPickupTime] = useState(null);
     const [openTimePicker, setOpenTimePicker] = useState(false);
+    const [rideState, setRideState] = useState(false);
     const [payment, setPayment] = useState('');
     const [error, setError] = useState('');
     const [pickupLocation, setPickupLocation] = useState(null);
@@ -258,6 +259,20 @@ const CreatePostScreen = ({ navigation, route }) => {
                         {pickupLocation && <Marker coordinate={pickupLocation} title="Pickup Location" pinColor="blue" />}
                         {dropoffLocation && <Marker coordinate={dropoffLocation} title="Dropoff Location" pinColor="red" />}
                     </MapView>
+                    {locationsFinalized && (
+                        <TouchableOpacity
+                            style={{width: '100%', alignItems: 'center', backgroundColor: '#A62C2C'}}
+                            onPress={() => {
+                                setPickupLocation(null);
+                                setDropoffLocation(null);
+                                setPromptText("Click on the map to select the pickup location");
+                                setSelectingPickup(true);
+                                setLocationsFinalized(false);
+                            }}
+                        >
+                            <Text style={styles.buttonText}>Reset</Text>
+                        </TouchableOpacity>
+                    )}
             </View>
                     <TouchableOpacity style={styles.button1} onPress={handlePost}>
                         <Text style={styles.buttonText}>Post</Text>
