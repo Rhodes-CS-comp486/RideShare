@@ -1,15 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { 
-    View, 
-    TextInput, 
-    StyleSheet, 
-    TouchableOpacity, 
-    Keyboard, 
-    TouchableWithoutFeedback, 
-    Alert,
-    ScrollView,
-    Button, 
-} from 'react-native';
+import { View, TextInput, StyleSheet, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Alert,ScrollView, Button } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Calendar } from 'react-native-calendars';
 import DatePicker from 'react-native-date-picker';
@@ -32,6 +22,7 @@ const CreatePostScreen = ({ navigation, route }) => {
     const [distance, setDistance] = useState('');
     const [duration, setDuration] = useState('');
     const [mapKey, setMapKey] = useState(0);
+    const { user } = route.params;
 
     const formatTimePosted = () => {
         return new Intl.DateTimeFormat('en-US', {
@@ -83,6 +74,12 @@ const CreatePostScreen = ({ navigation, route }) => {
             fetchDistanceAndDuration();
         }
     }, [pickupLocation, dropoffLocation]);
+
+    useEffect(() => {
+        if (user?.rhodesid) {
+            setPassengerRhodesID(user.rhodesid);
+        }
+    }, [user]);  
 
     const formatTimeSelection = (date) => {
         if (!date) return '';
