@@ -7,7 +7,8 @@ import {
     Keyboard, 
     TouchableWithoutFeedback, 
     Alert,
-    ScrollView, 
+    ScrollView,
+    Button, 
 } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Calendar } from 'react-native-calendars';
@@ -126,6 +127,11 @@ const CreatePostScreen = ({ navigation, route }) => {
             setError("Please pick a time to be picked up.");
             return;
         }
+        if (!payment) {
+            setError("Please select a payment option.")
+            return;
+        }
+
         if (!pickupLocation || !dropoffLocation) {
             setError("Please select both pickup and dropoff locations.");
             return;
@@ -219,13 +225,25 @@ const CreatePostScreen = ({ navigation, route }) => {
                     
                     {error ? <Text style={styles.errorText}>{error}</Text> : null}
                     
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Payment Type (e.g. Venmo, Cashapp, etc."
-                        placeholderTextColor="#FAF2E6"
-                        value={payment}
-                        onChangeText={setPayment}
-                    />
+                    <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', marginVertical: 10 }}>
+                        {['Venmo', 'Cashapp', 'PayPal', 'Zelle', 'Cash'].map((option) => (
+                            <TouchableOpacity
+                                key={option}
+                                style={[
+                                    styles.button2,
+                                    {
+                                        justifyContent: 'center',
+                                        margin: 5,
+                                        width: 100,
+                                        backgroundColor: payment === option ? '#8B0000' : '#BF4146',
+                                    }
+                                ]}
+                                onPress={() => setPayment(option)}
+                            >
+                                <Text style={{ color: '#FAF2E6', fontSize: 14, textAlign: 'center' }}>{option}</Text>
+                            </TouchableOpacity>
+                        ))}
+                    </View>
                 <View style={styles.mapContainer}>
                     <MapView
                         style={styles.map}
@@ -266,7 +284,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                             {selectingPickup ? "Set Dropoff Location" : "Set Pickup Location"}
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.button} onPress={handlePost}>
+                    <TouchableOpacity style={styles.button1} onPress={handlePost}>
                         <Text style={styles.buttonText}>Post</Text>
                     </TouchableOpacity>
                 </View>
@@ -283,6 +301,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 10,
     },
+
     input: {
         width: '90%',
         height: 40,
@@ -315,10 +334,18 @@ const styles = StyleSheet.create({
         flex: 1, 
     },
 
-    button: {
+    button1: {
         backgroundColor: '#A62C2C',
         width: '30%',
         paddingHorizontal: 22,
+        paddingVertical: 6,
+        borderRadius: 25,
+        alignItems: 'center',
+        marginTop: 10,
+    },
+
+    button2: {
+        width: '24%',
         paddingVertical: 6,
         borderRadius: 25,
         alignItems: 'center',
