@@ -30,7 +30,7 @@ const App = () => {
           <Stack.Screen name="Welcome" component={BufferScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Feed" component={FeedScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Status" component={StatusScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Post" component={CreatePostScreen} />
+          <Stack.Screen name="Post" component={CreatePostScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Forgot" component={ForgotPasswordScreen} options={{ headerShown: false }} />
           <Stack.Screen name="DriverFeed" component={DriverFeedScreen} options={{ headerShown: false }} />
           <Stack.Screen name="DriverAccount" component={DriverAccountScreen} options={{ headerShown: false }} />

@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, TextInput, StyleSheet, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Alert, ScrollView, SafeAreaView } from 'react-native';
+import { View, TextInput, StyleSheet, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Alert, ScrollView, SafeAreaView, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import { Calendar } from 'react-native-calendars';
 import DatePicker from 'react-native-date-picker';
+import { useNavigation } from '@react-navigation/native';
 import { Text } from 'react-native-gesture-handler';
 import axios from 'axios';
 import { API_KEY } from '@env';
@@ -15,7 +16,12 @@ const CreatePostScreen = ({ navigation, route }) => {
     const [openTimePicker, setOpenTimePicker] = useState(false);
     const [rideState, setRideState] = useState(false);
     const [payment, setPayment] = useState('');
-    const [error, setError] = useState('');
+    const [errors, setErrors] = useState({
+        pickupDate: '',
+        pickupTime: '',
+        payment: '',
+        locations: ''
+    });    
     const [pickupLocation, setPickupLocation] = useState(null);
     const [dropoffLocation, setDropoffLocation] = useState(null);
     const [distance, setDistance] = useState('');
@@ -118,26 +124,34 @@ const CreatePostScreen = ({ navigation, route }) => {
     };    
 
     const handlePost = async () => {
-        console.log("Posting..."); 
-    
+        let newErrors = { pickupDate: '', pickupTime: '', payment: '', locations: '' };
+        let hasError = false;
+
         if (!pickupDate) {
-            setError("Please select a date to be picked up.");
-            return;
+            newErrors.pickupDate = "Please select a date to be picked up.";
+            hasError = true;
         }
-    
+
         if (!pickupTime) {
-            setError("Please pick a time to be picked up.");
-            return;
+            newErrors.pickupTime = "Please pick a time to be picked up.";
+            hasError = true;
         }
-    
+
         if (!payment) {
-            setError("Please select a payment option.");
-            return;
+            newErrors.payment = "Please select a payment option.";
+            hasError = true;
         }
-    
+
         if (!pickupLocation || !dropoffLocation) {
-            setError("Please select both pickup and dropoff locations.");
+            newErrors.locations = "Please select both pickup and dropoff locations.";
+            hasError = true;
+        }
+
+        if (hasError) {
+            setErrors(newErrors);
             return;
+        } else {
+            setErrors({ pickupDate: '', pickupTime: '', payment: '', locations: '' });
         }
     
         // Get addresses
@@ -193,15 +207,40 @@ const CreatePostScreen = ({ navigation, route }) => {
             >
 
                 <SafeAreaView style={styles.container}>
-                    
+
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('Feed', { user: { rhodesid: user.rhodesid } })}
+                    style={{
+                        position: 'absolute',
+                        top: 64,
+                        left: 18,
+                        zIndex: 999,
+                        backgroundColor: '#FAF2E6',
+                        borderRadius: 16,
+                        padding: 6,
+                        shadowOffset: { width: 0, height: 2 },
+                        shadowOpacity: 0.1,
+                        shadowRadius: 4,
+                        elevation: 4,
+                    }}
+                    >
+                    <Image
+                        source={require('../assets/x.png')}
+                        style={{ width: 20, height: 20, tintColor: '#6683A9' }}
+                        resizeMode="contain"
+                    />
+                    </TouchableOpacity>
                     <TextInput 
-                        style={styles.input}
+                        style={[styles.input, { marginTop: 50 }]}
                         placeholder="Pickup Date (MM-DD-YYYY)" 
                         placeholderTextColor="#FAF2E6"
                         value={pickupDate}
                         editable={false}
                         
                     />
+                    {errors.pickupDate !== '' && (
+                        <Text style={styles.errorText}>{errors.pickupDate}</Text>
+                    )}
                     <View>
                         <Calendar 
                         style={styles.calendar}
@@ -217,7 +256,9 @@ const CreatePostScreen = ({ navigation, route }) => {
                         editable={false}
                         onPressIn={() => setOpenTimePicker(true)}
                     />
-                    
+                    {errors.pickupTime !== '' && (
+                        <Text style={styles.errorText}>{errors.pickupTime}</Text>
+                    )}
                     {/* Time Picker */}
                     <DatePicker
                         modal
@@ -230,10 +271,6 @@ const CreatePostScreen = ({ navigation, route }) => {
                         }}
                         onCancel={() => setOpenTimePicker(false)}
                     />
-
-                    
-                    {error ? <Text style={styles.errorText}>{error}</Text> : null}
-                    
                     <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', marginVertical: 10 }}>
                         {['Venmo', 'Cashapp', 'PayPal', 'Zelle', 'Cash'].map((option) => (
                             <TouchableOpacity
@@ -253,6 +290,9 @@ const CreatePostScreen = ({ navigation, route }) => {
                             </TouchableOpacity>
                         ))}
                     </View>
+                    {errors.payment !== '' && (
+                        <Text style={styles.errorText}>{errors.payment}</Text>
+                    )}
                     <Text style={{ color: '#FAF2E6', fontSize: 16, textAlign: 'center', marginBottom: 5 }}>
                         {promptText}
                     </Text>
@@ -306,6 +346,9 @@ const CreatePostScreen = ({ navigation, route }) => {
                         </TouchableOpacity>
                     )}
             </View>
+            {errors.locations !== '' && (
+                <Text style={styles.errorText}>{errors.locations}</Text>
+            )}
                     <TouchableOpacity style={styles.button1} onPress={handlePost}>
                         <Text style={styles.buttonText}>Post</Text>
                     </TouchableOpacity>
