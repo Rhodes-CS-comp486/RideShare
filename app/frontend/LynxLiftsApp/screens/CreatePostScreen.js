@@ -100,58 +100,90 @@ const CreatePostScreen = ({ navigation, route }) => {
         });
     };
 
+    const getAddressFromCoords = async (lat, lng) => {
+        try {
+            const response = await axios.get(
+                `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${API_KEY}`
+            );
+            if (response.data.status === 'OK') {
+                return response.data.results[0].formatted_address;
+            } else {
+                console.warn('Geocoding failed:', response.data.status);
+                return `Lat: ${lat}, Lng: ${lng}`; // fallback
+            }
+        } catch (error) {
+            console.error('Error with reverse geocoding:', error);
+            return `Lat: ${lat}, Lng: ${lng}`; // fallback
+        }
+    };    
+
     const handlePost = async () => {
         console.log("Posting..."); 
     
-        console.log("distance:", distance);
-        console.log("duration:", duration);
-
         if (!pickupDate) {
-            setError("Please select a date be picked up.")
+            setError("Please select a date to be picked up.");
             return;
         }
-
+    
         if (!pickupTime) {
             setError("Please pick a time to be picked up.");
             return;
         }
+    
         if (!payment) {
-            setError("Please select a payment option.")
+            setError("Please select a payment option.");
             return;
         }
-
-        if (!pickupLocation?.address || !dropoffLocation?.address) {
+    
+        if (!pickupLocation || !dropoffLocation) {
             setError("Please select both pickup and dropoff locations.");
             return;
         }
-
-        setError('');
-
-        try {
-            const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
-            const response = await axios.post(`${API_URL}/api/feed`, {
-                passengerrhodesid: passengerrhodesID,
-                pickuptime: pickupTime ? formatTimeSelection(pickupTime) : '',
-                pickuplocation: pickupLocation?.address,
-                dropofflocation: dropoffLocation?.address,
-                ridestate: rideState,
-                payment: payment,
-                pickupdate: pickupDate,
-                distance: distance,
-                duration: duration,
-                timeposted: formatTimePosted(),
-            });
-            
-            console.log("Post created:", response.data);
-            Alert.alert("Success", "Your ride post has been created!");
-
-            navigation.goBack();
-        }
-        catch (error) {
-            console.error("Error posting:", error);
-            Alert.alert("Error", "Failed to create post. Please try again.");
-        }
-    };
+    
+        // Get addresses
+        const pickupAddress = await getAddressFromCoords(pickupLocation.latitude, pickupLocation.longitude);
+        const dropoffAddress = await getAddressFromCoords(dropoffLocation.latitude, dropoffLocation.longitude);
+    
+        // Show confirmation alert
+        Alert.alert(
+            "Confirm Your Ride Details",
+            `Pickup location:\n${pickupAddress}\n\nDropoff location:\n${dropoffAddress}`,
+            [
+                {
+                    text: "Cancel",
+                    style: "cancel",
+                },
+                {
+                    text: "Confirm",
+                    onPress: async () => {
+                        setError('');
+                        try {
+                            const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
+                            const response = await axios.post(`${API_URL}/api/feed`, {
+                                passengerrhodesid: passengerrhodesID,
+                                pickuptime: pickupTime ? formatTimeSelection(pickupTime) : '',
+                                pickuplocation: pickupAddress,
+                                dropofflocation: dropoffAddress,
+                                ridestate: rideState,
+                                payment: payment,
+                                pickupdate: pickupDate,
+                                distance: distance,
+                                duration: duration,
+                                timeposted: formatTimePosted(),
+                            });
+    
+                            console.log("Post created:", response.data);
+                            Alert.alert("Success", "Your ride post has been created!");
+                            navigation.goBack();
+                        } catch (error) {
+                            console.error("Error posting:", error);
+                            Alert.alert("Error", "Failed to create post. Please try again.");
+                        }
+                    },
+                },
+            ]
+        );
+    };    
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
