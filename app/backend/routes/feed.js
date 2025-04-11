@@ -31,4 +31,19 @@ router.post("/", async (req, res) => {
     }
 });
 
+// delete post passengerrhodesid, pickupdate, and pickuptime
+router.delete("/:passengerrhodesid/:pickupdate/:pickuptime", async (req, res) => {
+    const { passengerrhodesid, pickupdate, pickuptime } = req.params;
+    try {
+        await pool.query(
+            "DELETE FROM feed WHERE passengerrhodesid = $1 AND pickupdate = $2 AND pickuptime = $3",
+            [passengerrhodesid, pickupdate, pickuptime]
+        );
+        res.json({ message: "Post deleted" });
+    } catch (err) {
+        console.error("Error deleting post:", err);
+        res.status(500).json({ error: "Server error" });
+    }
+});
+
 module.exports = router;

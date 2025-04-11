@@ -3,7 +3,6 @@ import { View, TextInput, StyleSheet, TouchableOpacity, Keyboard, TouchableWitho
 import MapView, { Marker } from 'react-native-maps';
 import { Calendar } from 'react-native-calendars';
 import DatePicker from 'react-native-date-picker';
-import { useNavigation } from '@react-navigation/native';
 import { Text } from 'react-native-gesture-handler';
 import axios from 'axios';
 import { API_KEY } from '@env';
@@ -33,16 +32,7 @@ const CreatePostScreen = ({ navigation, route }) => {
     const mapKey = `${pickupLocation?.latitude ?? 0}-${pickupLocation?.longitude ?? 0}-${dropoffLocation?.latitude ?? 0}-${dropoffLocation?.longitude ?? 0}`;
 
 
-    const formatTimePosted = () => {
-        return new Intl.DateTimeFormat('en-US', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-        }).format(Date.now());
-    }
+    const formatTimePosted = () => new Date().toISOString();
 
     const fetchDistanceAndDuration = async () => {
         if (pickupLocation && dropoffLocation) {
@@ -102,7 +92,7 @@ const CreatePostScreen = ({ navigation, route }) => {
         const formattedDate = `${month}-${dayOf}-${year}`;
         setPickupDate(formattedDate);
         setMarkedDates({
-            [day.dateString]: { selected: true, marked: true, selectedColor: 'blue' }
+            [day.dateString]: { selected: true, marked: true, selectedColor: '#BF4146' }
         });
     };
 
@@ -170,7 +160,6 @@ const CreatePostScreen = ({ navigation, route }) => {
                 {
                     text: "Confirm",
                     onPress: async () => {
-                        setError('');
                         try {
                             const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
                             const response = await axios.post(`${API_URL}/api/feed`, {
