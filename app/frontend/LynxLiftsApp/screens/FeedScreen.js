@@ -15,7 +15,18 @@ const FeedScreen = ({ navigation, route }) => {
     try {
       const response = await axios.get(`${API_URL}/api/feed`);
       console.log("Fetched posts:", response.data); 
-      setPosts(response.data.filter(post => !post.ridestate || post.passengerrhodesid === user.rhodesid));
+      const visiblePosts = response.data.filter(
+        post => !post.ridestate || post.passengerrhodesid === user.rhodesid
+      );
+      
+      // Sort so posts with ridestate === true and owned by user are first
+      visiblePosts.sort((a, b) => {
+        const aPriority = a.ridestate === true && a.passengerrhodesid === user.rhodesid ? 1 : 0;
+        const bPriority = b.ridestate === true && b.passengerrhodesid === user.rhodesid ? 1 : 0;
+        return bPriority - aPriority; // Sort descending
+      });
+      
+      setPosts(visiblePosts);      
     } 
     catch (error) {
       console.error("Error fetching posts:", error);

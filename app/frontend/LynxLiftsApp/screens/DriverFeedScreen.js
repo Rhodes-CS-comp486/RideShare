@@ -23,8 +23,13 @@ const DriverFeedScreen = ({ route }) => {
         (post.ridestate === false || (post.ridestate === true && post.driverid === user.rhodesid)) &&
         post.passengerrhodesid !== user.rhodesid
       ));
-      console.log('Filtered posts for feed:', filtered);
-      setPosts(filtered);
+      // Sort so accepted posts (driver's current rides) come first
+      filtered.sort((a, b) => {
+        const aPriority = a.ridestate === true && a.driverid === user.rhodesid ? 1 : 0;
+        const bPriority = b.ridestate === true && b.driverid === user.rhodesid ? 1 : 0;
+        return bPriority - aPriority; // Sort descending
+      });
+      setPosts(filtered);      
     } catch (error) {
       console.error("Error fetching posts:", error);
     }
