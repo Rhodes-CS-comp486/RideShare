@@ -15,7 +15,7 @@ const FeedScreen = ({ navigation, route }) => {
     try {
       const response = await axios.get(`${API_URL}/api/feed`);
       console.log("Fetched posts:", response.data); 
-      setPosts(response.data.filter(post => post.ridestate === false));
+      setPosts(response.data.filter(post => !post.ridestate || post.passengerrhodesid === user.rhodesid));
     } 
     catch (error) {
       console.error("Error fetching posts:", error);
@@ -74,7 +74,7 @@ const FeedScreen = ({ navigation, route }) => {
     return (
       <GestureDetector gesture={gesture}>
         <Animated.View style={[styles.swipeablePost, animatedStyle]}>
-          <View style={styles.post}>
+        <View style={[ styles.post, item.ridestate === true && item.passengerrhodesid === user.rhodesid && { backgroundColor: '#BF4146' } ]}>
             <Text style={styles.postText}>Rhodes ID: {item.passengerrhodesid}</Text>
             <Text style={styles.postText}>Pickup Date: {item.pickupdate}</Text>
             <Text style={styles.postText}>Pickup Time: {item.pickuptime}</Text>
@@ -165,7 +165,6 @@ const styles = StyleSheet.create({
     padding: 10, 
     borderBottomWidth: 1, 
     borderBottomColor: '#6683A9',
-    marginBottom: 10,
   },
   postText: {
     color: '#FAF2E6', 
