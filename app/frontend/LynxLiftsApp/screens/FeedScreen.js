@@ -15,7 +15,7 @@ const FeedScreen = ({ navigation, route }) => {
     try {
       const response = await axios.get(`${API_URL}/api/feed`);
       console.log("Fetched posts:", response.data); 
-      setPosts(response.data);
+      setPosts(response.data.filter(post => post.ridestate === false));
     } 
     catch (error) {
       console.error("Error fetching posts:", error);

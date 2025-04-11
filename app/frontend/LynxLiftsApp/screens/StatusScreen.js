@@ -19,7 +19,7 @@ const StatusScreen = ({ route }) => {
         "Do you want to view the ride feed?",
         [
           { text: "No", onPress: () => updateStatus(false) },
-          { text: "Yes", onPress: () => navigation.navigate('DriverFeed', { user }) },
+          { text: "Yes", onPress: () => navigation.navigate('DriverFeed', { user: { rhodesid: user.rhodesid } }) },
         ]
       );
     }
