@@ -65,7 +65,7 @@ const StatusScreen = ({ route }) => {
         My current status: {status === null ? "Loading . . ." : status ? "Online" : "Offline"}
       </Text>
       <TouchableOpacity
-      style={[styles.button, status ? styles.buttonActive : styles.onlineButton]}
+      style={[styles.button, status === true ? styles.buttonActive : styles.onlineButton]}
       onPress={() => updateStatus(true)}
       disabled={status === true}
       >
@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#A62C2C',
   },
   offlineButton: {
-    backgroundColor: '#A62C2C',
+    backgroundColor: '#BF4146',
   },
   buttonActive: {
     backgroundColor: '#BF4146',

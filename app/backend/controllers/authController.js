@@ -80,7 +80,12 @@ const register = async (req, res) => {
     const user = await User.create({ rhodesid, email, password: hashedPassword, username });
 
     // Generate verification link
-    const verificationLink = `http://localhost:5001/api/auth/verify?token=${rhodesid}`;
+    const emailToken = jwt.sign(
+      { rhodesid: user.rhodesid },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+    const verificationLink = `${process.env.BASE_URL}/api/auth/verify?token=${emailToken}`;    
 
     // Send verification email
     const transporter = nodemailer.createTransport({
@@ -126,19 +131,22 @@ const register = async (req, res) => {
 const verify = async (req, res) => {
   const { token } = req.query;
 
-  try {
-    // Update user's verification status
-    const query = 'UPDATE users SET is_verified = true WHERE rhodesid = $1 RETURNING *;';
-    const { rows } = await pool.query(query, [token]);
+try {
+  const decoded = jwt.verify(token, process.env.JWT_SECRET);
+  const rhodesid = decoded.rhodesid;
 
-    if (rows.length === 0) {
-      return res.status(404).json({ error: 'User not found.' });
-    }
+  const query = 'UPDATE users SET is_verified = true WHERE rhodesid = $1 RETURNING *;';
+  const { rows } = await pool.query(query, [rhodesid]);
 
-    res.status(200).json({ message: 'User verified successfully.' });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+  if (rows.length === 0) {
+    return res.status(404).json({ error: 'User not found.' });
   }
+
+  res.status(200).json({ message: 'User verified successfully.' });
+} catch (err) {
+  return res.status(400).json({ error: 'Invalid or expired token.' });
+}
+
 };
 
 const login = async (req, res) => {

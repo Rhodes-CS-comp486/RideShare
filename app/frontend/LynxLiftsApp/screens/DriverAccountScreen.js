@@ -11,16 +11,6 @@ const DriverAccountScreen = ({ route }) => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/stat/update-status`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ driverID: user.rhodesid, status: false }),
-      });
-
-      const data = await response.json();
-      console.log("Logout status update:", data.message);
 
       navigation.reset({
         index: 0,

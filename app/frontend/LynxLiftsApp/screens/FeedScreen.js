@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, SafeAreaView, Image } from 'react-native';
 import axios from 'axios';
+import Animated, { useSharedValue, useAnimatedStyle, withSpring, runOnJS } from 'react-native-reanimated';
+import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
 
@@ -19,6 +21,73 @@ const FeedScreen = ({ navigation, route }) => {
       console.error("Error fetching posts:", error);
     }
   };
+
+  const deletePost = async (item) => {
+    try {
+      const encodedPickupDate = encodeURIComponent(item.pickupdate);
+      const encodedPickupTime = encodeURIComponent(item.pickuptime);
+      const encodedRhodesId = encodeURIComponent(item.passengerrhodesid);
+  
+      const url = `${API_URL}/api/feed/${encodedRhodesId}/${encodedPickupDate}/${encodedPickupTime}`;
+      
+      await axios.delete(url);
+  
+      setPosts(prev => prev.filter(p =>
+        !(p.passengerrhodesid === item.passengerrhodesid &&
+          p.pickupdate === item.pickupdate &&
+          p.pickuptime === item.pickuptime)
+      ));
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  };  
+
+  const RenderPost = ({ item }) => {
+    const translateX = useSharedValue(0);
+    const threshold = -100;
+  
+    const animatedStyle = useAnimatedStyle(() => ({
+      transform: [{ translateX: translateX.value }],
+    }));
+  
+    const gesture = Gesture.Pan()
+      .onUpdate((e) => {
+        if (e.translationX < 0) {
+          translateX.value = e.translationX;
+        }
+      })
+      .onEnd(() => {
+        if (translateX.value < threshold) {
+          if (user.rhodesid === item.passengerrhodesid) {
+            translateX.value = withSpring(-500, {}, () => {
+              runOnJS(deletePost)(item);
+            });
+          } else {
+            // bounce back if user is not the post owner
+            translateX.value = withSpring(0);
+          }
+        } else {
+          translateX.value = withSpring(0);
+        }
+      });      
+  
+    return (
+      <GestureDetector gesture={gesture}>
+        <Animated.View style={[styles.swipeablePost, animatedStyle]}>
+          <View style={styles.post}>
+            <Text style={styles.postText}>Rhodes ID: {item.passengerrhodesid}</Text>
+            <Text style={styles.postText}>Pickup Date: {item.pickupdate}</Text>
+            <Text style={styles.postText}>Pickup Time: {item.pickuptime}</Text>
+            <Text style={styles.postText}>Pickup Location: {item.pickuplocation}</Text>
+            <Text style={styles.postText}>Dropoff Location: {item.dropofflocation}</Text>
+            <Text style={styles.postText}>Payment: {item.payment}</Text>
+            <Text style={styles.postText}>Distance: {item.distance}</Text>
+            <Text style={styles.postText}>Duration: {item.duration}</Text>
+          </View>
+        </Animated.View>
+      </GestureDetector>
+    );
+  };  
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -48,20 +117,10 @@ const FeedScreen = ({ navigation, route }) => {
       </TouchableOpacity>
 
       <FlatList
+        contentContainerStyle={{ paddingBottom: 100 }}
         data={posts}
         keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.post}>
-            <Text style={styles.postText}>Rhodes ID: {item.passengerrhodesid}</Text>
-            <Text style={styles.postText}>Pickup Date: {item.pickupdate}</Text>
-            <Text style={styles.postText}>Pickup Time: {item.pickuptime}</Text>
-            <Text style={styles.postText}>Pickup Location: {item.pickuplocation}</Text>
-            <Text style={styles.postText}>Dropoff Location: {item.dropofflocation}</Text>
-            <Text style={styles.postText}>Payment: {item.payment}</Text>
-            <Text style={styles.postText}>Distance: {item.distance}</Text>
-            <Text style={styles.postText}>Duration: {item.duration}</Text>
-          </View>
-        )}
+        renderItem={({ item }) => <RenderPost item={item} />}
       />
       
       <View style={styles.bottomBar}>
@@ -86,7 +145,8 @@ const styles = StyleSheet.create({
   container: { 
     flex: 1, 
     backgroundColor: '#80A1C2',
-    padding: 20,
+    paddingTop: 20,
+    paddingHorizontal: 20,
   },
   createPostButton: {
     backgroundColor: '#A62C2C',
@@ -127,7 +187,13 @@ const styles = StyleSheet.create({
     width: 30,
     height: 30,
     resizeMode: 'contain',
-  }  
+  },
+  swipeablePost: {
+    backgroundColor: '#6683A9',
+    borderRadius: 10,
+    overflow: 'hidden',
+    marginBottom: 10,
+  },   
 });
 
 export default FeedScreen;
