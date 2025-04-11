@@ -7,91 +7,152 @@ import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-g
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SWIPE_THRESHOLD = 0.3 * SCREEN_WIDTH;
-
 const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
-
-const SwipeableCard = ({ item, onAccept, onDecline }) => {
-  const translateX = useSharedValue(0);
-
-  const panGesture = Gesture.Pan()
-    .onUpdate((e) => {
-      translateX.value = e.translationX;
-    })
-    .onEnd(() => {
-      if (translateX.value > SWIPE_THRESHOLD) {
-        runOnJS(onAccept)();
-      } else if (translateX.value < -SWIPE_THRESHOLD) {
-        runOnJS(onDecline)();
-      }
-      translateX.value = withSpring(0);
-    });
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: translateX.value }],
-  }));
-
-  return (
-    <GestureDetector gesture={panGesture}>
-      <Animated.View style={[styles.post, animatedStyle]}>
-        <Text style={styles.postText}>Rhodes ID: {item.passengerrhodesid}</Text>
-        <Text style={styles.postText}>Pickup Time: {item.pickuptime}</Text>
-        <Text style={styles.postText}>Pickup Location: {item.pickuplocation}</Text>
-        <Text style={styles.postText}>Dropoff Location: {item.dropofflocation}</Text>
-        <Text style={styles.postText}>Payment: {item.payment}</Text>
-        <Text style={styles.postText}>Distance: {item.distance}</Text>
-        <Text style={styles.postText}>Duration: {item.duration}</Text>
-      </Animated.View>
-    </GestureDetector>
-  );
-};
 
 const DriverFeedScreen = ({ route }) => {
   const { user } = route.params;
   const navigation = useNavigation();
   const [posts, setPosts] = useState([]);
+  const [declined, setDeclined] = useState([]);
 
   const fetchPosts = async () => {
     try {
       const response = await axios.get(`${API_URL}/api/feed`);
-      setPosts(response.data);
+      console.log('All posts from backend:', response.data);
+      const filtered = response.data.filter(post => (
+        (post.ridestate === false || (post.ridestate === true && post.driverid === user.rhodesid)) &&
+        post.passengerrhodesid !== user.rhodesid
+      ));
+      console.log('Filtered posts for feed:', filtered);
+      setPosts(filtered);
     } catch (error) {
       console.error("Error fetching posts:", error);
     }
   };
 
   useEffect(() => {
-    fetchPosts();
-  }, []);
+    // Alert.alert("Logged in as", user.rhodesid);
+    const unsubscribe = navigation.addListener('focus', fetchPosts);
+    return unsubscribe;
+  }, [navigation]);
 
-  const handleAccept = () => {
-    Alert.alert("Accepted", "Ride request has been accepted!");
+  const promptCancel = (item) => {
+    Alert.alert(
+      "Cancel Ride",
+      "Do you want to cancel the ride?",
+      [
+        { text: "No", style: "cancel" },
+        { text: "Yes", onPress: () => cancelRide(item) }
+      ]
+    );
   };
 
-  const handleDecline = () => {
-    Alert.alert("Declined", "Ride request has been declined.");
+  const acceptPost = async (item) => {
+    try {
+      await axios.put(`${API_URL}/api/feed/accept`, {
+        passengerrhodesid: item.passengerrhodesid,
+        pickupdate: item.pickupdate,
+        pickuptime: item.pickuptime,
+        driverid: user.rhodesid
+      });
+      setPosts(prev => prev.map(p => {
+        if (
+          p.passengerrhodesid === item.passengerrhodesid &&
+          p.pickupdate === item.pickupdate &&
+          p.pickuptime === item.pickuptime
+        ) {
+          return { ...p, ridestate: true, driverid: user.rhodesid };
+        }
+        return p;
+      }));
+    } catch (err) {
+      console.error("Accept failed:", err);
+    }
+  };
+
+  const cancelRide = async (item) => {
+    try {
+      await axios.put(`${API_URL}/api/feed/cancel`, {
+        passengerrhodesid: item.passengerrhodesid,
+        pickupdate: item.pickupdate,
+        pickuptime: item.pickuptime
+      });
+      setPosts(prev => prev.map(p => {
+        if (
+          p.passengerrhodesid === item.passengerrhodesid &&
+          p.pickupdate === item.pickupdate &&
+          p.pickuptime === item.pickuptime
+        ) {
+          return { ...p, ridestate: false, driverid: null };
+        }
+        return p;
+      }));
+    } catch (err) {
+      console.error("Cancel ride failed:", err);
+    }
+  };
+
+  const declinePost = (item) => {
+    const idKey = `${item.passengerrhodesid}-${item.pickupdate}-${item.pickuptime}`;
+    setDeclined(prev => [...prev, idKey]);
+  };
+
+  const SwipeableCard = ({ item }) => {
+    const translateX = useSharedValue(0);
+    const postKey = `${item.passengerrhodesid}-${item.pickupdate}-${item.pickuptime}`;
+
+    const panGesture = Gesture.Pan()
+      .onUpdate((e) => {
+        translateX.value = e.translationX;
+      })
+      .onEnd(() => {
+        if (translateX.value > SWIPE_THRESHOLD) {
+          runOnJS(acceptPost)(item);
+        } else if (translateX.value < -SWIPE_THRESHOLD) {
+          if (item.ridestate === true && item.driverid === user.rhodesid) {
+            runOnJS(promptCancel)(item);
+          } else {
+            runOnJS(declinePost)(item);
+          }
+        }
+        translateX.value = withSpring(0);
+      });
+
+    const animatedStyle = useAnimatedStyle(() => ({
+      transform: [{ translateX: translateX.value }],
+    }));
+
+    if (declined.includes(postKey)) return null;
+
+    return (
+      <GestureDetector gesture={panGesture}>
+        <Animated.View style={[styles.post, item.ridestate === true && item.driverid === user.rhodesid ? styles.acceptedPost : {}, animatedStyle]}>
+          <Text style={styles.postText}>Rhodes ID: {item.passengerrhodesid}</Text>
+          <Text style={styles.postText}>Pickup Time: {item.pickuptime}</Text>
+          <Text style={styles.postText}>Pickup Location: {item.pickuplocation}</Text>
+          <Text style={styles.postText}>Dropoff Location: {item.dropofflocation}</Text>
+          <Text style={styles.postText}>Payment: {item.payment}</Text>
+          <Text style={styles.postText}>Distance: {item.distance}</Text>
+          <Text style={styles.postText}>Duration: {item.duration}</Text>
+        </Animated.View>
+      </GestureDetector>
+    );
   };
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaView style={styles.container}>
-
         <FlatList
           data={posts}
           keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <SwipeableCard
-              item={item}
-              onAccept={handleAccept}
-              onDecline={handleDecline}
-            />
-          )}
+          renderItem={({ item }) => <SwipeableCard item={item} />}
         />
 
         <View style={styles.bottomBar}>
           <TouchableOpacity onPress={() => navigation.navigate('DriverFeed', { user: { rhodesid: user.rhodesid } })}>
             <Image source={require('../assets/home.png')} style={styles.icon} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log('Driver')}>
+          <TouchableOpacity onPress={() => console.log('Driver')}> 
             <Image source={require('../assets/payment.png')} style={styles.icon} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('DriverChat', { user: { rhodesid: user.rhodesid } })}>
@@ -117,7 +178,12 @@ const styles = StyleSheet.create({
     padding: 10, 
     borderBottomWidth: 1, 
     borderBottomColor: '#6683A9',
-    marginBottom: 10 
+    marginBottom: 10,
+    backgroundColor: '#6683A9',
+    borderRadius: 10,
+  },
+  acceptedPost: {
+    backgroundColor: '#BF4146',
   },
   postText: {
     color: '#FAF2E6', 
