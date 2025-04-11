@@ -235,6 +235,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                         style={styles.calendar}
                         onDayPress={handleDayPress}
                         markedDates={markedDates}
+                        minDate={new Date().toISOString().split('T')[0]} 
                         />
                     </View>
                     <TextInput 
