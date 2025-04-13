@@ -3,6 +3,7 @@ import { SafeAreaView, TextInput, TouchableOpacity, Text, Image, StyleSheet, Vie
 import axios from 'axios';
 import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { sendTokenToBackend } from '../notificationService';
 //import { useFonts } from 'expo-font';
 //import { Poppins_400Regular } from '@expo-google-fonts/poppins'; 
 
@@ -39,6 +40,10 @@ const RegisterScreen = () => {
         throw new Error("No response from server");
       }
       const { rhodesid } = response.data;
+
+      //Send token to backend
+      await sendTokenToBackend(rhodesid);
+
       Alert.alert("User registered", "Verification email sent.");
       navigation.navigate('Login', {user: { username, rhodesid } });
 

@@ -3,6 +3,7 @@ import { SafeAreaView, TextInput, TouchableOpacity, Text, Image, StyleSheet, Vie
 import axios from 'axios';
 import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { sendTokenToBackend } from '../notificationService';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -24,6 +25,12 @@ const LoginScreen = () => {
       }
 
       const { username, rhodesid } = response.data;
+      
+      console.log(rhodesid);
+      //send token to backend after login
+      await sendTokenToBackend(rhodesid);
+      
+
       alert("Login Successful");
       navigation.navigate('Welcome', { user: { username, rhodesid } });
 
