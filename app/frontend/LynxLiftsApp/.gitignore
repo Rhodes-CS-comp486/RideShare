@@ -38,6 +38,7 @@ local.properties
 apikey.properties
 config.js
 .env
+google-services.json
 
 # node.js
 #
