@@ -7,6 +7,8 @@ const cors = require('cors');
 const authRoutes = require('./routes/auth');
 const statRoutes = require('./routes/stat');
 const feedRoutes = require('./routes/feed');
+const tokenRoutes = require('./routes/token');
+const notifyUpcomingRides = require('./notifyUpcomingRides');
 const app = express();
 
 app.use(express.urlencoded({ extended: true })); // for HTML form body
@@ -19,6 +21,13 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/stat', statRoutes);
 app.use('/api/feed', feedRoutes);
+app.use('/api/token', tokenRoutes);
+
+// Schedule notification every minute
+setInterval(() => {
+  notifyUpcomingRides();
+}, 60 * 1000);
+
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
