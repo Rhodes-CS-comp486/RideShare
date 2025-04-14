@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { API_URL } from '@env'
 
 const StatusScreen = ({ route }) => {
   const navigation = useNavigation();
   const { user } = route.params;
   const driverID = user.rhodesid;
   const [status, setStatus] = useState(null);
-  const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
-
+  
   useEffect(() => {
     fetchStatus();
   }, []);

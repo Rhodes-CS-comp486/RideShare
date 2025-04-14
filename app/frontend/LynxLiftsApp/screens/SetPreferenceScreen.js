@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { useNavigation } from '@react-navigation/native';
+import { API_URL } from '@env'
 
 const SetPreferenceScreen = ({ route }) => {
   const navigation = useNavigation();
   const [radius, setRadius] = useState('');
   const [time, setTime] = useState('');
-  const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
+  
 
   const savePreferences = async () => {
     const driverid = route?.params?.user?.rhodesid;
