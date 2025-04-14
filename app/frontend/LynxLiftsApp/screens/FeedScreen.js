@@ -3,8 +3,7 @@ import { View, Text, TouchableOpacity, FlatList, StyleSheet, SafeAreaView, Image
 import axios from 'axios';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, runOnJS } from 'react-native-reanimated';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
-
-const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
+import { API_URL } from '@env'
 
 const FeedScreen = ({ navigation, route }) => {
   const { user } = route.params;

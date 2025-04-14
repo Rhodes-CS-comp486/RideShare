@@ -161,7 +161,6 @@ const CreatePostScreen = ({ navigation, route }) => {
                     text: "Confirm",
                     onPress: async () => {
                         try {
-                            const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
                             const response = await axios.post(`${API_URL}/api/feed`, {
                                 passengerrhodesid: passengerrhodesID,
                                 pickuptime: pickupTime ? formatTimeSelection(pickupTime) : '',

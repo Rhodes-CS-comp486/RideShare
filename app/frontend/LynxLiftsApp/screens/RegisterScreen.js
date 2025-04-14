@@ -3,6 +3,8 @@ import { SafeAreaView, TextInput, TouchableOpacity, Text, Image, StyleSheet, Vie
 import axios from 'axios';
 import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { API_URL } from '@env'
+
 //import { useFonts } from 'expo-font';
 //import { Poppins_400Regular } from '@expo-google-fonts/poppins'; 
 
@@ -27,9 +29,6 @@ const RegisterScreen = () => {
       return;
     }
     try {
-
-      const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
-
       const response = await axios.post(`${API_URL}/api/auth/register`, {
         email,
         password,

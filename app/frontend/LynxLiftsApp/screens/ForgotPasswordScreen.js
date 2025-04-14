@@ -3,6 +3,7 @@ import { SafeAreaView, TextInput, TouchableOpacity, Text, StyleSheet, Alert } fr
 import axios from 'axios';
 import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { API_URL } from '@env'
 
 const ForgotPasswordScreen = () => {
   const [email, setEmail] = useState('');
@@ -10,8 +11,6 @@ const ForgotPasswordScreen = () => {
 
   const handleResetPassword = async () => {
     try {
-      const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
-      
       console.log("Sending request to:", `${API_URL}/api/auth/forgot-password`);
   
       const response = await axios.post(`${API_URL}/api/auth/forgot-password`, { 

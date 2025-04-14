@@ -3,6 +3,7 @@ import { SafeAreaView, TextInput, TouchableOpacity, Text, Image, StyleSheet, Vie
 import axios from 'axios';
 import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { API_URL } from '@env'
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
@@ -12,8 +13,6 @@ const LoginScreen = () => {
 
   const handleLogin = async () => {
     try {
-      const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
-
       const response = await axios.post(`${API_URL}/api/auth/login`, {
         email,
         password,
@@ -29,7 +28,22 @@ const LoginScreen = () => {
 
     } catch (error) {
       console.error("Login failed:", error);
-      Alert.alert('Login Failed', error.response?.data?.error || 'Invalid email or password, please try again.');
+      if (error.response) {
+        console.log('Response data:', error.response.data);
+        console.log('Response status:', error.response.status);
+        console.log('Response headers:', error.response.headers);
+      } 
+      
+      else if (error.request) {
+        console.log('No response received:', error.request);
+      
+      } 
+      
+      else {
+        console.log('Error setting up request:', error.message);
+      }
+
+  Alert.alert('Login Failed', error.response?.data?.error || 'Something went wrong. Please try again.');
     }
   };
 

@@ -4,10 +4,10 @@ import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, runOnJS } from 'react-native-reanimated';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { API_URL } from '@env'
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SWIPE_THRESHOLD = 0.3 * SCREEN_WIDTH;
-const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
 
 const DriverFeedScreen = ({ route }) => {
   const { user } = route.params;
