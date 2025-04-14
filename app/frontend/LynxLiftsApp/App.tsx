@@ -17,6 +17,7 @@ import SetPreferenceScreen from './screens/SetPreferenceScreen';
 import PassengerAccountScreen from './screens/PassengerAccountScreen';
 import PassengerChatScreen from './screens/PassengerChatScreen';
 import DriverChatScreen from './screens/ChatScreen';
+import BrowseDrivers from './screens/BrowseDrivers';
 
 const Stack = createStackNavigator();
 
@@ -38,6 +39,7 @@ const App = () => {
           <Stack.Screen name="DriverChat" component={DriverChatScreen} options={{ headerShown: false }} />
           <Stack.Screen name="PassengerChat" component={PassengerChatScreen} options={{ headerShown: false }} />
           <Stack.Screen name="PassengerAccount" component={PassengerAccountScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="Browse" component={BrowseDrivers} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>
