@@ -15,7 +15,18 @@ const FeedScreen = ({ navigation, route }) => {
     try {
       const response = await axios.get(`${API_URL}/api/feed`);
       console.log("Fetched posts:", response.data); 
-      setPosts(response.data.filter(post => post.ridestate === false));
+      const visiblePosts = response.data.filter(
+        post => !post.ridestate || post.passengerrhodesid === user.rhodesid
+      );
+      
+      // Sort so posts with ridestate === true and owned by user are first
+      visiblePosts.sort((a, b) => {
+        const aPriority = a.ridestate === true && a.passengerrhodesid === user.rhodesid ? 1 : 0;
+        const bPriority = b.ridestate === true && b.passengerrhodesid === user.rhodesid ? 1 : 0;
+        return bPriority - aPriority; // Sort descending
+      });
+      
+      setPosts(visiblePosts);      
     } 
     catch (error) {
       console.error("Error fetching posts:", error);
@@ -74,7 +85,7 @@ const FeedScreen = ({ navigation, route }) => {
     return (
       <GestureDetector gesture={gesture}>
         <Animated.View style={[styles.swipeablePost, animatedStyle]}>
-          <View style={styles.post}>
+        <View style={[ styles.post, item.ridestate === true && item.passengerrhodesid === user.rhodesid && { backgroundColor: '#BF4146' } ]}>
             <Text style={styles.postText}>Rhodes ID: {item.passengerrhodesid}</Text>
             <Text style={styles.postText}>Pickup Date: {item.pickupdate}</Text>
             <Text style={styles.postText}>Pickup Time: {item.pickuptime}</Text>
@@ -165,7 +176,6 @@ const styles = StyleSheet.create({
     padding: 10, 
     borderBottomWidth: 1, 
     borderBottomColor: '#6683A9',
-    marginBottom: 10,
   },
   postText: {
     color: '#FAF2E6', 
