@@ -51,9 +51,7 @@ const RegisterScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        <Image source={require('../assets/tire.png')} style={styles.tireImage} />
-        <Image source={require('../assets/car.png')} style={styles.carImage} />
-        <Text style={styles.title}>Welcome to LynxLifts</Text>
+        <Image source={require('../assets/12.png')} style={styles.carImage} />
       </View>
 
       <TextInput
@@ -106,7 +104,7 @@ const RegisterScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#80A1C2',
+    backgroundColor: '#6683A9',
     padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
@@ -124,9 +122,8 @@ const styles = StyleSheet.create({
     marginBottom: -10,
   },
   carImage: {
-    width: 100,
-    height: 100,
-    zIndex: 1,
+    width: 150,
+    height: 150,
     marginTop: -20,
   },
   tireImage: {
@@ -136,16 +133,6 @@ const styles = StyleSheet.create({
     zIndex: 0,
     opacity: 0.6,
     transform: [{ rotate: '90deg' }],
-  },
-  title: {
-    fontSize: 32,
-    color: '#FAF2E6',
-    fontWeight: 'bold',
-    marginBottom: 20,
-    textShadowColor: 'rgba(0, 0, 0, 0.5)',
-    textShadowOffset: { width: -1, height: 1 },
-    textShadowRadius: 10,
-    fontFamily: 'Poppins_400Regular',
   },
   input: {
     width: '90%',
