@@ -1,6 +1,8 @@
 import messaging from '@react-native-firebase/messaging';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
+import { API_URL } from '@env'
+
 
 const getAndStoreToken = async () => {
   const authStatus = await messaging().requestPermission();
@@ -11,7 +13,7 @@ const getAndStoreToken = async () => {
   if (enabled) {
     const token = await messaging().getToken();
     if (token) {
-      await AsyncStorage.setItem('fcmToken', token);
+      await AsyncStorage.setItem('fcmtoken', token);
       console.log('Stored FCM Token:', token);
     }
   } else {
@@ -21,15 +23,14 @@ const getAndStoreToken = async () => {
 
 // Send token to backend once user is logged in
 export const sendTokenToBackend = async (userId) => {
-  const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
-  const token = await AsyncStorage.getItem('fcmToken');
+  const token = await AsyncStorage.getItem('fcmtoken');
   
   if (token) {
     try {
       const response = await fetch(`${API_URL}/api/token/save-token`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ rhodesid: userId, fcmToken: token }),
+        body: JSON.stringify({ rhodesid: userId, fcmtoken: token }),
       });
 
       if (!response.ok) {
@@ -75,7 +76,7 @@ const handleNotificationOpen = () => {
 //Auto-update token if it changes
 const handleTokenRefresh = () => {
   messaging().onTokenRefresh(async (newToken) => {
-    await AsyncStorage.setItem('fcmToken', newToken);
+    await AsyncStorage.setItem('fcmtoken', newToken);
     console.log('FCM token refreshed:', newToken);
     // Optional: If the user is logged in, re-send to backend
   });

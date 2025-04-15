@@ -6,6 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 import { API_URL } from '@env'
 import { sendTokenToBackend } from '../notificationService';
 
+console.log(API_URL);
+
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -26,11 +28,12 @@ const LoginScreen = () => {
       const { username, rhodesid } = response.data;
       
       console.log(rhodesid);
+     
       //send token to backend after login
       await sendTokenToBackend(rhodesid);
       
-
       alert("Login Successful");
+
       navigation.navigate('Welcome', { user: { username, rhodesid } });
 
     } catch (error) {
