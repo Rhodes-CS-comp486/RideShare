@@ -33,6 +33,7 @@ const DriverAccountScreen = ({ route }) => {
     { label: 'Bio', key: 'notes' },
     { label: 'Pronouns', key: 'pronouns' },
     { label: 'Pet Friendly', key: 'pet_friendly' },
+    { label: 'Major', key: 'major' },
   ];
 
   useEffect(() => {
