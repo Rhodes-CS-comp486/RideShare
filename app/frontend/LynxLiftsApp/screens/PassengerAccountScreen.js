@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert, Platform, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert, Platform, SafeAreaView, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -20,16 +20,16 @@ const PassengerAccountScreen = ({ route }) => {
     { label: 'Bio', key: 'bio' },
   ];
 
-  const fetchProfile = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/api/passenger/${user.rhodesid}/profile`); // API DOES NOT EXIST
-      setProfile(response.data);
-    } catch (error) {
-      console.error('Error fetching passenger profile:', error);
-    }
-  };
-
   useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/api/auth/passenger/${user.rhodesid}/bio`);
+        setProfile(response.data);
+      } catch (error) {
+        console.error('Error fetching passenger profile:', error);
+      }
+    };
+
     fetchProfile();
   }, []);
 
@@ -39,21 +39,14 @@ const PassengerAccountScreen = ({ route }) => {
     setEditingField(null);
 
     try {
-      await axios.put(`${API_URL}/api/passenger/${user.rhodesid}/profile`, updated); // API DOES NOT EXIST
+      await axios.put(`${API_URL}/api/auth/passenger/${user.rhodesid}/bio`, updated);
     } catch (error) {
-      console.error('Error saving field:', error);
+      console.error('Error saving passenger field:', error);
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Login' }],
-      });
-    } catch (error) {
-      Alert.alert("Error", "Failed to log out.");
-    }
+  const handleLogout = () => {
+    navigation.reset({ index: 0, routes: [{ name: 'Login' }] });
   };
 
   const renderField = ({ label, key }) => (
@@ -86,54 +79,41 @@ const PassengerAccountScreen = ({ route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.profileHeader}>
-        <View style={styles.profilePicContainer}>
-          <Image
-            source={ 'PLACEHOLDER' } // NEED TO UPDATE
-            style={styles.profileImage}
-          />
-          <TouchableOpacity style={styles.editPicButton}>
-            <Text style={styles.editText}>Edit</Text>
-          </TouchableOpacity>
+      <ScrollView>
+        <View style={styles.profileHeader}>
+          <View style={styles.profilePicContainer}>
+            <Image
+              source={{ uri: profile.profile_picture || 'https://via.placeholder.com/100' }}
+              style={styles.profileImage}
+            />
+            <TouchableOpacity style={styles.editPicButton}>
+              <Text style={styles.editText}>Edit</Text>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.name}>{profile.name || 'Passenger'}</Text>
+          <Text style={styles.sub}>
+            {profile.class_year || 'Class Year'} · {profile.major || 'Major'}
+          </Text>
         </View>
-        <Text style={styles.name}>{profile.name || 'Passenger'}</Text>
-        <Text style={styles.sub}>
-          {profile.class_year || 'Class Year'} · {profile.major || 'Major'}
-        </Text>
-      </View>
 
-      <View style={styles.detailsContainer}>
-        {fields.map(renderField)}
-      </View>
+        <View style={styles.detailsContainer}>
+          {fields.map(renderField)}
+        </View>
 
-      <TouchableOpacity 
-        style={styles.button} 
-        onPress={() => navigation.navigate('Status', { user })}
+        <TouchableOpacity 
+          style={styles.button} 
+          onPress={() => navigation.navigate('DriverAccount', { user })}
         >
-        <Text style={styles.buttonText}>Switch to Driver</Text>
-      </TouchableOpacity>
+          <Text style={styles.buttonText}>Switch to Driver</Text>
+        </TouchableOpacity>
 
-      <TouchableOpacity 
-        style={[styles.button, styles.logoutButton]} 
-        onPress={handleLogout}
-      >
-        <Text style={styles.buttonText}>Log Out</Text>
-      </TouchableOpacity>
-
-       <View style={styles.bottomBar}>
-          <TouchableOpacity onPress={() => navigation.navigate('Feed', { user: { rhodesid: user.rhodesid } })}>
-            <Image source={require('../assets/home.png')} style={styles.icon} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log('Driver')}>
-            <Image source={require('../assets/driver.png')} style={styles.icon} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('PassengerChat', { user: { rhodesid: user.rhodesid } })}>
-            <Image source={require('../assets/chat.png')} style={styles.icon} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('PassengerAccount', { user: { rhodesid: user.rhodesid } })}>
-            <Image source={require('../assets/setting.png')} style={styles.icon} />
-          </TouchableOpacity>
-        </View>
+        <TouchableOpacity 
+          style={[styles.button, styles.logoutButton]} 
+          onPress={handleLogout}
+        >
+          <Text style={styles.buttonText}>Log Out</Text>
+        </TouchableOpacity>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -222,29 +202,11 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     backgroundColor: '#A62C2C',
-    borderRadius: 25,
   },
   buttonText: {
     color: '#FAF2E6',
     fontSize: 16,
     fontWeight: '600',
-  },
-  bottomBar: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: '#6683A9',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    paddingVertical: 10,
-    paddingBottom: 50,
-  },
-  icon: {
-    width: 30,
-    height: 30,
-    resizeMode: 'contain',
   },
 });
 

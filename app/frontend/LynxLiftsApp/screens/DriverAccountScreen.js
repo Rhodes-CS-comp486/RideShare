@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert, Platform, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert, Platform, SafeAreaView, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 
@@ -8,19 +8,6 @@ const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://loc
 const DriverAccountScreen = ({ route }) => {
   const { user } = route.params;
   const navigation = useNavigation();
-
-  const handleLogout = async () => {
-    try {
-
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Login' }],
-      });
-    } catch (error) {
-      console.error("Error logging out:", error);
-      Alert.alert("Error", "Failed to log out. Please try again.");
-    }
-  };
 
   const [bio, setBio] = useState({});
   const [editingField, setEditingField] = useState(null);
@@ -31,7 +18,7 @@ const DriverAccountScreen = ({ route }) => {
     { label: 'Car Make & Model', key: 'car_make_model' },
     { label: 'Car Color', key: 'car_color' },
     { label: 'License Plate', key: 'license_plate' },
-    { label: 'Bio', key: 'notes' },
+    { label: 'Bio', key: 'bio' },
     { label: 'Pronouns', key: 'pronouns' },
     { label: 'Pet Friendly', key: 'pet_friendly' },
   ];
@@ -39,7 +26,7 @@ const DriverAccountScreen = ({ route }) => {
   useEffect(() => {
     const fetchBio = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/driver/${user.rhodesid}/profile`); // API DOES NOT EXIST
+        const response = await axios.get(`${API_URL}/api/auth/driver/${user.rhodesid}/bio`);
         setBio(response.data);
       } catch (error) {
         console.error('Error fetching bio:', error);
@@ -55,7 +42,7 @@ const DriverAccountScreen = ({ route }) => {
     setEditingField(null);
 
     try {
-      await axios.put(`${API_URL}/api/driver/${user.rhodesid}/profile`, updated); // API DOES NOT EXIST
+      await axios.put(`${API_URL}/api/auth/driver/${user.rhodesid}/bio`, updated);
     } catch (error) {
       console.error('Error saving field:', error);
     }
@@ -91,61 +78,48 @@ const DriverAccountScreen = ({ route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.profileHeader}>
-        <View style={styles.profilePicContainer}>
-          <Image
-            source={'PLACEHOLDER'} // NEED TO UPDATE
-            style={styles.profileImage}
-          />
-          <TouchableOpacity style={styles.editPicButton}>
-            <Text style={styles.editText}>Edit</Text>
-          </TouchableOpacity>
+      <ScrollView>
+        <View style={styles.profileHeader}>
+          <View style={styles.profilePicContainer}>
+            <Image
+              source={{ uri: bio.profile_picture || 'https://via.placeholder.com/100' }}
+              style={styles.profileImage}
+            />
+            <TouchableOpacity style={styles.editPicButton}>
+              <Text style={styles.editText}>Edit</Text>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.driverName}>{bio.name || 'Driver'}</Text>
+          <Text style={styles.driverSub}>
+            {bio.class_year || 'Class Year'} · {bio.car_make_model || 'Car Model'}
+          </Text>
         </View>
-        <Text style={styles.driverName}>{bio.name || 'Driver'}</Text>
-        <Text style={styles.driverSub}>
-          {bio.class_year || 'Class Year'} · {bio.car_make_model || 'Car Model'}
-        </Text>
-      </View>
 
-      <View style={styles.detailsContainer}>
-        {fields.map(renderField)}
-      </View>
+        <View style={styles.detailsContainer}>
+          {fields.map(renderField)}
+        </View>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate('SetPreference', { user: { rhodesid: user.rhodesid } })}
-      >
-        <Text style={styles.buttonText}>Set Radius</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity 
-        style={styles.button} 
-        onPress={() => navigation.navigate('Feed', { user })}
-      >
-        <Text style={styles.buttonText}>Switch to Passenger</Text>
-       </TouchableOpacity>
-
-      <TouchableOpacity 
-        style={[styles.button, styles.logoutButton]} 
-        onPress={handleLogout}
-      >
-        <Text style={styles.buttonText}>Log Out</Text>
-      </TouchableOpacity>
-
-      <View style={styles.bottomBar}>
-        <TouchableOpacity onPress={() => navigation.navigate('DriverFeed', { user: { rhodesid: user.rhodesid } })}>
-          <Image source={require('../assets/home.png')} style={styles.icon} />
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => navigation.navigate('SetPreference', { user: { rhodesid: user.rhodesid } })}
+        >
+          <Text style={styles.buttonText}>Set Radius</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log('Driver')}>
-          <Image source={require('../assets/payment.png')} style={styles.icon} />
+
+        <TouchableOpacity 
+          style={styles.button} 
+          onPress={() => navigation.navigate('Feed', { user })}
+        >
+          <Text style={styles.buttonText}>Switch to Passenger</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('DriverChat', { user: { rhodesid: user.rhodesid } })}>
-          <Image source={require('../assets/chat.png')} style={styles.icon} />
+
+        <TouchableOpacity 
+          style={[styles.button, styles.logoutButton]} 
+          onPress={() => navigation.reset({ index: 0, routes: [{ name: 'Login' }] })}
+        >
+          <Text style={styles.buttonText}>Log Out</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('DriverAccount', { user: { rhodesid: user.rhodesid } })}>
-          <Image source={require('../assets/setting.png')} style={styles.icon} />
-        </TouchableOpacity>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -234,29 +208,11 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     backgroundColor: '#A62C2C',
-    borderRadius: 25,
   },
   buttonText: {
     color: '#FAF2E6',
     fontSize: 16,
     fontWeight: '600',
-  },
-  bottomBar: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: '#6683A9',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    paddingVertical: 10,
-    paddingBottom: 50,
-  },
-  icon: {
-    width: 30,
-    height: 30,
-    resizeMode: 'contain',
   },
 });
 
