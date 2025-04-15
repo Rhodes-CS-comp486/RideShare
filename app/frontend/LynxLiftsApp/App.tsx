@@ -19,15 +19,30 @@ import PassengerChatScreen from './screens/PassengerChatScreen';
 import DriverChatScreen from './screens/ChatScreen';
 import BrowseDrivers from './screens/BrowseDrivers';
 
+import { setupNotificationHandlers } from './notificationService';
+
 const Stack = createStackNavigator();
 
 const App = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setupNotificationHandlers();
+    }
+  }, [isLoggedIn]);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+          <Stack.Screen 
+            name="Login" 
+            component={LoginScreen} 
+            options={{ headerShown: false }} 
+            initialParams={{ setIsLoggedIn }} // Pass setIsLoggedIn to LoginScreen as an initial param
+          />
           <Stack.Screen name="Welcome" component={BufferScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Feed" component={FeedScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Status" component={StatusScreen} options={{ headerShown: false }} />

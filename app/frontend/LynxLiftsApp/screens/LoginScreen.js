@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import { SafeAreaView, TextInput, TouchableOpacity, Text, Image, StyleSheet, View, Alert } from 'react-native';
 import axios from 'axios';
 import { Platform } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { API_URL } from '@env'
+import { sendTokenToBackend } from '../notificationService';
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const navigation = useNavigation();
+  const route = useRoute();
 
   const handleLogin = async () => {
     try {
@@ -23,7 +25,16 @@ const LoginScreen = () => {
       }
 
       const { username, rhodesid } = response.data;
+      
+      console.log(rhodesid);
+     
+      //send token to backend after login
+      await sendTokenToBackend(rhodesid);
+      
       alert("Login Successful");
+      // Update the login state
+      route.params.setIsLoggedIn(true);
+
       navigation.navigate('Welcome', { user: { username, rhodesid } });
 
     } catch (error) {
