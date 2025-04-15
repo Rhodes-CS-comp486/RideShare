@@ -1,5 +1,10 @@
 ${PODS_ROOT}/Target Support Files/Pods-LynxLiftsApp/Pods-LynxLiftsApp-resources.sh
+${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore/FirebaseCore_Privacy.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreInternal/FirebaseCoreInternal_Privacy.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/FirebaseInstallations/FirebaseInstallations_Privacy.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/GoogleMaps/GoogleMapsResources.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities/GoogleUtilities_Privacy.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC/FBLPromises_Privacy.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/RCT-Folly/RCT-Folly_privacy.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/RNPermissions/RNPermissionsPrivacyInfo.bundle
 ${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf
@@ -25,4 +30,5 @@ ${PODS_CONFIGURATION_BUILD_DIR}/React-Core/React-Core_privacy.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact/React-cxxreact_privacy.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/boost/boost_privacy.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/glog/glog_privacy.bundle
-${PODS_CONFIGURATION_BUILD_DIR}/react-native-maps/ReactNativeMapsPrivacy.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/nanopb/nanopb_Privacy.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/react-native-google-maps/GoogleMapsPrivacy.bundle

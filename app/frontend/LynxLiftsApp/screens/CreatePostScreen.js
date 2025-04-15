@@ -5,7 +5,7 @@ import { Calendar } from 'react-native-calendars';
 import DatePicker from 'react-native-date-picker';
 import { Text } from 'react-native-gesture-handler';
 import axios from 'axios';
-import { API_KEY } from '@env';
+import { API_KEY, API_URL } from '@env';
 
 const CreatePostScreen = ({ navigation, route }) => {
     const [passengerrhodesID, setPassengerRhodesID] = useState('');

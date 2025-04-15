@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet, SafeAreaView, ActivityIndicator, TouchableOpacity, Image, Alert } from 'react-native';
 import axios from 'axios';
-
-const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
+import { API_URL } from '@env';
 
 const BrowseDrivers = ({ navigation, route }) => {
   const { user } = route.params;
