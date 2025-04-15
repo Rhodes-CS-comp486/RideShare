@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert, Platform, SafeAreaView, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
 
@@ -48,6 +49,31 @@ const DriverAccountScreen = ({ route }) => {
     }
   };
 
+  const handleImagePicker = () => {
+    const options = {
+      mediaType: 'photo',
+      quality: 0.8,
+    };
+
+    launchImageLibrary(options, async (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorMessage) {
+        console.error('ImagePicker Error: ', response.errorMessage);
+      } else {
+        const selectedImage = response.assets[0];
+        const updated = { ...bio, profile_picture: selectedImage.uri };
+        setBio(updated);
+
+        try {
+          await axios.put(`${API_URL}/api/auth/driver/${user.rhodesid}/bio`, updated);
+        } catch (error) {
+          console.error('Error uploading profile picture:', error);
+        }
+      }
+    });
+  };
+
   const renderField = ({ label, key }) => (
     <View style={styles.fieldRow} key={key}>
       <Text style={styles.fieldLabel}>{label}:</Text>
@@ -85,7 +111,7 @@ const DriverAccountScreen = ({ route }) => {
               source={{ uri: bio.profile_picture || 'https://via.placeholder.com/100' }}
               style={styles.profileImage}
             />
-            <TouchableOpacity style={styles.editPicButton}>
+            <TouchableOpacity style={styles.editPicButton} onPress={handleImagePicker}>
               <Text style={styles.editText}>Edit</Text>
             </TouchableOpacity>
           </View>

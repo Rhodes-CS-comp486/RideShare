@@ -25,4 +25,5 @@ ${PODS_CONFIGURATION_BUILD_DIR}/React-Core/React-Core_privacy.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact/React-cxxreact_privacy.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/boost/boost_privacy.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/glog/glog_privacy.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/react-native-image-picker/RNImagePickerPrivacyInfo.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/react-native-maps/ReactNativeMapsPrivacy.bundle
