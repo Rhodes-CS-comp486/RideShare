@@ -40,6 +40,7 @@ config.js
 .env
 google-services.json
 
+
 # node.js
 #
 node_modules/

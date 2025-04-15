@@ -19,9 +19,15 @@ import PassengerChatScreen from './screens/PassengerChatScreen';
 import DriverChatScreen from './screens/ChatScreen';
 import BrowseDrivers from './screens/BrowseDrivers';
 
+import { setupNotificationHandlers } from './notificationService';
+
 const Stack = createStackNavigator();
 
 const App = () => {
+  useEffect(() => {
+    setupNotificationHandlers();
+  }, []);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
