@@ -21,9 +21,15 @@
     "HEADER_SEARCH_PATHS": "\"$(PODS_ROOT)/RCT-Folly\" \"$(PODS_ROOT)/boost\""
   },
   "dependencies": {
-    "React-featureflags": [],
-    "React-timing": [],
-    "React-cxxreact": [],
+    "React-featureflags": [
+
+    ],
+    "React-timing": [
+
+    ],
+    "React-cxxreact": [
+
+    ],
     "RCT-Folly": [
       "2024.11.18.00"
     ]
