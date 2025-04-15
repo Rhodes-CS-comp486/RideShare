@@ -4,22 +4,22 @@ const router = express.Router();
 
 // Route to save FCM token
 router.post('/save-token', async (req, res) => {
-    const { rhodesid, fcmToken } = req.body;
+    const { rhodesid, fcmtoken } = req.body;
   
     // Validate input data
-    if (!rhodesid || !fcmToken) {
-      return res.status(400).json({ message: 'rhodesid and fcmToken are required' });
+    if (!rhodesid || !fcmtoken) {
+      return res.status(400).json({ message: 'rhodesid and fcmtoken are required' });
     }
   
     try {
       const query = `
         UPDATE users 
-        SET "fcmToken" = $2
+        SET "fcmtoken" = $2
         WHERE rhodesid = $1
         RETURNING *;
       `;
       
-      const values = [rhodesid, fcmToken]; // Directly pass the values needed
+      const values = [rhodesid, fcmtoken]; // Directly pass the values needed
       
       console.log('Running query:', query);
       console.log('With values:', values);

@@ -1,13 +1,13 @@
 const pool = require('../db');
 
 class User {
-  static async create({ rhodesid, email, password, username, fcmToken}) {
+  static async create({ rhodesid, email, password, username, fcmtoken}) {
     const query = `
-      INSERT INTO users (rhodesid, email, password, username, fcmToken)
+      INSERT INTO users (rhodesid, email, password, username, fcmtoken)
       VALUES ($1, $2, $3, $4, $5)
       RETURNING *;
     `;
-    const values = [rhodesid, email, password, username, fcmToken];
+    const values = [rhodesid, email, password, username, fcmtoken];
     const { rows } = await pool.query(query, values);
     return rows[0];
   }

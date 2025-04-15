@@ -4,7 +4,7 @@ const admin = require('./firebaseAdmin');
 async function notifyUpcomingRides() {
   try {
     const query = `
-      SELECT u.fcmToken, r.*
+      SELECT u.fcmtoken, r.*
       FROM rides r
       JOIN users u ON r.rhodesid = u.rhodesid
       WHERE r.pickup_time BETWEEN NOW() AND NOW() + INTERVAL '10 minutes';
@@ -13,10 +13,10 @@ async function notifyUpcomingRides() {
     const { rows } = await pool.query(query);
 
     for (const ride of rows) {
-      if (!ride.fcmToken) continue;
+      if (!ride.fcmtoken) continue;
 
       const message = {
-        token: ride.fcmToken,
+        token: ride.fcmtoken,
         notification: {
           title: 'Upcoming Ride!',
           body: `You have a ride at ${new Date(ride.pickup_time).toLocaleTimeString()}`,

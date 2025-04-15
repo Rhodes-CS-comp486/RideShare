@@ -10,7 +10,8 @@ const feedRoutes = require('./routes/feed');
 const tokenRoutes = require('./routes/token');
 const notifyUpcomingRides = require('./notifyUpcomingRides');
 const preferencesRoutes = require('./routes/preference');
-const browseRoutes = require('./routes/browse')
+const browseRoutes = require('./routes/browse');
+const welcomeNotification = require('./welcomeNotification');
 const app = express();
 
 app.use(express.urlencoded({ extended: true })); // for HTML form body
@@ -29,10 +30,14 @@ app.use('/api/token', tokenRoutes);
 
 // Schedule notification every minute
 setInterval(() => {
-  notifyUpcomingRides();
-}, 60 * 1000);
+  welcomeNotification();
+}, 10000);
 
 
-app.listen(PORT, () => {
+//app.listen(PORT, () => {
+  //console.log(`Server running on port ${PORT}`);
+//});
+
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });

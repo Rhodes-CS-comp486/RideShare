@@ -59,6 +59,7 @@ const handleForegroundNotifications = () => {
 const handleBackgroundNotifications = () => {
   messaging().setBackgroundMessageHandler(async (remoteMessage) => {
     console.log('Background Notification:', remoteMessage);
+    Alert.alert('New Notification', remoteMessage.notification.title);
   });
 };
 
