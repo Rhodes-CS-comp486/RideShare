@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert, Platform, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Platform, SafeAreaView, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { launchImageLibrary } from 'react-native-image-picker';
@@ -15,12 +15,14 @@ const DriverAccountScreen = ({ route }) => {
   const [tempValue, setTempValue] = useState('');
 
   const fields = [
-    { label: 'Class Year', key: 'class_year' },
+    { label: 'Name', key: 'driver_name' },
+    { label: 'Class Year', key: 'driver_class_year' },
     { label: 'Car Make & Model', key: 'car_make_model' },
     { label: 'Car Color', key: 'car_color' },
     { label: 'License Plate', key: 'license_plate' },
-    { label: 'Bio', key: 'bio' },
-    { label: 'Pronouns', key: 'pronouns' },
+    { label: 'Number of Passengers', key: 'num_passengers' },
+    { label: 'Bio', key: 'driver_bio' },
+    { label: 'Pronouns', key: 'driver_pronouns' },
     { label: 'Pet Friendly', key: 'pet_friendly' },
   ];
 
@@ -62,7 +64,7 @@ const DriverAccountScreen = ({ route }) => {
         console.error('ImagePicker Error: ', response.errorMessage);
       } else {
         const selectedImage = response.assets[0];
-        const updated = { ...bio, profile_picture: selectedImage.uri };
+        const updated = { ...bio, driver_profile_picture: selectedImage.uri };
         setBio(updated);
 
         try {
@@ -108,16 +110,17 @@ const DriverAccountScreen = ({ route }) => {
         <View style={styles.profileHeader}>
           <View style={styles.profilePicContainer}>
             <Image
-              source={{ uri: bio.profile_picture || 'https://via.placeholder.com/100' }}
+              source={{ uri: bio.driver_profile_picture || 'https://via.placeholder.com/100' }}
               style={styles.profileImage}
             />
             <TouchableOpacity style={styles.editPicButton} onPress={handleImagePicker}>
               <Text style={styles.editText}>Edit</Text>
             </TouchableOpacity>
           </View>
-          <Text style={styles.driverName}>{bio.name || 'Driver'}</Text>
+          <Text style={styles.driverName}>{bio.driver_name || 'Driver'}</Text>
+          <Text style={styles.driverSub}>(driver)</Text>
           <Text style={styles.driverSub}>
-            {bio.class_year || 'Class Year'} · {bio.car_make_model || 'Car Model'}
+            {bio.driver_class_year || 'Class Year'} · {bio.car_make_model || 'Car Model'}
           </Text>
         </View>
 
@@ -187,7 +190,7 @@ const styles = StyleSheet.create({
   },
   driverSub: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 14,
   },
   detailsContainer: {
     paddingHorizontal: 20,

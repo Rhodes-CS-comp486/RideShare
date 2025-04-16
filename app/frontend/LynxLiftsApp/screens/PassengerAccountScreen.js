@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert, Platform, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Platform, SafeAreaView, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import { launchImageLibrary } from 'react-native-image-picker';
 
 const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
 
@@ -14,10 +15,11 @@ const PassengerAccountScreen = ({ route }) => {
   const [tempValue, setTempValue] = useState('');
 
   const fields = [
-    { label: 'Class Year', key: 'class_year' },
-    { label: 'Major', key: 'major' },
-    { label: 'Pronouns', key: 'pronouns' },
-    { label: 'Bio', key: 'bio' },
+    { label: 'Name', key: 'passenger_name' },
+    { label: 'Class Year', key: 'passenger_class_year' },
+    { label: 'Major', key: 'passenger_major' },
+    { label: 'Pronouns', key: 'passenger_pronouns' },
+    { label: 'Bio', key: 'passenger_bio' },
   ];
 
   useEffect(() => {
@@ -45,8 +47,29 @@ const PassengerAccountScreen = ({ route }) => {
     }
   };
 
-  const handleLogout = () => {
-    navigation.reset({ index: 0, routes: [{ name: 'Login' }] });
+  const handleImagePicker = () => {
+    const options = {
+      mediaType: 'photo',
+      quality: 0.8,
+    };
+
+    launchImageLibrary(options, async (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.errorMessage) {
+        console.error('ImagePicker Error: ', response.errorMessage);
+      } else {
+        const selectedImage = response.assets[0];
+        const updated = { ...profile, passenger_profile_picture: selectedImage.uri };
+        setProfile(updated);
+
+        try {
+          await axios.put(`${API_URL}/api/auth/passenger/${user.rhodesid}/bio`, updated);
+        } catch (error) {
+          console.error('Error uploading passenger profile picture:', error);
+        }
+      }
+    });
   };
 
   const renderField = ({ label, key }) => (
@@ -83,16 +106,16 @@ const PassengerAccountScreen = ({ route }) => {
         <View style={styles.profileHeader}>
           <View style={styles.profilePicContainer}>
             <Image
-              source={{ uri: profile.profile_picture || 'https://via.placeholder.com/100' }}
+              source={{ uri: profile.passenger_profile_picture || 'https://via.placeholder.com/100' }}
               style={styles.profileImage}
             />
-            <TouchableOpacity style={styles.editPicButton}>
+            <TouchableOpacity style={styles.editPicButton} onPress={handleImagePicker}>
               <Text style={styles.editText}>Edit</Text>
             </TouchableOpacity>
           </View>
-          <Text style={styles.name}>{profile.name || 'Passenger'}</Text>
-          <Text style={styles.sub}>
-            {profile.class_year || 'Class Year'} · {profile.major || 'Major'}
+          <Text style={styles.name}>{profile.passenger_name || 'Passenger'}</Text>
+          <Text style={{ color: '#fff', fontSize: 16 }}>
+            {profile.passenger_class_year || 'Class Year'} · {profile.passenger_major || 'Major'}
           </Text>
         </View>
 
@@ -109,7 +132,7 @@ const PassengerAccountScreen = ({ route }) => {
 
         <TouchableOpacity 
           style={[styles.button, styles.logoutButton]} 
-          onPress={handleLogout}
+          onPress={() => navigation.reset({ index: 0, routes: [{ name: 'Login' }] })}
         >
           <Text style={styles.buttonText}>Log Out</Text>
         </TouchableOpacity>
@@ -153,9 +176,10 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: 'bold',
   },
-  sub: {
+  subLabel: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 14,
+    marginTop: 2,
   },
   detailsContainer: {
     paddingHorizontal: 20,
