@@ -3,6 +3,8 @@ import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Platform, S
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { launchImageLibrary } from 'react-native-image-picker';
+import uploadImageToFirebase from '../utils/uploadImage';
+import storage from '@react-native-firebase/storage';
 
 const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
 
@@ -64,13 +66,16 @@ const DriverAccountScreen = ({ route }) => {
         console.error('ImagePicker Error: ', response.errorMessage);
       } else {
         const selectedImage = response.assets[0];
-        const updated = { ...bio, driver_profile_picture: selectedImage.uri };
-        setBio(updated);
+        const uploadUri = selectedImage.uri;
 
         try {
+          const downloadURL = await uploadImageToFirebase(uploadUri, `driver_${user.rhodesid}`);
+          const updated = { ...bio, driver_profile_picture: downloadURL };
+          setBio(updated);
+
           await axios.put(`${API_URL}/api/auth/driver/${user.rhodesid}/bio`, updated);
         } catch (error) {
-          console.error('Error uploading profile picture:', error);
+          console.error('Error uploading driver image:', error);
         }
       }
     });
