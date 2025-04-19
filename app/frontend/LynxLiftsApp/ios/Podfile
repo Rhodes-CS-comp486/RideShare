@@ -5,7 +5,8 @@ require Pod::Executable.execute_command('node', ['-p',
     {paths: [process.argv[1]]},
   )', __dir__]).strip
 
-platform :ios, min_ios_version_supported
+platform :ios, '15.1'
+use_modular_headers! # ✅ Required for Firebase Storage dependencies
 prepare_react_native_project!
 
 linkage = ENV['USE_FRAMEWORKS']

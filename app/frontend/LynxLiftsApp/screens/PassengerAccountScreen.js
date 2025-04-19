@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Platform, S
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { launchImageLibrary } from 'react-native-image-picker';
+import uploadImageToFirebase from '../utils/uploadImage'; // ✅ Firebase helper
 
 const API_URL = Platform.OS === 'android' ? 'http://10.0.2.2:5001' : 'http://localhost:5001';
 
@@ -60,10 +61,10 @@ const PassengerAccountScreen = ({ route }) => {
         console.error('ImagePicker Error: ', response.errorMessage);
       } else {
         const selectedImage = response.assets[0];
-        const updated = { ...profile, passenger_profile_picture: selectedImage.uri };
-        setProfile(updated);
-
         try {
+          const firebaseUrl = await uploadImageToFirebase(selectedImage.uri, `passenger_${user.rhodesid}`);
+          const updated = { ...profile, passenger_profile_picture: firebaseUrl };
+          setProfile(updated);
           await axios.put(`${API_URL}/api/auth/passenger/${user.rhodesid}/bio`, updated);
         } catch (error) {
           console.error('Error uploading passenger profile picture:', error);
@@ -142,19 +143,13 @@ const PassengerAccountScreen = ({ route }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#80A1C2',
-  },
+  container: { flex: 1, backgroundColor: '#80A1C2' },
   profileHeader: {
     backgroundColor: '#A62C2C',
     paddingVertical: 30,
     alignItems: 'center',
   },
-  profilePicContainer: {
-    position: 'relative',
-    marginBottom: 10,
-  },
+  profilePicContainer: { position: 'relative', marginBottom: 10 },
   profileImage: {
     width: 100,
     height: 100,
@@ -171,35 +166,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     borderRadius: 8,
   },
-  name: {
-    color: '#fff',
-    fontSize: 22,
-    fontWeight: 'bold',
-  },
-  subLabel: {
-    color: '#fff',
-    fontSize: 14,
-    marginTop: 2,
-  },
-  detailsContainer: {
-    paddingHorizontal: 20,
-    paddingTop: 20,
-  },
+  name: { color: '#fff', fontSize: 22, fontWeight: 'bold' },
+  subLabel: { color: '#fff', fontSize: 14, marginTop: 2 },
+  detailsContainer: { paddingHorizontal: 20, paddingTop: 20 },
   fieldRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 12,
   },
-  fieldLabel: {
-    fontWeight: 'bold',
-    color: '#fff',
-    flex: 1.2,
-  },
-  value: {
-    color: '#fff',
-    flex: 1,
-  },
+  fieldLabel: { fontWeight: 'bold', color: '#fff', flex: 1.2 },
+  value: { color: '#fff', flex: 1 },
   input: {
     backgroundColor: '#fff',
     padding: 5,
@@ -224,14 +201,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginVertical: 5,
   },
-  logoutButton: {
-    backgroundColor: '#A62C2C',
-  },
-  buttonText: {
-    color: '#FAF2E6',
-    fontSize: 16,
-    fontWeight: '600',
-  },
+  logoutButton: { backgroundColor: '#A62C2C' },
+  buttonText: { color: '#FAF2E6', fontSize: 16, fontWeight: '600' },
 });
 
 export default PassengerAccountScreen;
