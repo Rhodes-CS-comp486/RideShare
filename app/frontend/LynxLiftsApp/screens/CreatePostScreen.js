@@ -15,6 +15,7 @@ const CreatePostScreen = ({ navigation, route }) => {
     const [openTimePicker, setOpenTimePicker] = useState(false);
     const [rideState, setRideState] = useState(false);
     const [payment, setPayment] = useState('');
+    const [estimatedpayment, setestimatedpayment] = useState('');
     const [errors, setErrors] = useState({
         pickupDate: '',
         pickupTime: '',
@@ -51,6 +52,12 @@ const CreatePostScreen = ({ navigation, route }) => {
                     // Update the state with the fetched distance and duration
                     setDistance(fetchedDistance);
                     setDuration(fetchedDuration);
+                    
+                    //Set Estimated Payment
+                    const estimatedpayment = calculateestimatedpayment(fetchedDistance, fetchedDuration);
+                    setestimatedpayment(estimatedpayment);
+
+                    console.log(estimatedpayment);
 
                 } else {
                     throw new Error("Unable to fetch distance or duration.");
@@ -64,6 +71,20 @@ const CreatePostScreen = ({ navigation, route }) => {
             setDistance(null);
             setDuration(null);
         }
+    };
+
+    const calculateestimatedpayment = (distanceStr, durationStr) => {
+        const baseFare = 1.0;
+        const costPerMile = 0.75;
+        const costPerMinute = 0.25;
+    
+        const miles = parseFloat(distanceStr.replace(' mi', ''));
+        const minutes = parseFloat(durationStr.replace(' mins', '').replace(' min', ''));
+    
+        if (isNaN(miles) || isNaN(minutes)) return '';
+    
+        const estimate = baseFare + (miles * costPerMile) + (minutes * costPerMinute);
+        return estimate.toFixed(2); // returns as string like "5.25"
     };
 
     useEffect(() => {
@@ -151,7 +172,7 @@ const CreatePostScreen = ({ navigation, route }) => {
         // Show confirmation alert
         Alert.alert(
             "Confirm Your Ride Details",
-            `Pickup location:\n${pickupAddress}\n\nDropoff location:\n${dropoffAddress}`,
+            `Pickup location:\n${pickupAddress}\n\nDropoff location:\n${dropoffAddress}\n\nTotal Cost: $${estimatedpayment}`,
             [
                 {
                     text: "Cancel",
@@ -172,6 +193,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                                 distance: distance,
                                 duration: duration,
                                 timeposted: formatTimePosted(),
+                                estimatedpayment: estimatedpayment,
                             });
     
                             console.log("Post created:", response.data);
@@ -237,17 +259,16 @@ const CreatePostScreen = ({ navigation, route }) => {
                         minDate={new Date().toISOString().split('T')[0]} 
                         />
                     </View>
-                    <TextInput 
-                        style={styles.input}
-                        placeholder="Pickup Time (click here to select)"
-                        placeholderTextColor="#FAF2E6"
-                        value={pickupTime ? formatTimeSelection(pickupTime) : ''}
-                        editable={false}
-                        onPressIn={() => setOpenTimePicker(true)}
-                    />
-                    {errors.pickupTime !== '' && (
-                        <Text style={styles.errorText}>{errors.pickupTime}</Text>
-                    )}
+                    <TouchableOpacity onPress={() => setOpenTimePicker(true)} style={{ width: '90%' }}>
+                        <TextInput 
+                            style={styles.input}
+                            placeholder="Pickup Time (click here to select)"
+                            placeholderTextColor="#FAF2E6"
+                            value={pickupTime ? formatTimeSelection(pickupTime) : ''}
+                            editable={false}
+                            pointerEvents="none"
+                        />
+                    </TouchableOpacity>
                     {/* Time Picker */}
                     <DatePicker
                         modal

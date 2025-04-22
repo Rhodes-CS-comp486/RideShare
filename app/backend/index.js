@@ -29,15 +29,16 @@ app.use('/api', browseRoutes);
 app.use('/api/token', tokenRoutes);
 
 // Schedule notification every minute
-setInterval(() => {
-  welcomeNotification();
-}, 10000);
+//setInterval(() => {
+  //welcomeNotification();
+//}, 10000);
 
-
-//app.listen(PORT, () => {
-  //console.log(`Server running on port ${PORT}`);
-//});
-
-app.listen(PORT, '0.0.0.0', () => {
+//Uncomment for emulator
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+//Uncomment for Physical device
+//app.listen(PORT, '0.0.0.0', () => {
+  //console.log(`Server running on port ${PORT}`);
+//});
