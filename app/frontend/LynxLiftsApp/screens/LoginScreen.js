@@ -29,10 +29,10 @@ const LoginScreen = () => {
       console.log(rhodesid);
      
       //send token to backend after login
-      await sendTokenToBackend(rhodesid);
+      //await sendTokenToBackend(rhodesid);
       
       alert("Login Successful");
-      // Update the login state
+      //Update the login state
       route.params.setIsLoggedIn(true);
 
       navigation.navigate('Welcome', { user: { username, rhodesid } });

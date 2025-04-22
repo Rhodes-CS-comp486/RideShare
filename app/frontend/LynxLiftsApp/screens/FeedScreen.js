@@ -93,6 +93,7 @@ const FeedScreen = ({ navigation, route }) => {
             <Text style={styles.postText}>Payment: {item.payment}</Text>
             <Text style={styles.postText}>Distance: {item.distance}</Text>
             <Text style={styles.postText}>Duration: {item.duration}</Text>
+            <Text style={styles.postText}>Total Cost: ${item.estimatedpayment}</Text>
           </View>
         </Animated.View>
       </GestureDetector>
