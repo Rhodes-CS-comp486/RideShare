@@ -8,7 +8,8 @@ const authRoutes = require('./routes/auth');
 const statRoutes = require('./routes/stat');
 const feedRoutes = require('./routes/feed');
 const preferencesRoutes = require('./routes/preference');
-const browseRoutes = require('./routes/browse')
+const browseRoutes = require('./routes/browse');
+const messagesRoutes = require('./routes/messages');
 const app = express();
 
 app.use(express.urlencoded({ extended: true })); // for HTML form body
@@ -23,6 +24,7 @@ app.use('/api/stat', statRoutes);
 app.use('/api/feed', feedRoutes);
 app.use('/api', preferencesRoutes);
 app.use('/api', browseRoutes);
+app.use('/api/messages', messagesRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
