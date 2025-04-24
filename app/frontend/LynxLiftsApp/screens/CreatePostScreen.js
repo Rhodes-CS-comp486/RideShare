@@ -12,6 +12,7 @@ const CreatePostScreen = ({ navigation, route }) => {
     const [pickupDate, setPickupDate] = useState('');
     const [markedDates, setMarkedDates] = useState({});
     const [pickupTime, setPickupTime] = useState(null);
+    const [pickuptimestamp, setpickuptimestamp] = useState('');
     const [openTimePicker, setOpenTimePicker] = useState(false);
     const [rideState, setRideState] = useState(false);
     const [payment, setPayment] = useState('');
@@ -87,6 +88,13 @@ const CreatePostScreen = ({ navigation, route }) => {
         return estimate.toFixed(2); // returns as string like "5.25"
     };
 
+    const getPickupTimestamp = () => {
+        if (!pickupDate || !pickupTime) return null;
+        const [month, day, year] = pickupDate.split('-');
+        const combined = new Date(year, month - 1, day, pickupTime.getHours(), pickupTime.getMinutes());
+        return combined.toISOString(); 
+    };
+
     useEffect(() => {
         if (user?.rhodesid) {
             setPassengerRhodesID(user.rhodesid);
@@ -137,6 +145,9 @@ const CreatePostScreen = ({ navigation, route }) => {
     const handlePost = async () => {
         let newErrors = { pickupDate: '', pickupTime: '', payment: '', locations: '' };
         let hasError = false;
+
+        const pickuptimestamp = getPickupTimestamp();
+        console.log(pickuptimestamp)
 
         if (!pickupDate) {
             newErrors.pickupDate = "Please select a date to be picked up.";
@@ -194,6 +205,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                                 duration: duration,
                                 timeposted: formatTimePosted(),
                                 estimatedpayment: estimatedpayment,
+                                pickuptimestamp: pickuptimestamp,
                             });
     
                             console.log("Post created:", response.data);

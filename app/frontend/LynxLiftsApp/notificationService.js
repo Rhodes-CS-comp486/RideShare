@@ -52,6 +52,7 @@ const handleForegroundNotifications = () => {
   messaging().onMessage(async (remoteMessage) => {
     console.log('Foreground Notification:', remoteMessage);
     Alert.alert('New Notification', remoteMessage.notification.title);
+    Alert.alert('Upcoming Ride!', remoteMessage.notification.body);
   });
 };
 
