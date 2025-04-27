@@ -31,7 +31,7 @@ const LoginScreen = () => {
       //send token to backend after login
       //await sendTokenToBackend(rhodesid);
       
-      alert("Login Successful");
+      Alert.alert('Welcome Lynx!', 'You are now a lynx on the road');
       //Update the login state
       route.params.setIsLoggedIn(true);
 
