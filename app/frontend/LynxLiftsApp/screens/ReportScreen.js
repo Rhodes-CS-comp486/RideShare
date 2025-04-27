@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
 import axios from 'axios';
 import { API_URL } from '@env';
 
@@ -38,29 +38,54 @@ const ReportScreen = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Reported User: {reportedUser}</Text>
+    <TouchableOpacity
+      onPress={() => navigation.goBack()}
+      style={{
+        position: 'absolute',
+        top: Platform.OS === 'ios' ? 64 : 44, 
+        left: 18,
+        zIndex: 999,
+        backgroundColor: '#FAF2E6',
+        borderRadius: 16,
+        padding: 6,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 4,
+    }}
+    >
+    <Image
+        source={require('../assets/x.png')}
+        style={{ width: 20, height: 20, tintColor: '#6683A9' }}
+        resizeMode="contain"
+    />
+    </TouchableOpacity>
 
-      <TextInput
-        placeholder="Reason for report"
-        placeholderTextColor="#ccc"
-        value={reason}
-        onChangeText={setReason}
-        style={styles.input}
-      />
+    <View style={{ paddingTop: 100 }}>
+    <Text style={styles.title}>You are reporting: {reportedUser}</Text>
 
-      <TextInput
-        placeholder="Additional details (optional)"
-        placeholderTextColor="#ccc"
-        value={details}
-        onChangeText={setDetails}
-        style={[styles.input, { height: 100 }]}
-        multiline
-      />
+    <TextInput
+      placeholder="Reason for report"
+      placeholderTextColor="#ccc"
+      value={reason}
+      onChangeText={setReason}
+      style={styles.input}
+    />
 
-      <TouchableOpacity style={styles.button} onPress={submitReport}>
-        <Text style={styles.buttonText}>Submit Report</Text>
-      </TouchableOpacity>
+    <TextInput
+      placeholder="Additional details (optional)"
+      placeholderTextColor="#ccc"
+      value={details}
+      onChangeText={setDetails}
+      style={[styles.input, { height: 100 }]}
+      multiline
+    />
+
+    <TouchableOpacity style={styles.button} onPress={submitReport}>
+      <Text style={styles.buttonText}>Submit Report</Text>
+    </TouchableOpacity>
     </View>
+</View>
   );
 };
 

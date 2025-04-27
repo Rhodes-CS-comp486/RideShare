@@ -57,7 +57,7 @@ const App = () => {
           <Stack.Screen name="PassengerChat" component={PassengerChatScreen} options={{ headerShown: false }} />
           <Stack.Screen name="PassengerAccount" component={PassengerAccountScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Browse" component={BrowseDrivers} options={{ headerShown: false }} />
-          <Stack.Screen name="Report" component={ReportScreen} />
+          <Stack.Screen name="Report" component={ReportScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

@@ -222,7 +222,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                     onPress={() => navigation.navigate('Feed', { user: { rhodesid: user.rhodesid } })}
                     style={{
                         position: 'absolute',
-                        top: 64,
+                        top: Platform.OS === 'ios' ? 64 : 44, 
                         left: 18,
                         zIndex: 999,
                         backgroundColor: '#FAF2E6',
@@ -259,7 +259,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                         minDate={new Date().toISOString().split('T')[0]} 
                         />
                     </View>
-                    <TouchableOpacity onPress={() => setOpenTimePicker(true)} style={{ width: '90%' }}>
+                    <TouchableOpacity onPress={() => setOpenTimePicker(true)} style={{ width: '90%', marginLeft: 35 }}>
                         <TextInput 
                             style={styles.input}
                             placeholder="Pickup Time (click here to select)"
@@ -404,11 +404,9 @@ const styles = StyleSheet.create({
         borderColor: '#A6C9D3', 
         overflow: 'hidden',
     },
-
     map: {
         flex: 1, 
     },
-
     button1: {
         backgroundColor: '#A62C2C',
         width: '30%',
@@ -418,7 +416,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 10,
     },
-
     button2: {
         width: '24%',
         paddingVertical: 6,
@@ -426,13 +423,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 10,
     },
-
     buttonText: {
         color: '#FAF2E6',
         fontSize: 18,
         fontWeight: '600',
     },
-
     errorText: { color: '#FAF2E6', marginBottom: 10 },
 });
 
