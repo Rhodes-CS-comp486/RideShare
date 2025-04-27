@@ -2,9 +2,9 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { View, KeyboardAvoidingView, Platform, StyleSheet, SafeAreaView, TouchableOpacity, Image, Alert } from 'react-native';
 import axios from 'axios';
 import { GiftedChat } from 'react-native-gifted-chat';
-// import { API_URL } from '@env';
+import { API_URL } from '@env';
 
-const API_BASE_URL = 'http://localhost:5001/api/messages';
+const API_BASE_URL = `${API_URL}/api/messages`;
 
 
 const PassengerChatScreen = ({ navigation, route }) => {
@@ -63,6 +63,7 @@ const PassengerChatScreen = ({ navigation, route }) => {
                 _id: user.rhodesid // or any unique identifier
                 // name: user.email
               }}
+              renderActions={() => null}
               minComposerHeight={90}
               maxComposerHeight={50}
             />
