@@ -19,18 +19,18 @@ import PassengerChatScreen from './screens/PassengerChatScreen';
 import DriverChatScreen from './screens/ChatScreen';
 import BrowseDrivers from './screens/BrowseDrivers';
 
-import { setupNotificationHandlers } from './notificationService';
+// import { setupNotificationHandlers } from './notificationService';
 
 const Stack = createStackNavigator();
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      setupNotificationHandlers();
-    }
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     setupNotificationHandlers();
+  //   }
+  // }, [isLoggedIn]);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
