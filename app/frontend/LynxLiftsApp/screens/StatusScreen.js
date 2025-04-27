@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     fontSize: 16,
     marginTop: 20,
-  },  
+  },
 });
 
 export default StatusScreen;
