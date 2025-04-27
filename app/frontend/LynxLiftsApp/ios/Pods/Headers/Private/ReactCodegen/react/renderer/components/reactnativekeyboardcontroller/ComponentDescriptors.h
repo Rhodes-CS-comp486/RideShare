@@ -1,0 +1,1 @@
+../../../../../../../../build/generated/ios/react/renderer/components/reactnativekeyboardcontroller/ComponentDescriptors.h

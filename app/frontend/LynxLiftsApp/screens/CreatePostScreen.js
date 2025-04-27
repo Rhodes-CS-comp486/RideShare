@@ -31,6 +31,7 @@ const CreatePostScreen = ({ navigation, route }) => {
     const [locationsFinalized, setLocationsFinalized] = useState(false);
     const [promptText, setPromptText] = useState("Click on the map to select the pickup location");
     const mapKey = `${pickupLocation?.latitude ?? 0}-${pickupLocation?.longitude ?? 0}-${dropoffLocation?.latitude ?? 0}-${dropoffLocation?.longitude ?? 0}`;
+    const [addComments, setAddComments] = useState('');
 
 
     const formatTimePosted = () => new Date().toISOString();
@@ -194,6 +195,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                                 duration: duration,
                                 timeposted: formatTimePosted(),
                                 estimatedpayment: estimatedpayment,
+                                addcomments: addComments
                             });
     
                             console.log("Post created:", response.data);
@@ -306,6 +308,13 @@ const CreatePostScreen = ({ navigation, route }) => {
                     <Text style={{ color: '#FAF2E6', fontSize: 16, textAlign: 'center', marginBottom: 5 }}>
                         {promptText}
                     </Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Additional Notes (Optional)" 
+                        placeholderTextColor="#FAF2E6"
+                        value={addComments}
+                        onChangeText={setAddComments}
+                    />
 
                 <View style={styles.mapContainer}>
                     <MapView
