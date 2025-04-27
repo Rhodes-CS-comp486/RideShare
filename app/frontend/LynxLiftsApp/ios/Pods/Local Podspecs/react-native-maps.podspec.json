@@ -1,0 +1,61 @@
+{
+  "name": "react-native-maps",
+  "version": "1.21.0",
+  "summary": "React Native Mapview component for iOS + Android",
+  "authors": "Leland Richardson <leland.m.richardson@gmail.com>",
+  "homepage": "https://github.com/react-native-maps/react-native-maps#readme",
+  "license": "MIT",
+  "platforms": {
+    "ios": "15.1"
+  },
+  "source": {
+    "git": "https://github.com/react-native-maps/react-native-maps.git",
+    "tag": "v1.21.0"
+  },
+  "source_files": "ios/AirMaps/**/*.{h,m,mm,swift}",
+  "module_map": "ios/AirMaps/module.modulemap",
+  "public_header_files": [
+    "ios/AirMaps/UIView+AirMap.h",
+    "ios/AirMaps/RCTConvert+AirMap.h"
+  ],
+  "module_name": "ReactNativeMaps",
+  "compiler_flags": "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -DFOLLY_CFG_NO_COROUTINES=1 -DFOLLY_HAVE_CLOCK_GETTIME=1 -Wno-comma -Wno-shorten-64-to-32  -DRCT_NEW_ARCH_ENABLED=1 -DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -DFOLLY_CFG_NO_COROUTINES=1 -DFOLLY_HAVE_CLOCK_GETTIME=1 -Wno-comma -Wno-shorten-64-to-32",
+  "dependencies": {
+    "react-native-maps-generated": [],
+    "React-Core": [],
+    "RCT-Folly": [
+      "2024.11.18.00"
+    ],
+    "glog": [],
+    "React-RCTFabric": [],
+    "ReactCodegen": [],
+    "RCTRequired": [],
+    "RCTTypeSafety": [],
+    "ReactCommon/turbomodule/bridging": [],
+    "ReactCommon/turbomodule/core": [],
+    "React-NativeModulesApple": [],
+    "Yoga": [],
+    "React-Fabric": [],
+    "React-graphics": [],
+    "React-utils": [],
+    "React-featureflags": [],
+    "React-debug": [],
+    "React-ImageManager": [],
+    "React-rendererdebug": [],
+    "DoubleConversion": [],
+    "hermes-engine": []
+  },
+  "pod_target_xcconfig": {
+    "HEADER_SEARCH_PATHS": "\"$(PODS_ROOT)/boost\" \"$(PODS_ROOT)/Headers/Private/Yoga\"",
+    "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
+    "OTHER_CPLUSPLUSFLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED=1 -DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -DFOLLY_CFG_NO_COROUTINES=1 -DFOLLY_HAVE_CLOCK_GETTIME=1 -Wno-comma -Wno-shorten-64-to-32",
+    "OTHER_SWIFT_FLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED"
+  },
+  "script_phases": [
+    {
+      "name": "Check react-native-google-Maps Availability",
+      "script": "\n            set -x\n            echo \"Running Google Maps detection script...\"\n            DEFINES_DIR=\"${PODS_TARGET_SRCROOT}/ios/AirMaps\"\n            DEFINES_FILE=\"${DEFINES_DIR}/RNMapsDefines.h\"\n\n            # Standard path\n            GOOGLE_MAPS_STANDARD_PATH=\"$PODS_ROOT/Headers/Public/react-native-google-maps/AIRGoogleMap.h\"\n\n            # Framework paths\n            GOOGLE_MAPS_FRAMEWORK_MODULE=\"$PODS_ROOT/Target Support Files/react-native-google-maps/react-native-google-maps.modulemap\"\n            GOOGLE_MAPS_UMBRELLA_HEADER=\"$PODS_ROOT/Target Support Files/react-native-google-maps/react-native-google-maps-umbrella.h\"\n\n            echo \"Checking standard path: $GOOGLE_MAPS_STANDARD_PATH\"\n            echo \"Checking framework module path: $GOOGLE_MAPS_FRAMEWORK_MODULE\"\n            echo \"Checking umbrella header path: $GOOGLE_MAPS_UMBRELLA_HEADER\"\n\n            # Check if Google Maps is available via any detection method\n            if [ -f \"$GOOGLE_MAPS_STANDARD_PATH\" ] || [ -f \"$GOOGLE_MAPS_FRAMEWORK_MODULE\" ] || [ -f \"$GOOGLE_MAPS_UMBRELLA_HEADER\" ]; then\n              echo \"#define HAVE_GOOGLE_MAPS 1\" > \"$DEFINES_FILE\"\n              echo \"Google Maps detected. HAVE_GOOGLE_MAPS defined.\"\n            else\n              echo \"#define HAVE_GOOGLE_MAPS 0\" > \"$DEFINES_FILE\"\n              echo \"Google Maps not detected.\"\n            fi\n\n            # Verify the file was written\n            if [ -f \"$DEFINES_FILE\" ]; then\n              echo \"Successfully wrote to $DEFINES_FILE\"\n              cat \"$DEFINES_FILE\"\n            else\n              echo \"ERROR: Failed to write to $DEFINES_FILE\"\n            fi\n          ",
+      "execution_position": "before_compile"
+    }
+  ]
+}

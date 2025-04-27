@@ -1,0 +1,1 @@
+../../../Target Support Files/react-native-config/react-native-config-umbrella.h

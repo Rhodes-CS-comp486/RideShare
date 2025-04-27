@@ -1,0 +1,60 @@
+{
+  "name": "react-native-google-maps",
+  "version": "1.21.0",
+  "summary": "React Native Mapview component for iOS + Android",
+  "authors": "Leland Richardson <leland.m.richardson@gmail.com>",
+  "homepage": "https://github.com/react-native-maps/react-native-maps#readme",
+  "license": "MIT",
+  "platforms": {
+    "ios": "15.1"
+  },
+  "source": {
+    "git": "https://github.com/react-native-maps/react-native-maps.git",
+    "tag": "v1.21.0"
+  },
+  "source_files": "ios/AirGoogleMaps/**/*.{h,m,mm,swift}",
+  "resource_bundles": {
+    "GoogleMapsPrivacy": [
+      "ios/AirGoogleMaps/Resources/GoogleMapsPrivacy.bundle"
+    ]
+  },
+  "compiler_flags": "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -DFOLLY_CFG_NO_COROUTINES=1 -DFOLLY_HAVE_CLOCK_GETTIME=1 -Wno-comma -Wno-shorten-64-to-32 -DHAVE_GOOGLE_MAPS=1 -DHAVE_GOOGLE_MAPS_UTILS=1  -DRCT_NEW_ARCH_ENABLED=1 -DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -DFOLLY_CFG_NO_COROUTINES=1 -DFOLLY_HAVE_CLOCK_GETTIME=1 -Wno-comma -Wno-shorten-64-to-32",
+  "dependencies": {
+    "GoogleMaps": [
+      "9.3.0"
+    ],
+    "Google-Maps-iOS-Utils": [
+      "6.1.0"
+    ],
+    "react-native-maps-generated": [],
+    "react-native-maps": [],
+    "React-Core": [],
+    "RCT-Folly": [
+      "2024.11.18.00"
+    ],
+    "glog": [],
+    "React-RCTFabric": [],
+    "ReactCodegen": [],
+    "RCTRequired": [],
+    "RCTTypeSafety": [],
+    "ReactCommon/turbomodule/bridging": [],
+    "ReactCommon/turbomodule/core": [],
+    "React-NativeModulesApple": [],
+    "Yoga": [],
+    "React-Fabric": [],
+    "React-graphics": [],
+    "React-utils": [],
+    "React-featureflags": [],
+    "React-debug": [],
+    "React-ImageManager": [],
+    "React-rendererdebug": [],
+    "DoubleConversion": [],
+    "hermes-engine": []
+  },
+  "pod_target_xcconfig": {
+    "HEADER_SEARCH_PATHS": "\"$(PODS_ROOT)/boost\" \"$(PODS_ROOT)/Headers/Private/Yoga\"",
+    "CLANG_CXX_LANGUAGE_STANDARD": "c++20",
+    "OTHER_CPLUSPLUSFLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED=1 -DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -DFOLLY_CFG_NO_COROUTINES=1 -DFOLLY_HAVE_CLOCK_GETTIME=1 -Wno-comma -Wno-shorten-64-to-32",
+    "OTHER_SWIFT_FLAGS": "$(inherited) -DRCT_NEW_ARCH_ENABLED"
+  }
+}

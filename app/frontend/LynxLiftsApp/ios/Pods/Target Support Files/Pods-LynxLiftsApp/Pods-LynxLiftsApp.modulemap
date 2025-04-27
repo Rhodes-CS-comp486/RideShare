@@ -1,0 +1,6 @@
+module Pods_LynxLiftsApp {
+  umbrella header "Pods-LynxLiftsApp-umbrella.h"
+
+  export *
+  module * { export * }
+}

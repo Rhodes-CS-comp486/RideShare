@@ -1,0 +1,6 @@
+module react_native_google_maps {
+  umbrella header "react-native-google-maps-umbrella.h"
+
+  export *
+  module * { export * }
+}
