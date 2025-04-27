@@ -94,6 +94,13 @@ const FeedScreen = ({ navigation, route }) => {
             <Text style={styles.postText}>Distance: {item.distance}</Text>
             <Text style={styles.postText}>Duration: {item.duration}</Text>
             <Text style={styles.postText}>Total Cost: ${item.estimatedpayment}</Text>
+
+            <TouchableOpacity 
+              onPress={() => navigation.navigate('Report', { reportedUser: item.passengerrhodesid, currentUser: user.rhodesid })}
+              style={{ alignSelf: 'flex-end', marginTop: 10, marginRight: 10, marginBottom: 5 }}
+            >
+              <Text style={{ color: '#FAF2E6', textDecorationLine: 'underline' }}>Report User</Text>
+            </TouchableOpacity>
           </View>
         </Animated.View>
       </GestureDetector>
