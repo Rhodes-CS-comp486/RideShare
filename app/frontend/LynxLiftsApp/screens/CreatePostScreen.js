@@ -32,6 +32,7 @@ const CreatePostScreen = ({ navigation, route }) => {
     const [promptText, setPromptText] = useState("Click on the map to select the pickup location");
     const mapKey = `${pickupLocation?.latitude ?? 0}-${pickupLocation?.longitude ?? 0}-${dropoffLocation?.latitude ?? 0}-${dropoffLocation?.longitude ?? 0}`;
     const [addComments, setAddComments] = useState('');
+    const [pickuptimestamp, setpickuptimestamp] = useState('');
 
 
     const formatTimePosted = () => new Date().toISOString();
@@ -88,6 +89,13 @@ const CreatePostScreen = ({ navigation, route }) => {
         return estimate.toFixed(2); // returns as string like "5.25"
     };
 
+    const getPickupTimestamp = () => {
+        if (!pickupDate || !pickupTime) return null;
+        const [month, day, year] = pickupDate.split('-');
+        const combined = new Date(year, month - 1, day, pickupTime.getHours(), pickupTime.getMinutes());
+        return combined.toISOString(); 
+    };
+
     useEffect(() => {
         if (user?.rhodesid) {
             setPassengerRhodesID(user.rhodesid);
@@ -138,6 +146,9 @@ const CreatePostScreen = ({ navigation, route }) => {
     const handlePost = async () => {
         let newErrors = { pickupDate: '', pickupTime: '', payment: '', locations: '' };
         let hasError = false;
+
+        const pickuptimestamp = getPickupTimestamp();
+        console.log(pickuptimestamp)
 
         if (!pickupDate) {
             newErrors.pickupDate = "Please select a date to be picked up.";
@@ -196,6 +207,8 @@ const CreatePostScreen = ({ navigation, route }) => {
                                 timeposted: formatTimePosted(),
                                 estimatedpayment: estimatedpayment,
                                 addcomments: addComments,
+                                pickuptimestamp: pickuptimestamp,
+                                drivercomplete: false,
                             });
     
                             console.log("Post created:", response.data);
