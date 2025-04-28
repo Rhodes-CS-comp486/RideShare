@@ -84,18 +84,53 @@ const FeedScreen = ({ navigation, route }) => {
     return (
       <GestureDetector gesture={gesture}>
         <Animated.View style={[styles.swipeablePost, animatedStyle]}>
-        <View style={[ styles.post, item.ridestate === true && item.passengerrhodesid === user.rhodesid && { backgroundColor: '#BF4146' } ]}>
-            <Text style={styles.postText}>Rhodes ID: {item.passengerrhodesid}</Text>
-            <Text style={styles.postText}>Pickup Date: {item.pickupdate}</Text>
-            <Text style={styles.postText}>Pickup Time: {item.pickuptime}</Text>
-            <Text style={styles.postText}>Pickup Location: {item.pickuplocation}</Text>
-            <Text style={styles.postText}>Dropoff Location: {item.dropofflocation}</Text>
-            <Text style={styles.postText}>Payment: {item.payment}</Text>
-            <Text style={styles.postText}>Distance: {item.distance}</Text>
-            <Text style={styles.postText}>Duration: {item.duration}</Text>
-            <Text style={styles.postText}>Total Cost: ${item.estimatedpayment}</Text>
-            <Text style={styles.postText}>Additional Notes: {item.addcomments}</Text>
+        <View style={[
+          styles.post, 
+          item.ridestate === true && item.passengerrhodesid === user.rhodesid && { backgroundColor: '#BF4146' }
+        ]}>
+          <View style={{ marginBottom: 8 }}>
+            <Text style={styles.headerText}>{item.pickupdate} at {item.pickuptime}</Text>
+            <Text style={styles.subHeaderText}>Passenger: {item.passengerrhodesid}</Text>
           </View>
+
+          <View style={{ marginBottom: 8 }}>
+            <Text style={styles.label}>Pickup:</Text>
+            <Text style={styles.postText}>{item.pickuplocation}</Text>
+          </View>
+
+          <View style={{ marginBottom: 8 }}>
+            <Text style={styles.label}>Dropoff:</Text>
+            <Text style={styles.postText}>{item.dropofflocation}</Text>
+          </View>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
+            <View>
+              <Text style={styles.label}>Payment</Text>
+              <Text style={styles.postText}>{item.payment}</Text>
+            </View>
+            <View>
+              <Text style={styles.label}>Distance</Text>
+              <Text style={styles.postText}>{item.distance}</Text>
+            </View>
+            <View>
+              <Text style={styles.label}>Duration</Text>
+              <Text style={styles.postText}>{item.duration}</Text>
+            </View>
+          </View>
+
+          <View style={{ marginBottom: 8 }}>
+            <Text style={styles.label}>Estimated Cost</Text>
+            <Text style={styles.postText}>${item.estimatedpayment}</Text>
+          </View>
+
+          <TouchableOpacity 
+            onPress={() => navigation.navigate('Report', { reportedUser: item.passengerrhodesid, currentUser: user.rhodesid, postInfo: item })}
+            style={{ alignSelf: 'flex-end', marginTop: 10, marginRight: 10 }}
+          >
+            <Text style={styles.reportText}>Report Post</Text>
+          </TouchableOpacity>
+            <Text style={styles.postText}>Additional Notes: {item.addcomments}</Text>
+        </View>
         </Animated.View>
       </GestureDetector>
     );
@@ -205,6 +240,26 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     marginBottom: 10,
   },   
+  headerText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#FAF2E6',
+  },
+  subHeaderText: {
+    fontSize: 16,
+    color: '#FAF2E6',
+    marginTop: 2,
+  },
+  label: {
+    fontSize: 14,
+    color: '#FFCE67',
+    fontWeight: 'bold',
+  },
+  reportText: {
+    color: '#FFCE67',
+    textDecorationLine: 'underline',
+    fontSize: 14,
+  },  
 });
 
 export default FeedScreen;
