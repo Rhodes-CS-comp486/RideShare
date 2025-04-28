@@ -195,7 +195,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                                 duration: duration,
                                 timeposted: formatTimePosted(),
                                 estimatedpayment: estimatedpayment,
-                                addcomments: addComments
+                                addcomments: addComments,
                             });
     
                             console.log("Post created:", response.data);
@@ -305,9 +305,6 @@ const CreatePostScreen = ({ navigation, route }) => {
                     {errors.payment !== '' && (
                         <Text style={styles.errorText}>{errors.payment}</Text>
                     )}
-                    <Text style={{ color: '#FAF2E6', fontSize: 16, textAlign: 'center', marginBottom: 5 }}>
-                        {promptText}
-                    </Text>
                     <TextInput
                         style={styles.input}
                         placeholder="Additional Notes (Optional)" 
@@ -315,7 +312,9 @@ const CreatePostScreen = ({ navigation, route }) => {
                         value={addComments}
                         onChangeText={setAddComments}
                     />
-
+                    <Text style={{ color: '#FAF2E6', fontSize: 16, textAlign: 'center', marginBottom: 5 }}>
+                        {promptText}
+                    </Text>
                 <View style={styles.mapContainer}>
                     <MapView
                         key={mapKey}
