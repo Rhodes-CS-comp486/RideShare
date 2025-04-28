@@ -5,7 +5,7 @@ const router = express.Router();
 // route to get all feed posts
 router.get("/", async (req, res) => {
     try {
-        const result = await pool.query("SELECT passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, estimatedpayment, pickupdate, distance, duration, driverid, addcomments " +
+        const result = await pool.query("SELECT passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, estimatedpayment, pickupdate, distance, duration, driverid, addcomments, pickuptimestamp " +
             "FROM feed ORDER BY timeposted DESC");
           
         res.json(result.rows);
@@ -18,11 +18,11 @@ router.get("/", async (req, res) => {
 // route to add a new feed post
 router.post("/", async (req, res) => {
     try {
-        const { passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment, addcomments} = req.body; 
+        const { passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment, addcomments, pickuptimestamp, drivercomplete = false} = req.body; 
         const result = await pool.query(
-            "INSERT INTO feed (passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment, addcomments) " +
-            "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *",
-            [passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment, addcomments]
+            "INSERT INTO feed (passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment, addcomments, pickuptimestamp, drivercomplete) " +
+            "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *",
+            [passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment, addcomments, pickuptimestamp, drivercomplete]
         );
         res.json(result.rows[0]);
     } catch (err) {
@@ -73,5 +73,36 @@ router.put("/accept", async (req, res) => {
       res.status(500).json({ error: 'Server error' });
     }
   });  
+
+  // complete status for driver
+  router.put('/complete', async (req, res) => {
+    const { passengerrhodesid, pickupdate, pickuptimestamp } = req.body;
+    try {
+      await pool.query(
+        'UPDATE feed SET drivercomplete = true WHERE passengerrhodesid = $1 AND pickupdate = $2 AND pickuptimestamp = $3',
+        [passengerrhodesid, pickupdate, pickuptimestamp]
+      );
+      res.json({ message: 'Ride marked as complete' });
+    } catch (err) {
+      console.error('Error marking ride complete:', err);
+      res.status(500).json({ error: 'Server error' });
+    }
+  });  
+
+  // explain route for screen
+  router.put('/explain', async (req, res) => {
+    const { passengerrhodesid, pickupdate, pickuptime, driverdescription } = req.body;
+    try {
+      await pool.query(
+        'UPDATE feed SET driverdescription = $4 WHERE passengerrhodesid = $1 AND pickupdate = $2 AND pickuptime = $3',
+        [passengerrhodesid, pickupdate, pickuptime, driverdescription]
+      );
+      res.json({ message: 'Explanation saved' });
+    } catch (err) {
+      console.error('Error saving explanation:', err);
+      res.status(500).json({ error: 'Server error' });
+    }
+  });
+  
 
 module.exports = router;
