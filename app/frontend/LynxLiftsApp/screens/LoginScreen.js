@@ -99,6 +99,8 @@ const LoginScreen = () => {
           Sign Up
         </Text>
       </Text>
+      <Text style={styles.sponsor}>
+        Rhodes College Lynx Lifts Organization</Text>
     </SafeAreaView>
   );
 };
@@ -180,6 +182,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginLeft: 5,
   },  
+  sponsor: {
+    color: '#FAF2E6',
+    marginTop: 15,
+    fontSize: 12,
+  },
 });
 
 export default LoginScreen;
