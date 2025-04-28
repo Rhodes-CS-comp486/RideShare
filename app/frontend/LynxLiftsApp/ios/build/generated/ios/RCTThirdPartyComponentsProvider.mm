@@ -19,6 +19,9 @@
 		@"RNCSlider": NSClassFromString(@"RNCSliderComponentView"), // @react-native-community/slider
 		@"RNDatePicker": NSClassFromString(@"RNDatePicker"), // react-native-date-picker
 		@"RNGestureHandlerButton": NSClassFromString(@"RNGestureHandlerButtonComponentView"), // react-native-gesture-handler
+		@"KeyboardControllerView": NSClassFromString(@"KeyboardControllerView"), // react-native-keyboard-controller
+		@"KeyboardGestureArea": NSClassFromString(@"KeyboardGestureArea"), // react-native-keyboard-controller
+		@"OverKeyboardView": NSClassFromString(@"OverKeyboardView"), // react-native-keyboard-controller
 		@"RNMapsGoogleMapView": NSClassFromString(@"RNMapsGoogleMapView"), // react-native-maps
 		@"RNMapsGooglePolygon": NSClassFromString(@"RNMapsGooglePolygonView"), // react-native-maps
 		@"RNMapsGoogleMapView": NSClassFromString(@"RNMapsGoogleMapView"), // react-native-maps

@@ -1,25 +1,42 @@
+// CREATE TABLE messages (
+//    passengerrhodesid VARCHAR(255) NOT NULL,
+//    driverid VARCHAR(255) NOT NULL,
+//    pickupdate VARCHAR(50) NOT NULL,
+//    pickuptime VARCHAR(10) NOT NULL,
+//    text TEXT NOT NULL,
+//    timesent TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+//  )
+  
+
 const express = require('express');
 const pool = require('../db') // database connection
 const router = express.Router();
 
 // Get all messages (latest first)
 router.get('/', async (req, res) => {
+    const { passengerrhodesid, driverid } = req.query;
+    if (!passengerrhodesid || !driverid) {
+      return res.status(400).json({ error: 'Missing passengerrhodesid or driverid' });
+    }
     try {
-      const result = await pool.query('SELECT * FROM messages ORDER BY created_at DESC');
+      const result = await pool.query(
+        'SELECT * FROM messages WHERE passengerrhodesid = $1 AND driverid = $2 ORDER BY timesent DESC',
+        [passengerrhodesid, driverid]
+      );
       res.json(result.rows);
     } catch (err) {
       console.error(err);
       res.status(500).send('Server error');
     }
-  });
+});
 
 // Post a new message
 router.post('/', async (req, res) => {
-    const { user_id, text, createdAt } = req.body;
+    const { passengerrhodesid, driverid, pickupdate, pickuptime, text } = req.body;
     try {
       await pool.query(
-        'INSERT INTO messages (user_id, text, created_at) VALUES ($1, $2, $3)',
-        [user_id, text, createdAt]
+        'INSERT INTO messages (passengerrhodesid, driverid, pickupdate, pickuptime, text) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+        [passengerrhodesid, driverid, pickupdate, pickuptime, text]
       );
       res.status(201).send('Message added');
     } catch (err) {

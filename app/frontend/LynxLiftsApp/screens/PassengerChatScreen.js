@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { View, KeyboardAvoidingView, Platform, StyleSheet, SafeAreaView, TouchableOpacity, Image, Alert } from 'react-native';
 import axios from 'axios';
 import { GiftedChat } from 'react-native-gifted-chat';
+import uuid from 'react-native-uuid';
 import { API_URL } from '@env';
 
 const API_BASE_URL = `${API_URL}/api/messages`;
@@ -14,13 +15,18 @@ const PassengerChatScreen = ({ navigation, route }) => {
     useEffect(() => {
       const fetchMessages = async () => {
         try {
-          const response = await axios.get(API_BASE_URL);
+          const response = await axios.get(API_BASE_URL, {
+            params: {
+              passengerrhodesid: user.rhodesid,
+              driverid: "driver123"
+            }
+          });
           const formattedMessages = response.data.map(msg => ({
-            _id: msg.id,
+            _id: msg.id || uuid.v4(),
             text: msg.text,
-            createdAt: new Date(msg.created_at),
+            createdAt: new Date(msg.timesent),
             user: {
-              _id: msg.user_id
+              _id: msg.passengerrhodesid === user.rhodesid ? user.rhodesid : msg.driverid
             }
           }));
           setMessages(formattedMessages);
@@ -40,9 +46,11 @@ const PassengerChatScreen = ({ navigation, route }) => {
   
       try {
         await axios.post(API_BASE_URL, {
-          user_id: user._id,
-          text,
-          createdAt
+          passengerrhodesid: user._id,
+          driverid: "driver123",
+          pickupdate: "2025-05-01", 
+          pickuptime: "14:00:00",    
+          text: text,
         });
       } catch (error) {
         console.error('Error sending message:', error);
@@ -63,6 +71,8 @@ const PassengerChatScreen = ({ navigation, route }) => {
                 _id: user.rhodesid // or any unique identifier
                 // name: user.email
               }}
+              messageIdGenerator={() => uuid.v4()}
+              // messageIdGenerator={() => Math.random().toString(36).substring(7)}
               renderActions={() => null}
               minComposerHeight={90}
               maxComposerHeight={50}
