@@ -267,6 +267,7 @@ const resetPassword = async (req, res) => {
   console.log('Email:', email);
   console.log('New Password:', newPassword);
 
+  
   try {
     const { rows } = await pool.query(
       'SELECT * FROM users WHERE reset_token = $1 AND email = $2 AND reset_token_expiry > NOW()',

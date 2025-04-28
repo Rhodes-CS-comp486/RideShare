@@ -1,5 +1,6 @@
 const pool = require('../db');
 
+
 class User {
   static async create({ rhodesid, email, password, username }) {
     const query = `
