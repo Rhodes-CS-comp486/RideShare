@@ -30,6 +30,7 @@ const DriverFeedScreen = ({ route }) => {
         return bPriority - aPriority; // Sort descending
       });
       setPosts(filtered);      
+      checkRideCompletion(filtered);
     } catch (error) {
       console.error("Error fetching posts:", error);
     }
@@ -40,6 +41,51 @@ const DriverFeedScreen = ({ route }) => {
     const unsubscribe = navigation.addListener('focus', fetchPosts);
     return unsubscribe;
   }, [navigation]);
+
+  const markRideComplete = async (post) => {
+    try {
+      await axios.put(`${API_URL}/api/feed/complete`, {
+        passengerrhodesid: post.passengerrhodesid,
+        pickupdate: post.pickupdate,
+        pickuptimestamp: post.pickuptimestamp
+      });
+      fetchPosts(); // refresh posts
+    } catch (error) {
+      console.error("Error marking ride complete:", error);
+    }
+  };
+  
+  const explainIncompleteRide = (post) => {
+    navigation.navigate('ExplainRide', { post, user: { rhodesid: user.rhodesid }  });
+  };
+  
+  const checkRideCompletion = (postsToCheck) => {
+    const now = new Date();
+  
+    postsToCheck.forEach(post => {
+      if (post.ridestate && post.driverid === user.rhodesid) {
+        const scheduledDateTime = new Date(post.pickuptimestamp);
+  
+        const timeDiffMs = now - scheduledDateTime;
+        const timeDiffHours = timeDiffMs / (1000 * 60 * 60);
+  
+        const isSameDay = now.toISOString().slice(0,10) === post.pickupdate;
+  
+        if (isSameDay || (timeDiffHours > 0 && timeDiffHours <= 12)) {
+          if (post.drivercomplete == false && (!post.driverdescription || post.driverdescription.trim() === '')) {
+            Alert.alert(
+              "Ride Completion",
+              `Did you complete the ride scheduled at ${post.pickuptime}?`,
+              [
+                { text: "Yes, Completed", onPress: () => markRideComplete(post) },
+                { text: "No, Explain", onPress: () => explainIncompleteRide(post) }
+              ]
+            );
+          }
+        }
+      }
+    });
+  };  
 
   const promptCancel = (item) => {
     Alert.alert(

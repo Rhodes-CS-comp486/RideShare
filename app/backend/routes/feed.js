@@ -5,7 +5,7 @@ const router = express.Router();
 // route to get all feed posts
 router.get("/", async (req, res) => {
     try {
-        const result = await pool.query("SELECT passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, estimatedpayment, pickupdate, distance, duration, driverid, addcomments, pickuptimestamp " +
+        const result = await pool.query("SELECT passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, estimatedpayment, pickupdate, distance, duration, driverid, addcomments, pickuptimestamp, drivercomplete, driverdescription " +
             "FROM feed ORDER BY timeposted DESC");
           
         res.json(result.rows);
@@ -21,7 +21,7 @@ router.post("/", async (req, res) => {
         const { passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment, addcomments, pickuptimestamp, drivercomplete = false} = req.body; 
         const result = await pool.query(
             "INSERT INTO feed (passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment, addcomments, pickuptimestamp, drivercomplete) " +
-            "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *",
+            "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *",
             [passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment, addcomments, pickuptimestamp, drivercomplete]
         );
         res.json(result.rows[0]);
