@@ -4,7 +4,7 @@ import axios from 'axios';
 import { API_URL } from '@env';
 
 const ReportScreen = ({ route, navigation }) => {
-  const { reportedUser, currentUser } = route.params;
+  const { reportedUser, currentUser, postInfo } = route.params;
   const [reason, setReason] = useState('');
   const [details, setDetails] = useState('');
   
@@ -26,6 +26,7 @@ const ReportScreen = ({ route, navigation }) => {
         reported: reportedUser,
         reason,
         details,
+        postInfo,
       });
 
       Alert.alert('Success', 'Your report has been submitted.');

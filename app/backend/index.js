@@ -12,6 +12,8 @@ const notifyUpcomingRides = require('./notifyUpcomingRides');
 const preferencesRoutes = require('./routes/preference');
 const browseRoutes = require('./routes/browse');
 const welcomeNotification = require('./welcomeNotification');
+const reportRoutes = require('./routes/report');
+
 const app = express();
 
 app.use(express.urlencoded({ extended: true })); // for HTML form body
@@ -27,6 +29,7 @@ app.use('/api/feed', feedRoutes);
 app.use('/api', preferencesRoutes);
 app.use('/api', browseRoutes);
 app.use('/api/token', tokenRoutes);
+app.use('/api', reportRoutes);
 
 // Schedule notification every minute
 //setInterval(() => {
