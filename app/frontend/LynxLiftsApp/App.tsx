@@ -20,6 +20,7 @@ import DriverChatScreen from './screens/ChatScreen';
 import BrowseDrivers from './screens/BrowseDrivers';
 import Report from './screens/RegisterScreen';
 import ReportScreen from './screens/ReportScreen';
+import ExlpainRide from './screens/ExplainRideScreen';
 
 // import { setupNotificationHandlers } from './notificationService';
 
@@ -58,6 +59,7 @@ const App = () => {
           <Stack.Screen name="PassengerAccount" component={PassengerAccountScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Browse" component={BrowseDrivers} options={{ headerShown: false }} />
           <Stack.Screen name="Report" component={ReportScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="ExplainRide" component={ExlpainRide} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>
