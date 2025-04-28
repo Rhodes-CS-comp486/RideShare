@@ -12,7 +12,6 @@ const serveResetForm = async (req, res) => {
     return res.status(400).send('Invalid reset link.');
   }
 
-  // Serve the reset form HTML page
   res.send(`
     <html>
       <head>
@@ -20,7 +19,7 @@ const serveResetForm = async (req, res) => {
         <style>
         ::placeholder {
           color: #FAF2E6;
-          opacity: 1; /* Ensure full opacity */
+          opacity: 1;
         }
       </style>
       </head>
@@ -52,34 +51,26 @@ const register = async (req, res) => {
   const email = req.body.email?.toLowerCase();
   const { password, username } = req.body;
 
-
-  // Check if required fields are present
   if (!email || !password || !username) {
     return res.status(400).json({ error: 'Email, password, and username are required.' });
   }
 
-  // Validate email format
   if (!email.endsWith('@rhodes.edu')) {
     return res.status(400).json({ error: 'Invalid email format. Must end with @rhodes.edu.' });
   }
 
-  // Extract Rhodes ID from email
   const rhodesid = email.split('@')[0];
 
   try {
-    // Check if user already exists
     const existingEmail = await User.findByEmail(email);
     if (existingEmail) {
       return res.status(400).json({ error: 'User already exists.' });
     }
 
-    // Hashed password for security
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Create user
     const user = await User.create({ rhodesid, email, password: hashedPassword, username });
 
-    // Generate verification link
     const emailToken = jwt.sign(
       { rhodesid: user.rhodesid },
       process.env.JWT_SECRET,
@@ -87,7 +78,6 @@ const register = async (req, res) => {
     );
     const verificationLink = `${process.env.BASE_URL}/api/auth/verify?token=${emailToken}`;    
 
-    // Send verification email
     const transporter = nodemailer.createTransport({
       host: 'smtp.mail.yahoo.com',
       port: 587, 
@@ -96,9 +86,7 @@ const register = async (req, res) => {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASSWORD,
       },
-      tls: {
-        rejectUnauthorized: false, // Security bypass
-      },
+      tls: { rejectUnauthorized: false },
     });
 
     const mailOptions = {
@@ -108,9 +96,7 @@ const register = async (req, res) => {
       text: `Thank you for sending up to LynxLifts. Click the link to verify your account: ${verificationLink}`,
     };
 
-    res.status(201).json({ 
-      rhodesid: user.rhodesid 
-    });
+    res.status(201).json({ rhodesid: user.rhodesid });
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
@@ -118,9 +104,7 @@ const register = async (req, res) => {
         return res.status(500).json({ error: 'Email failed to send', details: error.toString() });
       }
       console.log('Email sent:', info.response);
-      res.status(201).json({ 
-        message: 'User registered. Verification email sent.'
-      });
+      res.status(201).json({ message: 'User registered. Verification email sent.' });
     });
   } catch (error) {
     console.error('Registration Error:', error);
@@ -131,56 +115,49 @@ const register = async (req, res) => {
 const verify = async (req, res) => {
   const { token } = req.query;
 
-try {
-  const decoded = jwt.verify(token, process.env.JWT_SECRET);
-  const rhodesid = decoded.rhodesid;
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const rhodesid = decoded.rhodesid;
 
-  const query = 'UPDATE users SET is_verified = true WHERE rhodesid = $1 RETURNING *;';
-  const { rows } = await pool.query(query, [rhodesid]);
+    const query = 'UPDATE users SET is_verified = true WHERE rhodesid = $1 RETURNING *;';
+    const { rows } = await pool.query(query, [rhodesid]);
 
-  if (rows.length === 0) {
-    return res.status(404).json({ error: 'User not found.' });
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'User not found.' });
+    }
+
+    res.status(200).json({ message: 'User verified successfully.' });
+  } catch (err) {
+    return res.status(400).json({ error: 'Invalid or expired token.' });
   }
-
-  res.status(200).json({ message: 'User verified successfully.' });
-} catch (err) {
-  return res.status(400).json({ error: 'Invalid or expired token.' });
-}
-
 };
 
 const login = async (req, res) => {
   let { email, password } = req.body;
 
-  // Check if email and password are provided
   if (!email || !password) {
     return res.status(400).json({ error: 'Email and password are required.' });
   }
 
-  // Append @rhodes.edu if not present
   if (!email.includes('@')) {
     email = `${email}@rhodes.edu`;
   }
 
   try {
-    // Find user by email
     const user = await User.findByEmail(email);
     if (!user) {
       return res.status(400).json({ error: 'Invalid email or password.'});
     }
 
-    // Verify password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ error: 'Invalid email or password.'});
     }
 
-    // Check if user is verified
     if (!user.is_verified) {
       return res.status(400).json({ error: 'Email not verified. Please check your inbox.' });
     }
 
-    // Generate JWT token
     const token = jwt.sign(
       { rhodesid: user.rhodesid, email: user.email, username: user.username },
       process.env.JWT_SECRET,
@@ -261,13 +238,6 @@ const resetPassword = async (req, res) => {
   const cleanedToken = token.trim();
   const cleanedEmail = email.trim().toLowerCase();
 
-  // DEBUG 
-  console.log('Reset request received');
-  console.log('Token:', token);
-  console.log('Email:', email);
-  console.log('New Password:', newPassword);
-
-  
   try {
     const { rows } = await pool.query(
       'SELECT * FROM users WHERE reset_token = $1 AND email = $2 AND reset_token_expiry > NOW()',
@@ -275,7 +245,6 @@ const resetPassword = async (req, res) => {
     );
 
     if (rows.length === 0) {
-      console.log('Token not found or expired');
       return res.status(400).send('Reset token is invalid or expired.');
     }
 
@@ -286,12 +255,69 @@ const resetPassword = async (req, res) => {
       [hashedPassword, cleanedToken, cleanedEmail]
     );
     
-    console.log('Password successfully updated');
     res.send('Your password has been successfully reset. You can now log in.');
   } catch (err) {
-    console.error('Server error:', err);
     res.status(500).send('Server error. Please try again.');
   }
 };
 
-module.exports = { register, verify, login, forgotPassword, resetPassword, serveResetForm };
+// NEW DRIVER BIO METHODS
+const getDriverBio = async (req, res) => {
+  const { rhodesid } = req.params;
+  try {
+    const bio = await User.getDriverBio(rhodesid);
+    res.status(200).json(bio);
+  } catch (error) {
+    console.error('Error fetching driver bio:', error);
+    res.status(500).json({ error: 'Failed to fetch driver bio.' });
+  }
+};
+
+const updateDriverBio = async (req, res) => {
+  const { rhodesid } = req.params;
+  const bio = req.body;
+  try {
+    const updatedBio = await User.updateDriverBio(rhodesid, bio);
+    res.status(200).json(updatedBio);
+  } catch (error) {
+    console.error('Error updating driver bio:', error);
+    res.status(500).json({ error: 'Failed to update driver bio.' });
+  }
+};
+
+// NEW PASSENGER BIO METHODS
+const getPassengerBio = async (req, res) => {
+  const { rhodesid } = req.params;
+  try {
+    const profile = await User.getPassengerBio(rhodesid);
+    res.status(200).json(profile);
+  } catch (error) {
+    console.error('Error fetching passenger bio:', error);
+    res.status(500).json({ error: 'Failed to fetch passenger bio.' });
+  }
+};
+
+const updatePassengerBio = async (req, res) => {
+  const { rhodesid } = req.params;
+  const profile = req.body;
+  try {
+    const updatedProfile = await User.updatePassengerBio(rhodesid, profile);
+    res.status(200).json(updatedProfile);
+  } catch (error) {
+    console.error('Error updating passenger bio:', error);
+    res.status(500).json({ error: 'Failed to update passenger bio.' });
+  }
+};
+
+module.exports = { 
+  register, 
+  verify, 
+  login, 
+  forgotPassword, 
+  resetPassword, 
+  serveResetForm, 
+  getDriverBio, 
+  updateDriverBio, 
+  getPassengerBio, 
+  updatePassengerBio 
+};
