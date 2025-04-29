@@ -14,13 +14,17 @@ const FeedScreen = ({ navigation, route }) => {
     try {
       const response = await axios.get(`${API_URL}/api/feed`);
       console.log("Fetched posts:", response.data); 
+      const now = new Date(); 
       const visiblePosts = response.data.filter( post => {
         const bothCompleted = post.passengercomplete === true && post.drivercomplete === true;
         const bothExplained = post.passengerdescription != null && post.driverdescription != null;
+
+        const postTime = new Date(post.pickuptimestamp);
+        const isOutdated = post.ridestate === false && now > postTime;
       
         return (
           (post.ridestate === false || (post.ridestate === true && post.passengerrhodesid === user.rhodesid)) &&
-          post.driverid !== user.rhodesid && !bothCompleted && !bothExplained
+          post.driverid !== user.rhodesid && !bothCompleted && !bothExplained && !isOutdated
         );
       });
       

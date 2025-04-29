@@ -19,13 +19,17 @@ const DriverFeedScreen = ({ route }) => {
     try {
       const response = await axios.get(`${API_URL}/api/feed`);
       console.log('All posts from backend:', response.data);
+      const now = new Date(); 
       const filtered = response.data.filter(post => {
         const bothCompleted = post.passengercomplete === true && post.drivercomplete === true;
         const bothExplained = post.passengerdescription != null && post.driverdescription != null;
+
+        const postTime = new Date(post.pickuptimestamp);
+        const isOutdated = post.ridestate === false && now > postTime; // outdated posts
       
         return (
           (post.ridestate === false || (post.ridestate === true && post.driverid === user.rhodesid)) &&
-          post.passengerrhodesid !== user.rhodesid && !bothCompleted && !bothExplained
+          post.passengerrhodesid !== user.rhodesid && !bothCompleted && !bothExplained && !isOutdated
         );
       });
 
