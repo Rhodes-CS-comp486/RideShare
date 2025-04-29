@@ -1,7 +1,7 @@
 const pool = require('../db');
 
 class User {
-  static async create({ rhodesid, email, password, username, fcmtoken}) {
+  static async create({ rhodesid, email, password, username, fcmtoken }) {
     const query = `
       INSERT INTO users (rhodesid, email, password, username, fcmtoken)
       VALUES ($1, $2, $3, $4, $5)
@@ -15,6 +15,32 @@ class User {
   static async findByEmail(email) {
     const query = 'SELECT rhodesid, email, password, username, is_verified FROM users WHERE email = $1;';
     const { rows } = await pool.query(query, [email]);
+    return rows[0];
+  }
+
+  // ✅ Get payment info for a driver
+  static async getPaymentInfo(rhodesid) {
+    const query = `
+      SELECT venmo_handle, cashapp_handle, zelle_contact
+      FROM users
+      WHERE rhodesid = $1;
+    `;
+    const { rows } = await pool.query(query, [rhodesid]);
+    return rows[0];
+  }
+
+  // ✅ Update payment info for a driver
+  static async updatePaymentInfo(rhodesid, { venmo_handle, cashapp_handle, zelle_contact }) {
+    const query = `
+      UPDATE users
+      SET venmo_handle = $1,
+          cashapp_handle = $2,
+          zelle_contact = $3
+      WHERE rhodesid = $4
+      RETURNING *;
+    `;
+    const values = [venmo_handle, cashapp_handle, zelle_contact, rhodesid];
+    const { rows } = await pool.query(query, values);
     return rows[0];
   }
 }

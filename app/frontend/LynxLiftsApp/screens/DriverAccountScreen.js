@@ -10,7 +10,6 @@ const DriverAccountScreen = ({ route }) => {
 
   const handleLogout = async () => {
     try {
-
       navigation.reset({
         index: 0,
         routes: [{ name: 'Login' }],
@@ -123,7 +122,7 @@ const DriverAccountScreen = ({ route }) => {
         onPress={() => navigation.navigate('Feed', { user })}
       >
         <Text style={styles.buttonText}>Switch to Passenger</Text>
-       </TouchableOpacity>
+      </TouchableOpacity>
 
       <TouchableOpacity 
         style={[styles.button, styles.logoutButton]} 
@@ -136,12 +135,16 @@ const DriverAccountScreen = ({ route }) => {
         <TouchableOpacity onPress={() => navigation.navigate('DriverFeed', { user: { rhodesid: user.rhodesid } })}>
           <Image source={require('../assets/home.png')} style={styles.icon} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log('Driver')}>
+
+        {/* ✅ Updated payment button to navigate to PaymentOption */}
+        <TouchableOpacity onPress={() => navigation.navigate('PaymentOption', { user: { rhodesid: user.rhodesid } })}>
           <Image source={require('../assets/payment.png')} style={styles.icon} />
         </TouchableOpacity>
+
         <TouchableOpacity onPress={() => navigation.navigate('DriverChat', { user: { rhodesid: user.rhodesid } })}>
           <Image source={require('../assets/chat.png')} style={styles.icon} />
         </TouchableOpacity>
+
         <TouchableOpacity onPress={() => navigation.navigate('DriverAccount', { user: { rhodesid: user.rhodesid } })}>
           <Image source={require('../assets/setting.png')} style={styles.icon} />
         </TouchableOpacity>

@@ -21,6 +21,18 @@ const BrowseDrivers = ({ navigation, route }) => {
     Alert.alert("Ride Request Sent", `You requested a ride from ${driverId}`);
   };
 
+  const payDriver = (driver) => {
+    if (driver.venmo_handle) {
+      console.log(`Open Venmo for: ${driver.venmo_handle}`);
+    } else if (driver.cashapp_handle) {
+      console.log(`Open CashApp for: ${driver.cashapp_handle}`);
+    } else if (driver.zelle_contact) {
+      console.log(`Use Zelle contact: ${driver.zelle_contact}`);
+    } else {
+      Alert.alert("No payment info available.");
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', fetchDrivers);
     return unsubscribe;
@@ -40,6 +52,16 @@ const BrowseDrivers = ({ navigation, route }) => {
         >
           <Text style={styles.chatText}>Request</Text>
         </TouchableOpacity>
+
+        {/* ✅ Only show Pay Driver if payment info exists */}
+        {(item.venmo_handle || item.cashapp_handle || item.zelle_contact) && (
+          <TouchableOpacity
+            style={styles.payButton}
+            onPress={() => payDriver(item)}
+          >
+            <Text style={styles.chatText}>Pay Driver</Text>
+          </TouchableOpacity>
+        )}
       </View>
     </View>
   );
@@ -100,6 +122,13 @@ const styles = StyleSheet.create({
   chatText: {
     color: '#FAF2E6',
     fontSize: 15
+  },
+  payButton: {
+    backgroundColor: '#4CAF50',
+    marginTop: 8,
+    padding: 8,
+    borderRadius: 25,
+    alignItems: 'center'
   },
   bottomBar: {
     position: 'absolute',
