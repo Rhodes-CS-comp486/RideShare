@@ -14,8 +14,8 @@ const PassengerAccountScreen = ({ route }) => {
 
   const fields = [
     { label: 'Class Year', key: 'class_year' },
-    { label: 'Major', key: 'major' },
     { label: 'Pronouns', key: 'pronouns' },
+    { label: 'Major', key: 'major' },
     { label: 'Bio', key: 'bio' },
   ];
 
@@ -38,7 +38,7 @@ const PassengerAccountScreen = ({ route }) => {
     setEditingField(null);
 
     try {
-      await axios.put(`${API_URL}/api/passenger/${user.rhodesid}/profile`, updated); // API DOES NOT EXIST
+      await axios.put(`${API_URL}/api/auth/passenger/${user.rhodesid}/profile`, updated); // API DOES NOT EXIST
     } catch (error) {
       console.error('Error saving field:', error);
     }

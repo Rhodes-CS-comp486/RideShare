@@ -60,8 +60,8 @@ const App = () => {
           <Stack.Screen name="PassengerAccount" component={PassengerAccountScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Browse" component={BrowseDrivers} options={{ headerShown: false }} />
           <Stack.Screen name="Report" component={ReportScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="ExplainRide" component={ExlpainRide} />
-          <Stack.Screen name="PassengerExplainRide" component={PassengerExplainRideScreen} />
+          <Stack.Screen name="ExplainRide" component={ExlpainRide} options={{ headerShown: false }} />
+          <Stack.Screen name="PassengerExplainRide" component={PassengerExplainRideScreen}  options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

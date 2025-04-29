@@ -27,19 +27,20 @@ const DriverAccountScreen = ({ route }) => {
 
   const fields = [
     { label: 'Class Year', key: 'class_year' },
+    { label: 'Pronouns', key: 'pronouns' },
+    { label: 'Major', key: 'major' },
     { label: 'Car Make & Model', key: 'car_make_model' },
     { label: 'Car Color', key: 'car_color' },
     { label: 'License Plate', key: 'license_plate' },
-    { label: 'Bio', key: 'notes' },
-    { label: 'Pronouns', key: 'pronouns' },
+    { label: 'Number of Passengers', key: 'num_passenger' },
     { label: 'Pet Friendly', key: 'pet_friendly' },
-    { label: 'Major', key: 'major' },
+    { label: 'Bio', key: 'bio' },
   ];
 
   useEffect(() => {
     const fetchBio = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/driver/${user.rhodesid}/profile`); // API DOES NOT EXIST
+        const response = await axios.get(`${API_URL}/api/auth/driver/${user.rhodesid}/profile`); // API DOES NOT EXIST
         setBio(response.data);
       } catch (error) {
         console.error('Error fetching bio:', error);

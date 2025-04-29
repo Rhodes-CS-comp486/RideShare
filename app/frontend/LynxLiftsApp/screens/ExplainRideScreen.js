@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
 import axios from 'axios';
 import { API_URL } from '@env';
 
@@ -36,7 +36,28 @@ const ExplainRideScreen = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Explain Incomplete Ride</Text>
-
+      <TouchableOpacity
+        onPress={() => navigation.goBack()}
+        style={{
+          position: 'absolute',
+          top: Platform.OS === 'ios' ? 64 : 44,
+          left: 18,
+          zIndex: 999,
+          backgroundColor: '#FAF2E6',
+          borderRadius: 16,
+          padding: 6,
+          shadowOffset: { width: 0, height: 2 },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 4,
+        }}
+      >
+        <Image
+          source={require('../assets/x.png')}
+          style={{ width: 20, height: 20, tintColor: '#6683A9' }}
+          resizeMode="contain"
+        />
+      </TouchableOpacity>
       <TextInput
         placeholder="Enter explanation ..."
         placeholderTextColor="#ccc"
@@ -55,7 +76,7 @@ const ExplainRideScreen = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#80A1C2', padding: 20 },
-  title: { color: '#FAF2E6', fontSize: 20, marginBottom: 20 },
+  title: { color: '#FAF2E6', fontSize: 20, marginBottom: 20, marginTop: 100 },
   input: { backgroundColor: '#6683A9', color: '#FAF2E6', padding: 10, borderRadius: 10, marginBottom: 15 },
   button: { backgroundColor: '#A62C2C', padding: 15, borderRadius: 20, alignItems: 'center' },
   buttonText: { color: '#FAF2E6', fontSize: 16 },
