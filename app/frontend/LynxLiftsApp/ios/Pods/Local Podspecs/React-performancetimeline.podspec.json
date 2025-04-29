@@ -1,6 +1,6 @@
 {
   "name": "React-performancetimeline",
-  "version": "0.77.0",
+  "version": "0.77.2",
   "summary": "React performance timeline utilities",
   "homepage": "https://reactnative.dev/",
   "license": "MIT",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://github.com/facebook/react-native.git",
-    "tag": "v0.77.0"
+    "tag": "v0.77.2"
   },
   "source_files": "**/*.{cpp,h}",
   "compiler_flags": "-DFOLLY_NO_CONFIG -DFOLLY_MOBILE=1 -DFOLLY_USE_LIBCPP=1 -DFOLLY_CFG_NO_COROUTINES=1 -DFOLLY_HAVE_CLOCK_GETTIME=1 -Wno-comma -Wno-shorten-64-to-32",
@@ -21,9 +21,15 @@
     "HEADER_SEARCH_PATHS": "\"$(PODS_ROOT)/RCT-Folly\" \"$(PODS_ROOT)/boost\""
   },
   "dependencies": {
-    "React-featureflags": [],
-    "React-timing": [],
-    "React-cxxreact": [],
+    "React-featureflags": [
+
+    ],
+    "React-timing": [
+
+    ],
+    "React-cxxreact": [
+
+    ],
     "RCT-Folly": [
       "2024.11.18.00"
     ]

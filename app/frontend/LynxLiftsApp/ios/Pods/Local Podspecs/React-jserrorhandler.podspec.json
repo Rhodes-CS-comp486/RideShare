@@ -1,6 +1,6 @@
 {
   "name": "React-jserrorhandler",
-  "version": "0.77.0",
+  "version": "0.77.2",
   "summary": "-",
   "homepage": "https://reactnative.dev/",
   "license": "MIT",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://github.com/facebook/react-native.git",
-    "tag": "v0.77.0"
+    "tag": "v0.77.2"
   },
   "header_dir": "jserrorhandler",
   "source_files": [
@@ -27,12 +27,26 @@
     "RCT-Folly/Fabric": [
       "2024.11.18.00"
     ],
-    "React-jsi": [],
-    "React-cxxreact": [],
-    "glog": [],
-    "ReactCommon/turbomodule/bridging": [],
-    "React-featureflags": [],
-    "React-debug": [],
-    "hermes-engine": []
+    "React-jsi": [
+
+    ],
+    "React-cxxreact": [
+
+    ],
+    "glog": [
+
+    ],
+    "ReactCommon/turbomodule/bridging": [
+
+    ],
+    "React-featureflags": [
+
+    ],
+    "React-debug": [
+
+    ],
+    "hermes-engine": [
+
+    ]
   }
 }

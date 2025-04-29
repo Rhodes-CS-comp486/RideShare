@@ -1,6 +1,6 @@
 {
   "name": "React-cxxreact",
-  "version": "0.77.0",
+  "version": "0.77.2",
   "summary": "-",
   "homepage": "https://reactnative.dev/",
   "license": "MIT",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://github.com/facebook/react-native.git",
-    "tag": "v0.77.0"
+    "tag": "v0.77.2"
   },
   "source_files": "*.{cpp,h}",
   "exclude_files": "SampleCxxModule.*",
@@ -21,8 +21,12 @@
   },
   "header_dir": "cxxreact",
   "dependencies": {
-    "boost": [],
-    "DoubleConversion": [],
+    "boost": [
+
+    ],
+    "DoubleConversion": [
+
+    ],
     "fast_float": [
       "6.1.4"
     ],
@@ -32,30 +36,36 @@
     "RCT-Folly": [
       "2024.11.18.00"
     ],
-    "glog": [],
-    "React-jsinspector": [],
+    "glog": [
+
+    ],
+    "React-jsinspector": [
+
+    ],
     "React-callinvoker": [
-      "0.77.0"
+      "0.77.2"
     ],
     "React-runtimeexecutor": [
-      "0.77.0"
+      "0.77.2"
     ],
     "React-perflogger": [
-      "0.77.0"
+      "0.77.2"
     ],
     "React-jsi": [
-      "0.77.0"
+      "0.77.2"
     ],
     "React-logger": [
-      "0.77.0"
+      "0.77.2"
     ],
     "React-debug": [
-      "0.77.0"
+      "0.77.2"
     ],
     "React-timing": [
-      "0.77.0"
+      "0.77.2"
     ],
-    "hermes-engine": []
+    "hermes-engine": [
+
+    ]
   },
   "resource_bundles": {
     "React-cxxreact_privacy": "PrivacyInfo.xcprivacy"

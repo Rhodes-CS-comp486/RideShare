@@ -1,11 +1,15 @@
 ${PODS_ROOT}/Target Support Files/Pods-LynxLiftsApp/Pods-LynxLiftsApp-resources.sh
 ${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore/FirebaseCore_Privacy.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreExtension/FirebaseCoreExtension_Privacy.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreInternal/FirebaseCoreInternal_Privacy.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/FirebaseInstallations/FirebaseInstallations_Privacy.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/FirebaseMessaging/FirebaseMessaging_Privacy.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransport/GoogleDataTransport_Privacy.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/GoogleMaps/GoogleMapsResources.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities/GoogleUtilities_Privacy.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC/FBLPromises_Privacy.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/RCT-Folly/RCT-Folly_privacy.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/RNCAsyncStorage/RNCAsyncStorage_resources.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/RNPermissions/RNPermissionsPrivacyInfo.bundle
 ${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf
 ${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf
@@ -31,4 +35,4 @@ ${PODS_CONFIGURATION_BUILD_DIR}/React-cxxreact/React-cxxreact_privacy.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/boost/boost_privacy.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/glog/glog_privacy.bundle
 ${PODS_CONFIGURATION_BUILD_DIR}/nanopb/nanopb_Privacy.bundle
-${PODS_CONFIGURATION_BUILD_DIR}/react-native-google-maps/GoogleMapsPrivacy.bundle
+${PODS_CONFIGURATION_BUILD_DIR}/react-native-image-picker/RNImagePickerPrivacyInfo.bundle

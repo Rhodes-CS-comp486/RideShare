@@ -1,1 +1,0 @@
-../../../Target Support Files/react-native-slider/react-native-slider-umbrella.h

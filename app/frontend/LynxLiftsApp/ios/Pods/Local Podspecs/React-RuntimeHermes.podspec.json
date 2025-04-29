@@ -1,6 +1,6 @@
 {
   "name": "React-RuntimeHermes",
-  "version": "0.77.0",
+  "version": "0.77.2",
   "summary": "The React Native Runtime.",
   "homepage": "https://reactnative.dev/",
   "license": "MIT",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://github.com/facebook/react-native.git",
-    "tag": "v0.77.0"
+    "tag": "v0.77.2"
   },
   "source_files": "hermes/*.{cpp,h}",
   "header_dir": "react/runtime/hermes",
@@ -25,14 +25,32 @@
     "RCT-Folly/Fabric": [
       "2024.11.18.00"
     ],
-    "React-nativeconfig": [],
-    "React-jsitracing": [],
-    "React-jsi": [],
-    "React-utils": [],
-    "React-RuntimeCore": [],
-    "React-featureflags": [],
-    "React-jsinspector": [],
-    "React-hermes": [],
-    "hermes-engine": []
+    "React-nativeconfig": [
+
+    ],
+    "React-jsitracing": [
+
+    ],
+    "React-jsi": [
+
+    ],
+    "React-utils": [
+
+    ],
+    "React-RuntimeCore": [
+
+    ],
+    "React-featureflags": [
+
+    ],
+    "React-jsinspector": [
+
+    ],
+    "React-hermes": [
+
+    ],
+    "hermes-engine": [
+
+    ]
   }
 }

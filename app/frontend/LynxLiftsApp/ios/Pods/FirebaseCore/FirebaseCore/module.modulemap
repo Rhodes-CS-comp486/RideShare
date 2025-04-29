@@ -1,0 +1,6 @@
+framework module FirebaseCore {
+  umbrella header "Sources/Public/FirebaseCore/FirebaseCore.h"
+
+  export *
+  module * { export * }
+}

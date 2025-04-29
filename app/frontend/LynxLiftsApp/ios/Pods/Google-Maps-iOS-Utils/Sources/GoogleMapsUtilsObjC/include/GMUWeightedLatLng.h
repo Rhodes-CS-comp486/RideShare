@@ -16,8 +16,7 @@
 #import "GQTPointQuadTreeItem.h"
 
 #import <CoreLocation/CoreLocation.h>
-//@import GoogleMaps;
-#import <GoogleMaps/GoogleMaps.h>
+@import GoogleMaps;
 
 NS_ASSUME_NONNULL_BEGIN
 
