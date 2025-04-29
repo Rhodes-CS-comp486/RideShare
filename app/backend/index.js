@@ -11,7 +11,6 @@ const tokenRoutes = require('./routes/token');
 const notifyUpcomingRides = require('./notifyUpcomingRides');
 const preferencesRoutes = require('./routes/preference');
 const browseRoutes = require('./routes/browse');
-const welcomeNotification = require('./welcomeNotification');
 const app = express();
 
 app.use(express.urlencoded({ extended: true })); // for HTML form body
@@ -29,16 +28,16 @@ app.use('/api', browseRoutes);
 app.use('/api/token', tokenRoutes);
 
 // Schedule notification every minute
-//setInterval(() => {
-  //welcomeNotification();
-//}, 10000);
+setInterval(() => {
+  notifyUpcomingRides();
+}, 10000);
 
 //Uncomment for emulator
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
-
-//Uncomment for Physical device
-//app.listen(PORT, '0.0.0.0', () => {
+//app.listen(PORT, () => {
   //console.log(`Server running on port ${PORT}`);
 //});
+
+//Uncomment for Physical device
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
+});

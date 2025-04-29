@@ -5,7 +5,7 @@ const router = express.Router();
 // route to get all feed posts
 router.get("/", async (req, res) => {
     try {
-        const result = await pool.query("SELECT passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, estimatedpayment, pickupdate, distance, duration, driverid " +
+        const result = await pool.query("SELECT passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, estimatedpayment, pickupdate, distance, duration, driverid, pickuptimestamp " +
             "FROM feed ORDER BY timeposted DESC");
           
         res.json(result.rows);
@@ -17,17 +17,52 @@ router.get("/", async (req, res) => {
 
 // route to add a new feed post
 router.post("/", async (req, res) => {
+  const client = await pool.connect(); 
     try {
-        const { passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment} = req.body; 
-        const result = await pool.query(
-            "INSERT INTO feed (passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment) " +
-            "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *",
-            [passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment]
+        const { passengerrhodesid, pickuptime, pickuplocation, 
+                dropofflocation, ridestate, payment, pickupdate, 
+                distance, duration, timeposted, estimatedpayment, 
+                pickuptimestamp
+              } = req.body; 
+
+        await client.query('BEGIN');
+
+        //Insert into feed table
+        const result = await client.query(
+            "INSERT INTO feed (passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment, pickuptimestamp) " +
+            "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING *",
+            [passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment, pickuptimestamp]
         );
-        res.json(result.rows[0]);
+
+        //Insert into notifications table 
+        await client.query(
+            `INSERT INTO notification (passengerrhodesid, pickuptime, pickuplocation, dropofflocation, pickuptimestamp, beennotified)
+             VALUES ($1, $2, $3, $4, $5, $6)`,
+            [
+                passengerrhodesid,
+                pickuptime,
+                pickuplocation,
+                dropofflocation,
+                pickuptimestamp,
+                false // start as false
+            ]
+        );
+
+      await client.query('COMMIT'); // commit transaction
+
+        res.json(result.rows[0])
     } catch (err) {
-        console.error("Error inserting post:", err);
+        console.error("Error inserting post and notification:", err);
+        if (client) {
+            try { await client.query('ROLLBACK'); } catch (rollbackError) {
+                console.error("Rollback failed:", rollbackError);
+            }
+        } 
+
         res.status(500).json({ error: "Server error" });
+    }
+      finally {
+        client.release(); // release the client back to the pool
     }
 });
 

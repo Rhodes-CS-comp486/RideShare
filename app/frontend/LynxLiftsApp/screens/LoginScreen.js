@@ -29,7 +29,7 @@ const LoginScreen = () => {
       console.log(rhodesid);
      
       //send token to backend after login
-      //await sendTokenToBackend(rhodesid);
+      await sendTokenToBackend(rhodesid);
       
       alert("Login Successful");
       //Update the login state
