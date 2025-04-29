@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert, Platform, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert, SafeAreaView, Switch } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { API_URL } from '@env'
@@ -26,13 +26,14 @@ const DriverAccountScreen = ({ route }) => {
   const [tempValue, setTempValue] = useState('');
 
   const fields = [
+    { label: 'Name', key: 'name' },
     { label: 'Class Year', key: 'class_year' },
     { label: 'Pronouns', key: 'pronouns' },
     { label: 'Major', key: 'major' },
     { label: 'Car Make & Model', key: 'car_make_model' },
     { label: 'Car Color', key: 'car_color' },
     { label: 'License Plate', key: 'license_plate' },
-    { label: 'Number of Passengers', key: 'num_passenger' },
+    { label: 'Number of Passengers', key: 'num_passengers' },
     { label: 'Pet Friendly', key: 'pet_friendly' },
     { label: 'Bio', key: 'bio' },
   ];
@@ -40,7 +41,7 @@ const DriverAccountScreen = ({ route }) => {
   useEffect(() => {
     const fetchBio = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/auth/driver/${user.rhodesid}/profile`); // API DOES NOT EXIST
+        const response = await axios.get(`${API_URL}/api/auth/user/${user.rhodesid}/profile`);
         setBio(response.data);
       } catch (error) {
         console.error('Error fetching bio:', error);
@@ -54,18 +55,42 @@ const DriverAccountScreen = ({ route }) => {
     const updated = { ...bio, [editingField]: tempValue };
     setBio(updated);
     setEditingField(null);
-
+  
     try {
-      await axios.put(`${API_URL}/api/driver/${user.rhodesid}/profile`, updated); // API DOES NOT EXIST
+      await axios.put(`${API_URL}/api/auth/user/${user.rhodesid}/profile`, {
+        field: editingField, 
+        value: tempValue       
+      }); 
     } catch (error) {
       console.error('Error saving field:', error);
+      Alert.alert("Error", "Failed to save. Try again.");
     }
-  };
+  };  
 
   const renderField = ({ label, key }) => (
     <View style={styles.fieldRow} key={key}>
       <Text style={styles.fieldLabel}>{label}:</Text>
-      {editingField === key ? (
+  
+      {key === 'pet_friendly' ? (
+        <>
+          <Switch
+            value={!!bio.pet_friendly}
+            onValueChange={async (newValue) => {
+              const updated = { ...bio, pet_friendly: newValue };
+              setBio(updated);
+              try {
+                await axios.put(`${API_URL}/api/auth/user/${user.rhodesid}/profile`, {
+                  field: 'pet_friendly',
+                  value: newValue,
+                });
+              } catch (error) {
+                console.error('Error saving pet_friendly:', error);
+                Alert.alert("Error", "Failed to save. Try again.");
+              }
+            }}
+          />
+        </>
+      ) : editingField === key ? (
         <>
           <TextInput
             value={tempValue}
@@ -78,17 +103,17 @@ const DriverAccountScreen = ({ route }) => {
         </>
       ) : (
         <>
-          <Text style={styles.value}>{bio[key] || 'Not set'}</Text>
+          <Text style={styles.value}>{bio[key]?.toString() || 'Not set'}</Text>
           <TouchableOpacity onPress={() => {
             setEditingField(key);
-            setTempValue(bio[key] || '');
+            setTempValue(bio[key]?.toString() || '');
           }}>
             <Text style={styles.editText}>Edit</Text>
           </TouchableOpacity>
         </>
       )}
     </View>
-  );
+  );  
 
   return (
     <SafeAreaView style={styles.container}>

@@ -9,4 +9,7 @@ router.post('/forgot-password', authController.forgotPassword);
 router.post('/reset-password', authController.resetPassword);
 router.get('/reset-password', authController.serveResetForm);
 
+router.get('/user/:rhodesid/profile', authController.getUserProfile);
+router.put('/user/:rhodesid/profile', authController.updateUserProfile);
+
 module.exports = router;

@@ -293,4 +293,58 @@ const resetPassword = async (req, res) => {
   }
 };
 
-module.exports = { register, verify, login, forgotPassword, resetPassword, serveResetForm };
+// get user profile
+const getUserProfile = async (req, res) => {
+  const { rhodesid } = req.params;
+  try {
+    const { rows } = await pool.query(`
+      SELECT 
+        name, 
+        class_year, 
+        pronouns, 
+        major, 
+        bio, 
+        car_make_model, 
+        car_color, 
+        license_plate, 
+        num_passengers, 
+        pet_friendly 
+      FROM users 
+      WHERE rhodesid = $1
+    `, [rhodesid]);
+
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'User profile not found' });
+    }
+    res.json(rows[0]);
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+// update user profile
+const updateUserProfile = async (req, res) => {
+  const { rhodesid } = req.params;
+  const { field, value } = req.body;
+
+  const allowedFields = [
+    'name', 'class_year', 'pronouns', 'major', 'bio',
+    'car_make_model', 'car_color', 'license_plate',
+    'num_passengers', 'pet_friendly'
+  ];
+
+  if (!allowedFields.includes(field)) {
+    return res.status(400).json({ error: 'Invalid field' });
+  }
+
+  try {
+    await pool.query(`UPDATE users SET ${field} = $1 WHERE rhodesid = $2`, [value, rhodesid]);
+    res.status(200).json({ message: 'Profile updated' });
+  } catch (error) {
+    console.error('Update error:', error);
+    res.status(500).json({ error: 'Update failed' });
+  }
+};
+
+module.exports = { register, verify, login, forgotPassword, resetPassword, serveResetForm, getUserProfile, updateUserProfile };

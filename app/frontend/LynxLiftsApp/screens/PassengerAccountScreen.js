@@ -13,6 +13,7 @@ const PassengerAccountScreen = ({ route }) => {
   const [tempValue, setTempValue] = useState('');
 
   const fields = [
+    { label: 'Name', key: 'name' },
     { label: 'Class Year', key: 'class_year' },
     { label: 'Pronouns', key: 'pronouns' },
     { label: 'Major', key: 'major' },
@@ -21,7 +22,7 @@ const PassengerAccountScreen = ({ route }) => {
 
   const fetchProfile = async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/passenger/${user.rhodesid}/profile`); // API DOES NOT EXIST
+      const response = await axios.get(`${API_URL}/api/auth/passenger/${user.rhodesid}/profile`);
       setProfile(response.data);
     } catch (error) {
       console.error('Error fetching passenger profile:', error);
@@ -38,7 +39,7 @@ const PassengerAccountScreen = ({ route }) => {
     setEditingField(null);
 
     try {
-      await axios.put(`${API_URL}/api/auth/passenger/${user.rhodesid}/profile`, updated); // API DOES NOT EXIST
+      await axios.put(`${API_URL}/api/auth/passenger/${user.rhodesid}/profile`, updated);
     } catch (error) {
       console.error('Error saving field:', error);
     }
