@@ -16,7 +16,7 @@ import DriverAccountScreen from './screens/DriverAccountScreen';
 import SetPreferenceScreen from './screens/SetPreferenceScreen';
 import PassengerAccountScreen from './screens/PassengerAccountScreen';
 import PassengerChatScreen from './screens/PassengerChatScreen';
-import DriverChatScreen from './screens/ChatScreen';
+import DriverChatScreen from './screens/DriverChatScreen';
 import BrowseDrivers from './screens/BrowseDrivers';
 
 const Stack = createStackNavigator();

@@ -18,7 +18,7 @@ const PassengerChatScreen = ({ navigation, route }) => {
           const response = await axios.get(API_BASE_URL, {
             params: {
               passengerrhodesid: user.rhodesid,
-              driverid: "driver123"
+              driverid: "mcmcj-25"
             }
           });
           const formattedMessages = response.data.map(msg => ({
@@ -26,7 +26,7 @@ const PassengerChatScreen = ({ navigation, route }) => {
             text: msg.text,
             createdAt: new Date(msg.timesent),
             user: {
-              _id: msg.passengerrhodesid === user.rhodesid ? user.rhodesid : msg.driverid
+              _id: msg.senderid
             }
           }));
           setMessages(formattedMessages);
@@ -38,24 +38,28 @@ const PassengerChatScreen = ({ navigation, route }) => {
       };
 
       fetchMessages();
-    }, []);
+    }, [user.rhodesid]);
 
     const onSend = useCallback(async (messages = []) => {
-      setMessages(prevMessages => GiftedChat.append(prevMessages, messages));
-      const { _id, createdAt, text, user } = messages[0];
+      const message = messages[0];
+      setMessages(prevMessages => GiftedChat.append(prevMessages, [{
+        ...message,
+        user: { _id: user.rhodesid }
+      }]));
   
       try {
         await axios.post(API_BASE_URL, {
-          passengerrhodesid: user._id,
-          driverid: "driver123",
+          passengerrhodesid: user.rhodesid,
+          driverid: "mcmcj-25",
           pickupdate: "2025-05-01", 
           pickuptime: "14:00:00",    
-          text: text,
+          text: message.text,
+          senderid: user.rhodesid
         });
       } catch (error) {
         console.error('Error sending message:', error);
       }
-    }, []);
+    }, [user.rhodesid]);
 
     return (
       <SafeAreaView style={styles.container}>
@@ -67,12 +71,8 @@ const PassengerChatScreen = ({ navigation, route }) => {
             <GiftedChat
               messages={messages}
               onSend={messages => onSend(messages)}
-              user={{
-                _id: user.rhodesid // or any unique identifier
-                // name: user.email
-              }}
+              user={{ _id: user.rhodesid }}
               messageIdGenerator={() => uuid.v4()}
-              // messageIdGenerator={() => Math.random().toString(36).substring(7)}
               renderActions={() => null}
               minComposerHeight={90}
               maxComposerHeight={50}
@@ -85,6 +85,9 @@ const PassengerChatScreen = ({ navigation, route }) => {
           <TouchableOpacity onPress={() => navigation.navigate('Browse', { user: { rhodesid: user.rhodesid } })}>
             <Image source={require('../assets/driver.png')} style={styles.icon} />
           </TouchableOpacity>
+          {/* <TouchableOpacity onPress={() => navigation.navigate('PassengerChat', { user: { rhodesid: user.rhodesid }, driver: { rhodesid: driver.rhodesid }})}>
+            <Image source={require('../assets/chat.png')} style={styles.icon} />
+          </TouchableOpacity> */}
           <TouchableOpacity onPress={() => navigation.navigate('PassengerChat', { user: { rhodesid: user.rhodesid } })}>
             <Image source={require('../assets/chat.png')} style={styles.icon} />
           </TouchableOpacity>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Image } from 'react-native';
 
-const DriverChatScreen = ({ navigation, route }) => {
+const ChatScreen = ({ navigation, route }) => {
     const { user } = route.params;
   return (
     <SafeAreaView style={styles.container}>
@@ -64,4 +64,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DriverChatScreen;
+export default ChatScreen;

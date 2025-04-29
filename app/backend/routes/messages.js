@@ -1,13 +1,3 @@
-// CREATE TABLE messages (
-//    passengerrhodesid VARCHAR(255) NOT NULL,
-//    driverid VARCHAR(255) NOT NULL,
-//    pickupdate VARCHAR(50) NOT NULL,
-//    pickuptime VARCHAR(10) NOT NULL,
-//    text TEXT NOT NULL,
-//    timesent TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-//  )
-  
-
 const express = require('express');
 const pool = require('../db') // database connection
 const router = express.Router();
@@ -32,11 +22,12 @@ router.get('/', async (req, res) => {
 
 // Post a new message
 router.post('/', async (req, res) => {
-    const { passengerrhodesid, driverid, pickupdate, pickuptime, text } = req.body;
+    const { passengerrhodesid, driverid, pickupdate, pickuptime, text, senderid } = req.body;
+    const timesent = new Date();
     try {
       await pool.query(
-        'INSERT INTO messages (passengerrhodesid, driverid, pickupdate, pickuptime, text) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-        [passengerrhodesid, driverid, pickupdate, pickuptime, text]
+        'INSERT INTO messages (passengerrhodesid, driverid, pickupdate, pickuptime, text, timesent, senderid) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
+        [passengerrhodesid, driverid, pickupdate, pickuptime, text, timesent, senderid]
       );
       res.status(201).send('Message added');
     } catch (err) {
