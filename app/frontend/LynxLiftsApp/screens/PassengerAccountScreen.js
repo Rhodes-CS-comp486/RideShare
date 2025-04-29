@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert, Platform, SafeAreaView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert, SafeAreaView, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { API_URL } from '@env'
+
+const avatarImages = {
+  'billy.png': require('../assets/avatars/billy.png'),
+  'crosby.png': require('../assets/avatars/crosby.png'),
+  'matthew.png': require('../assets/avatars/matthew.png'),
+  'nalvi.png': require('../assets/avatars/nalvi.png'),
+};
 
 const PassengerAccountScreen = ({ route }) => {
   const { user } = route.params;
@@ -88,17 +95,52 @@ const PassengerAccountScreen = ({ route }) => {
     </View>
   );
 
+  const renderAvatarPicker = () => {
+    const avatars = ['billy.png', 'crosby.png', 'matthew.png', 'nalvi.png'];
+  
+    return (
+      <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginVertical: 10 }}>
+        {avatars.map((avatar) => (
+          <TouchableOpacity
+            key={avatar}
+            onPress={async () => {
+              try {
+                await axios.put(`${API_URL}/api/auth/user/${user.rhodesid}/profile`, {
+                  field: 'profile_picture',
+                  value: avatar,
+                });
+                setProfile(prev => ({ ...prev, profile_picture: avatar }));
+              } catch (error) {
+                console.error('Error saving profile picture:', error);
+                Alert.alert('Error', 'Failed to save. Try again.');
+              }
+            }}
+          >
+            <Image
+              source={avatarImages[avatar]}
+              style={{
+                width: 60,
+                height: 60,
+                borderRadius: 30,
+                borderColor: profile.profile_picture === avatar ? '#FAF2E6' : '#ccc',
+                borderWidth: 2,
+              }}
+            />
+          </TouchableOpacity>
+        ))}
+      </View>
+    );
+  };  
+
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView>
       <View style={styles.profileHeader}>
         <View style={styles.profilePicContainer}>
           <Image
-            source={ 'PLACEHOLDER' } // NEED TO UPDATE
+            source={profile.profile_picture ? avatarImages[profile.profile_picture] : null}
             style={styles.profileImage}
           />
-          <TouchableOpacity style={styles.editPicButton}>
-            <Text style={styles.editText}>Edit</Text>
-          </TouchableOpacity>
         </View>
         <Text style={styles.name}>{profile.name || 'Passenger'}</Text>
         <Text style={styles.sub}>
@@ -123,18 +165,18 @@ const PassengerAccountScreen = ({ route }) => {
       >
         <Text style={styles.buttonText}>Log Out</Text>
       </TouchableOpacity>
-
+      </ScrollView>
        <View style={styles.bottomBar}>
-          <TouchableOpacity onPress={() => navigation.navigate('Feed', { user: { rhodesid: user.rhodesid } })}>
+          <TouchableOpacity onPress={() => navigation.navigate('Feed', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })}>
             <Image source={require('../assets/home.png')} style={styles.icon} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('Browse', { user: { rhodesid: user.rhodesid } })}>
+          <TouchableOpacity onPress={() => navigation.navigate('Browse', { user: { rhodesid: user.rhodesi, profile_picture: user.profile_pictured } })}>
             <Image source={require('../assets/driver.png')} style={styles.icon} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('PassengerChat', { user: { rhodesid: user.rhodesid } })}>
+          <TouchableOpacity onPress={() => navigation.navigate('PassengerChat', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })}>
             <Image source={require('../assets/chat.png')} style={styles.icon} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('PassengerAccount', { user: { rhodesid: user.rhodesid } })}>
+          <TouchableOpacity onPress={() => navigation.navigate('PassengerAccount', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })}>
             <Image source={require('../assets/setting.png')} style={styles.icon} />
           </TouchableOpacity>
         </View>
@@ -162,15 +204,6 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 3,
     borderColor: '#fff',
-  },
-  editPicButton: {
-    position: 'absolute',
-    bottom: 0,
-    right: -10,
-    backgroundColor: '#6683A9',
-    paddingVertical: 2,
-    paddingHorizontal: 6,
-    borderRadius: 8,
   },
   name: {
     color: '#fff',
@@ -227,6 +260,7 @@ const styles = StyleSheet.create({
   logoutButton: {
     backgroundColor: '#A62C2C',
     borderRadius: 25,
+    marginBottom: 100,
   },
   buttonText: {
     color: '#FAF2E6',

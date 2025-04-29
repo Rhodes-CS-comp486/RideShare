@@ -125,15 +125,6 @@ const DriverAccountScreen = ({ route }) => {
   const renderAvatarPicker = () => {
     const avatars = ['billy.png', 'crosby.png', 'matthew.png', 'nalvi.png'];
   
-    const fetchBio = async () => {
-      try {
-        const response = await axios.get(`${API_URL}/api/auth/user/${user.rhodesid}/profile`);
-        setBio(response.data);
-      } catch (error) {
-        console.error('Error refreshing bio after avatar change:', error);
-      }
-    };
-  
     return (
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginVertical: 10 }}>
         {avatars.map((avatar) => (
@@ -248,15 +239,6 @@ const styles = StyleSheet.create({
     borderRadius: 50,
     borderWidth: 3,
     borderColor: '#fff',
-  },
-  editPicButton: {
-    position: 'absolute',
-    bottom: 0,
-    right: -10,
-    backgroundColor: '#6683A9',
-    paddingVertical: 2,
-    paddingHorizontal: 6,
-    borderRadius: 8,
   },
   driverName: {
     color: '#fff',
