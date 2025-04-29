@@ -22,7 +22,7 @@ const PassengerAccountScreen = ({ route }) => {
 
   const fetchProfile = async () => {
     try {
-      const response = await axios.get(`${API_URL}/api/auth/passenger/${user.rhodesid}/profile`);
+      const response = await axios.get(`${API_URL}/api/auth/user/${user.rhodesid}/profile`);
       setProfile(response.data);
     } catch (error) {
       console.error('Error fetching passenger profile:', error);
@@ -39,9 +39,13 @@ const PassengerAccountScreen = ({ route }) => {
     setEditingField(null);
 
     try {
-      await axios.put(`${API_URL}/api/auth/passenger/${user.rhodesid}/profile`, updated);
+      await axios.put(`${API_URL}/api/auth/user/${user.rhodesid}/profile`, {
+        field: editingField,
+        value: tempValue
+      });
     } catch (error) {
       console.error('Error saving field:', error);
+      Alert.alert("Error", "Failed to save. Try again.");
     }
   };
 
