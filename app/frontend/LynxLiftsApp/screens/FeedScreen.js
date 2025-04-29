@@ -14,9 +14,15 @@ const FeedScreen = ({ navigation, route }) => {
     try {
       const response = await axios.get(`${API_URL}/api/feed`);
       console.log("Fetched posts:", response.data); 
-      const visiblePosts = response.data.filter(
-        post => !post.ridestate || post.passengerrhodesid === user.rhodesid
-      );
+      const visiblePosts = response.data.filter( post => {
+        const bothCompleted = post.passengercomplete === true && post.drivercomplete === true;
+        const bothExplained = post.passengerdescription != null && post.driverdescription != null;
+      
+        return (
+          (post.ridestate === false || (post.ridestate === true && post.passengerrhodesid === user.rhodesid)) &&
+          post.driverid !== user.rhodesid && !bothCompleted && !bothExplained
+        );
+      });
       
       // Sort so posts with ridestate === true and owned by user are first
       visiblePosts.sort((a, b) => {
