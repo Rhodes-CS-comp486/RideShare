@@ -149,6 +149,7 @@ const PassengerAccountScreen = ({ route }) => {
       </View>
 
       <View style={styles.detailsContainer}>
+        {renderAvatarPicker()}
         {fields.map(renderField)}
       </View>
 
