@@ -13,7 +13,7 @@ class User {
   }
 
   static async findByEmail(email) {
-    const query = 'SELECT rhodesid, email, password, username, is_verified FROM users WHERE email = $1;';
+    const query = 'SELECT rhodesid, email, password, username, is_verified, profile_picture FROM users WHERE email = $1;';
     const { rows } = await pool.query(query, [email]);
     return rows[0];
   }

@@ -191,6 +191,7 @@ const login = async (req, res) => {
       message: 'Login successful',
       username: user.username,
       rhodesid: user.rhodesid,
+      profile_picture: user.profile_picture,
       token
     });
 
@@ -308,7 +309,8 @@ const getUserProfile = async (req, res) => {
         car_color, 
         license_plate, 
         num_passengers, 
-        pet_friendly 
+        pet_friendly ,
+        profile_picture
       FROM users 
       WHERE rhodesid = $1
     `, [rhodesid]);
@@ -331,7 +333,7 @@ const updateUserProfile = async (req, res) => {
   const allowedFields = [
     'name', 'class_year', 'pronouns', 'major', 'bio',
     'car_make_model', 'car_color', 'license_plate',
-    'num_passengers', 'pet_friendly'
+    'num_passengers', 'pet_friendly', 'profile_picture'
   ];
 
   if (!allowedFields.includes(field)) {

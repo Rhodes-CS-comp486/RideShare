@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert, SafeAreaView, Switch } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert, SafeAreaView, Switch, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { API_URL } from '@env'
+
+const avatarImages = {
+  'billy.png': require('../assets/avatars/billy.png'),
+  'crosby.png': require('../assets/avatars/crosby.png'),
+  'matthew.png': require('../assets/avatars/matthew.png'),
+  'nalvi.png': require('../assets/avatars/nalvi.png'),
+};
 
 const DriverAccountScreen = ({ route }) => {
   const { user } = route.params;
@@ -115,17 +122,61 @@ const DriverAccountScreen = ({ route }) => {
     </View>
   );  
 
+  const renderAvatarPicker = () => {
+    const avatars = ['billy.png', 'crosby.png', 'matthew.png', 'nalvi.png'];
+  
+    const fetchBio = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/api/auth/user/${user.rhodesid}/profile`);
+        setBio(response.data);
+      } catch (error) {
+        console.error('Error refreshing bio after avatar change:', error);
+      }
+    };
+  
+    return (
+      <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginVertical: 10 }}>
+        {avatars.map((avatar) => (
+          <TouchableOpacity
+            key={avatar}
+            onPress={async () => {
+              try {
+                await axios.put(`${API_URL}/api/auth/user/${user.rhodesid}/profile`, {
+                  field: 'profile_picture',
+                  value: avatar,
+                });
+                setBio(prev => ({ ...prev, profile_picture: avatar }));
+              } catch (error) {
+                console.error('Error saving profile picture:', error);
+                Alert.alert('Error', 'Failed to save. Try again.');
+              }
+            }}
+          >
+            <Image
+              source={avatarImages[avatar]}
+              style={{
+                width: 60,
+                height: 60,
+                borderRadius: 30,
+                borderColor: bio.profile_picture === avatar ? '#FAF2E6' : '#ccc',
+                borderWidth: 2,
+              }}
+            />
+          </TouchableOpacity>
+        ))}
+      </View>
+    );
+  };  
+
   return (
     <SafeAreaView style={styles.container}>
+       <ScrollView>
       <View style={styles.profileHeader}>
         <View style={styles.profilePicContainer}>
-          <Image
-            source={'PLACEHOLDER'} // NEED TO UPDATE
-            style={styles.profileImage}
-          />
-          <TouchableOpacity style={styles.editPicButton}>
-            <Text style={styles.editText}>Edit</Text>
-          </TouchableOpacity>
+        <Image
+          source={bio.profile_picture ? avatarImages[bio.profile_picture] : null}
+          style={styles.profileImage}
+        />
         </View>
         <Text style={styles.driverName}>{bio.name || 'Driver'}</Text>
         <Text style={styles.driverSub}>
@@ -134,6 +185,7 @@ const DriverAccountScreen = ({ route }) => {
       </View>
 
       <View style={styles.detailsContainer}>
+        {renderAvatarPicker()}
         {fields.map(renderField)}
       </View>
 
@@ -157,18 +209,18 @@ const DriverAccountScreen = ({ route }) => {
       >
         <Text style={styles.buttonText}>Log Out</Text>
       </TouchableOpacity>
-
+      </ScrollView>
       <View style={styles.bottomBar}>
-        <TouchableOpacity onPress={() => navigation.navigate('DriverFeed', { user: { rhodesid: user.rhodesid } })}>
+        <TouchableOpacity onPress={() => navigation.navigate('DriverFeed', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })}>
           <Image source={require('../assets/home.png')} style={styles.icon} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => console.log('Driver')}>
           <Image source={require('../assets/payment.png')} style={styles.icon} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('DriverChat', { user: { rhodesid: user.rhodesid } })}>
+        <TouchableOpacity onPress={() => navigation.navigate('DriverChat', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })}>
           <Image source={require('../assets/chat.png')} style={styles.icon} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('DriverAccount', { user: { rhodesid: user.rhodesid } })}>
+        <TouchableOpacity onPress={() => navigation.navigate('DriverAccount', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })}>
           <Image source={require('../assets/setting.png')} style={styles.icon} />
         </TouchableOpacity>
       </View>
@@ -261,6 +313,7 @@ const styles = StyleSheet.create({
   logoutButton: {
     backgroundColor: '#A62C2C',
     borderRadius: 25,
+    marginBottom: 100,
   },
   buttonText: {
     color: '#FAF2E6',
