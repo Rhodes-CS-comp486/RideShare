@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, SafeAreaView, Image } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, SafeAreaView, Image, Alert } from 'react-native';
 import axios from 'axios';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, runOnJS } from 'react-native-reanimated';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -25,12 +25,58 @@ const FeedScreen = ({ navigation, route }) => {
         return bPriority - aPriority; // Sort descending
       });
       
-      setPosts(visiblePosts);      
+      setPosts(visiblePosts); 
+      checkPassengerRideCompletion(visiblePosts);     
     } 
     catch (error) {
       console.error("Error fetching posts:", error);
     }
   };
+
+  const markPassengerRideComplete = async (post) => {
+    try {
+      await axios.put(`${API_URL}/api/feed/passengercomplete`, {
+        passengerrhodesid: post.passengerrhodesid,
+        pickupdate: post.pickupdate,
+        pickuptimestamp: post.pickuptimestamp,
+      });
+      fetchPosts();
+    } catch (error) {
+      console.error("Error marking passenger ride complete:", error);
+    }
+  };  
+
+  const explainPassengerIncompleteRide = (post) => {
+    navigation.navigate('PassengerExplainRide', { post }); 
+  };  
+
+  const checkPassengerRideCompletion = (postsToCheck) => {
+    const now = new Date();
+  
+    postsToCheck.forEach(post => {
+      if (post.ridestate && post.passengerrhodesid === user.rhodesid) {
+        const scheduledDateTime = new Date(post.pickuptimestamp);
+
+        const timeDiffMs = now - scheduledDateTime;
+        const timeDiffHours = timeDiffMs / (1000 * 60 * 60);
+
+        const isSameDay = now.toISOString().slice(0,10) === post.pickupdate;
+  
+        if (isSameDay || (timeDiffHours > 0 && timeDiffHours <= 12)) {
+          if (post.passengercomplete === false && (!post.passengerdescription || post.passengerdescription.trim() === '')) {
+            Alert.alert(
+              "Ride Completion",
+              `Did you complete the ride scheduled at ${post.pickuptime}?`,
+              [
+                { text: "Yes, Completed", onPress: () => markPassengerRideComplete(post) },
+                { text: "No, Explain", onPress: () => explainPassengerIncompleteRide(post) }
+              ]
+            );
+          }
+        }
+      }
+    });
+  };  
 
   const deletePost = async (item) => {
     try {
@@ -140,10 +186,7 @@ const FeedScreen = ({ navigation, route }) => {
   };  
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      fetchPosts(); // Refresh feed on screen focus
-    });
-  
+    const unsubscribe = navigation.addListener('focus', fetchPosts);
     return unsubscribe; // Clean up the listener on unmount
   }, [navigation]);
 

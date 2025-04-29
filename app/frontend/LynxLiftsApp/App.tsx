@@ -21,6 +21,7 @@ import BrowseDrivers from './screens/BrowseDrivers';
 import Report from './screens/RegisterScreen';
 import ReportScreen from './screens/ReportScreen';
 import ExlpainRide from './screens/ExplainRideScreen';
+import PassengerExplainRideScreen from './screens/PassengerExplainRideScreen';
 
 // import { setupNotificationHandlers } from './notificationService';
 
@@ -60,6 +61,7 @@ const App = () => {
           <Stack.Screen name="Browse" component={BrowseDrivers} options={{ headerShown: false }} />
           <Stack.Screen name="Report" component={ReportScreen} options={{ headerShown: false }} />
           <Stack.Screen name="ExplainRide" component={ExlpainRide} />
+          <Stack.Screen name="PassengerExplainRide" component={PassengerExplainRideScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

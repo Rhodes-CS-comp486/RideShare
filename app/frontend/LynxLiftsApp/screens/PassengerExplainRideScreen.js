@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'reac
 import axios from 'axios';
 import { API_URL } from '@env';
 
-const ExplainRideScreen = ({ route, navigation }) => {
+const PassengerExplainRideScreen = ({ route, navigation }) => {
   const { post } = route.params;
   const [explanation, setExplanation] = useState('');
 
@@ -14,11 +14,11 @@ const ExplainRideScreen = ({ route, navigation }) => {
     }
 
     try {
-      await axios.put(`${API_URL}/api/feed/explain`, {
+      await axios.put(`${API_URL}/api/feed/passengerexplain`, {
         passengerrhodesid: post.passengerrhodesid,
         pickupdate: post.pickupdate,
         pickuptime: post.pickuptime,
-        driverdescription: explanation,
+        passengerdescription: explanation,
       });
 
       Alert.alert('Submitted', 'Explanation submitted successfully.', [
@@ -61,4 +61,4 @@ const styles = StyleSheet.create({
   buttonText: { color: '#FAF2E6', fontSize: 16 },
 });
 
-export default ExplainRideScreen;
+export default PassengerExplainRideScreen;

@@ -23,6 +23,7 @@ const DriverFeedScreen = ({ route }) => {
         (post.ridestate === false || (post.ridestate === true && post.driverid === user.rhodesid)) &&
         post.passengerrhodesid !== user.rhodesid
       ));
+
       // Sort so accepted posts (driver's current rides) come first
       filtered.sort((a, b) => {
         const aPriority = a.ridestate === true && a.driverid === user.rhodesid ? 1 : 0;
@@ -56,7 +57,7 @@ const DriverFeedScreen = ({ route }) => {
   };
   
   const explainIncompleteRide = (post) => {
-    navigation.navigate('ExplainRide', { post, user: { rhodesid: user.rhodesid }  });
+    navigation.navigate('ExplainRide', { post });
   };
   
   const checkRideCompletion = (postsToCheck) => {

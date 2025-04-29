@@ -209,6 +209,9 @@ const CreatePostScreen = ({ navigation, route }) => {
                                 addcomments: addComments,
                                 pickuptimestamp: pickuptimestamp,
                                 drivercomplete: false,
+                                passengercomplete: false, 
+                                driverdescription: null,       
+                                passengerdescription: null,
                             });
     
                             console.log("Post created:", response.data);
@@ -222,7 +225,16 @@ const CreatePostScreen = ({ navigation, route }) => {
                 },
             ]
         );
-    };    
+    }; 
+    
+    // local date generate
+    const getTodayLocalDate = () => {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`; 
+      };      
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -271,7 +283,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                         style={styles.calendar}
                         onDayPress={handleDayPress}
                         markedDates={markedDates}
-                        minDate={new Date().toISOString().split('T')[0]} 
+                        minDate={getTodayLocalDate()} 
                         />
                     </View>
                     <TouchableOpacity onPress={() => setOpenTimePicker(true)} style={{ width: '90%', marginLeft: 35 }}>
