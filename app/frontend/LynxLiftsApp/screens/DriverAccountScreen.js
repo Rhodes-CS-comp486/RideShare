@@ -10,6 +10,7 @@ const DriverAccountScreen = ({ route }) => {
 
   const handleLogout = async () => {
     try {
+
       navigation.reset({
         index: 0,
         routes: [{ name: 'Login' }],
@@ -38,7 +39,7 @@ const DriverAccountScreen = ({ route }) => {
   useEffect(() => {
     const fetchBio = async () => {
       try {
-        const response = await axios.get(`${API_URL}/api/driver/${user.rhodesid}/profile`); // API DOES NOT EXIST
+        const response = await axios.get(`${API_URL}/api/driver/${user.rhodesid}/profile`);
         setBio(response.data);
       } catch (error) {
         console.error('Error fetching bio:', error);
@@ -54,7 +55,7 @@ const DriverAccountScreen = ({ route }) => {
     setEditingField(null);
 
     try {
-      await axios.put(`${API_URL}/api/driver/${user.rhodesid}/profile`, updated); // API DOES NOT EXIST
+      await axios.put(`${API_URL}/api/driver/${user.rhodesid}/profile`, updated);
     } catch (error) {
       console.error('Error saving field:', error);
     }
@@ -122,7 +123,7 @@ const DriverAccountScreen = ({ route }) => {
         onPress={() => navigation.navigate('Feed', { user })}
       >
         <Text style={styles.buttonText}>Switch to Passenger</Text>
-      </TouchableOpacity>
+       </TouchableOpacity>
 
       <TouchableOpacity 
         style={[styles.button, styles.logoutButton]} 
@@ -135,16 +136,12 @@ const DriverAccountScreen = ({ route }) => {
         <TouchableOpacity onPress={() => navigation.navigate('DriverFeed', { user: { rhodesid: user.rhodesid } })}>
           <Image source={require('../assets/home.png')} style={styles.icon} />
         </TouchableOpacity>
-
-        {/* ✅ Updated payment button to navigate to PaymentOption */}
-        <TouchableOpacity onPress={() => navigation.navigate('PaymentOption', { user: { rhodesid: user.rhodesid } })}>
+        <TouchableOpacity onPress={() => console.log('Driver')}>
           <Image source={require('../assets/payment.png')} style={styles.icon} />
         </TouchableOpacity>
-
         <TouchableOpacity onPress={() => navigation.navigate('DriverChat', { user: { rhodesid: user.rhodesid } })}>
           <Image source={require('../assets/chat.png')} style={styles.icon} />
         </TouchableOpacity>
-
         <TouchableOpacity onPress={() => navigation.navigate('DriverAccount', { user: { rhodesid: user.rhodesid } })}>
           <Image source={require('../assets/setting.png')} style={styles.icon} />
         </TouchableOpacity>

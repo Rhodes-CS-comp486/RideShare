@@ -1,5 +1,5 @@
 import 'react-native-reanimated';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -18,13 +18,22 @@ import PassengerAccountScreen from './screens/PassengerAccountScreen';
 import PassengerChatScreen from './screens/PassengerChatScreen';
 import DriverChatScreen from './screens/ChatScreen';
 import BrowseDrivers from './screens/BrowseDrivers';
+import Report from './screens/RegisterScreen';
 import ReportScreen from './screens/ReportScreen';
-import PaymentOptionScreen from './screens/PaymentOptionScreen'; // ✅ NEW
+import PaymentOptionScreen from './screens/PaymentOptionScreen'; // ✅ Added payment option screen
+
+// import { setupNotificationHandlers } from './notificationService';
 
 const Stack = createStackNavigator();
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     setupNotificationHandlers();
+  //   }
+  // }, [isLoggedIn]);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -35,7 +44,7 @@ const App = () => {
             name="Login" 
             component={LoginScreen} 
             options={{ headerShown: false }} 
-            initialParams={{ setIsLoggedIn }}
+            initialParams={{ setIsLoggedIn }} // Pass setIsLoggedIn to LoginScreen as an initial param
           />
           <Stack.Screen name="Welcome" component={BufferScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Feed" component={FeedScreen} options={{ headerShown: false }} />
@@ -50,7 +59,7 @@ const App = () => {
           <Stack.Screen name="PassengerAccount" component={PassengerAccountScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Browse" component={BrowseDrivers} options={{ headerShown: false }} />
           <Stack.Screen name="Report" component={ReportScreen} options={{ headerShown: false }} />
-          <Stack.Screen name="PaymentOption" component={PaymentOptionScreen} /> {/* ✅ NEW */}
+          <Stack.Screen name="PaymentOption" component={PaymentOptionScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

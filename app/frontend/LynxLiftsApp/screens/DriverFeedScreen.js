@@ -198,7 +198,7 @@ const DriverFeedScreen = ({ route }) => {
           <TouchableOpacity onPress={() => navigation.navigate('DriverFeed', { user: { rhodesid: user.rhodesid } })}>
             <Image source={require('../assets/home.png')} style={styles.icon} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log('Driver')}> 
+          <TouchableOpacity onPress={() => navigation.navigate('PaymentOption', { user: { rhodesid: user.rhodesid } })}>
             <Image source={require('../assets/payment.png')} style={styles.icon} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('DriverChat', { user: { rhodesid: user.rhodesid } })}>
