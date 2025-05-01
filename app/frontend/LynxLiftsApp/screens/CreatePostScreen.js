@@ -32,7 +32,6 @@ const CreatePostScreen = ({ navigation, route }) => {
     const [promptText, setPromptText] = useState("Click on the map to select the pickup location");
     const mapKey = `${pickupLocation?.latitude ?? 0}-${pickupLocation?.longitude ?? 0}-${dropoffLocation?.latitude ?? 0}-${dropoffLocation?.longitude ?? 0}`;
     const [addComments, setAddComments] = useState('');
-    const [pickuptimestamp, setpickuptimestamp] = useState('');
 
 
     const formatTimePosted = () => new Date().toISOString();
@@ -296,6 +295,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                             pointerEvents="none"
                         />
                     </TouchableOpacity>
+                    {errors.pickupTime !== '' && (<Text style={styles.errorText}>{errors.pickupTime}</Text>)}
                     {/* Time Picker */}
                     <DatePicker
                         modal
