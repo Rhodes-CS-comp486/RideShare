@@ -64,7 +64,7 @@ router.get('/', async (req, res) => {
 
 // Post a new message
 router.post('/', async (req, res) => {
-    const { passengerrhodesid, driverid, text, senderid } = req.body;
+    const { passengerrhodesid, driverid, pickupdate, pickuptime, text, senderid, pickuplocation, dropofflocation } = req.body;
     const timesent = new Date();
     try {
       // Attempt to fetch pickup date/time from feed
@@ -90,10 +90,10 @@ router.post('/', async (req, res) => {
       await pool.query(
         `
         INSERT INTO messages (
-          passengerrhodesid, driverid, pickupdate, pickuptime, text, timesent, senderid
-        ) VALUES ($1, $2, $3, $4, $5, $6, $7)
+          passengerrhodesid, driverid, pickupdate, pickuptime, text, timesent, senderid, pickuplocation, dropofflocation
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
         `,
-        [passengerrhodesid, driverid, pickupdate, pickuptime, text, timesent, senderid]
+        [passengerrhodesid, driverid, pickupdate, pickuptime, text, timesent, senderid, pickuplocation, dropofflocation]
       );
   
       res.status(201).send('Message added');

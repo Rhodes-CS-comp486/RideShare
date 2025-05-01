@@ -9,7 +9,7 @@ const API_BASE_URL = `${API_URL}/api/messages`;
 
 
 const PassengerChatScreen = ({ navigation, route }) => {
-    const { user, driver, pickupdate, pickuptime } = route.params;
+    const { user, driver, pickupdate, pickuptime, pickuplocation, dropofflocation } = route.params;
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
@@ -50,27 +50,31 @@ const PassengerChatScreen = ({ navigation, route }) => {
       const payload = {
         passengerrhodesid: user.rhodesid,
         driverid: driver.rhodesid,
+        pickupdate,
+        pickuptime,
         text: message.text,
-        senderid: user.rhodesid
+        senderid: user.rhodesid,
+        pickuplocation,
+        dropofflocation
       };
 
-      if (pickupdate && pickuptime) {
-        payload.pickupdate = pickupdate;
-        payload.pickuptime = pickuptime;
-      }
+      // if (pickupdate && pickuptime) {
+      //   payload.pickupdate = pickupdate;
+      //   payload.pickuptime = pickuptime;
+      // }
   
       try {
         await axios.post(API_BASE_URL, payload);
       } catch (error) {
         console.error('Error sending message:', error);
       }
-    }, [user.rhodesid, driver.rhodesid, pickupdate, pickuptime]);
+    }, [user.rhodesid, driver.rhodesid, pickupdate, pickuptime, pickuplocation, dropofflocation]);
 
     return (
       <SafeAreaView style={styles.container}>
           <TouchableOpacity 
             style={styles.scheduleRideButton}
-            onPress={() => navigation.navigate('', {})}
+            onPress={() => navigation.navigate('ScheduleRide', {user: { rhodesid: user.rhodesid }, driver: { rhodesid: driver.rhodesid }})}
           >
             <Text style={styles.scheduleButtonText}>Schedule Ride</Text>
           </TouchableOpacity>

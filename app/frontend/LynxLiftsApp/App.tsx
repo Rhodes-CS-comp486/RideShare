@@ -20,6 +20,7 @@ import DriverChatScreen from './screens/DriverChatScreen';
 import BrowseDrivers from './screens/BrowseDrivers';
 import PassengerConversationsScreen from './screens/PassengerConversationsScreen';
 import DriverConversationsScreen from './screens/DriverConversationsScreen';
+import ScheduleRideScreen from './screens/ScheduleRideScreen';
 
 const Stack = createStackNavigator();
 
@@ -42,6 +43,7 @@ const App = () => {
           <Stack.Screen name="DriverConversations" component={DriverConversationsScreen} options={{headerShown: false}}/>
           <Stack.Screen name="DriverChat" component={DriverChatScreen} options={{ headerShown: false }} />
           <Stack.Screen name="PassengerChat" component={PassengerChatScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="ScheduleRide" component={ScheduleRideScreen} options={{ headerShown: false }} />
           <Stack.Screen name="PassengerAccount" component={PassengerAccountScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Browse" component={BrowseDrivers} options={{ headerShown: false }} />
         </Stack.Navigator>
