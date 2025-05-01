@@ -447,8 +447,6 @@ Copyright 2022 Google
    limitations under the License.
 
 
-<<<<<<< HEAD
-=======
 ## FirebaseCoreExtension
 
 
@@ -655,7 +653,6 @@ Copyright 2022 Google
    limitations under the License.
 
 
->>>>>>> feature/us7
 ## FirebaseCoreInternal
 
 
@@ -1068,8 +1065,6 @@ Copyright 2022 Google
    limitations under the License.
 
 
-<<<<<<< HEAD
-=======
 ## FirebaseMessaging
 
 
@@ -1276,7 +1271,6 @@ Copyright 2022 Google
    limitations under the License.
 
 
->>>>>>> feature/us7
 ## Google-Maps-iOS-Utils
 
 Apache License
@@ -1476,8 +1470,6 @@ third-party archives.
 
 Copyright 2022 Google
 
-<<<<<<< HEAD
-=======
 ## GoogleDataTransport
 
 
@@ -1684,7 +1676,6 @@ Copyright 2022 Google
    limitations under the License.
 
 
->>>>>>> feature/us7
 ## GoogleMaps
 
 Copyright 2024 Google LLC
@@ -3077,8 +3068,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-<<<<<<< HEAD
-=======
 ## react-native-keyboard-controller
 
 MIT License
@@ -3104,7 +3093,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
->>>>>>> feature/us7
 ## react-native-maps
 
 The MIT License (MIT)

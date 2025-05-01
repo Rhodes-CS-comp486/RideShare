@@ -4,7 +4,7 @@
 
 # Xcode
 #
-build/
+# build/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
@@ -24,7 +24,7 @@ DerivedData
 
 # Android/IntelliJ
 #
-build/
+# build/
 .idea
 .gradle
 local.properties
@@ -35,7 +35,7 @@ local.properties
 !debug.keystore
 
 package-lock.json
-node_modules
+# node_modules
 
 
 #API Key Files
@@ -47,7 +47,7 @@ google-services.json
 
 # node.js
 #
-node_modules/
+# node_modules/
 npm-debug.log
 yarn-error.log
 

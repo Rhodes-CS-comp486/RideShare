@@ -31,13 +31,14 @@ app.use('/api', preferencesRoutes);
 app.use('/api', browseRoutes);
 app.use('/api/token', tokenRoutes);
 app.use('/api', reportRoutes);
+app.use('/api/messages', messagesRoutes);
 
 // Schedule notification every minute
 //setInterval(() => {
   //welcomeNotification();
 //}, 10000);
 
-//Uncomment for emulatorapp.use('/api/messages', messagesRoutes);
+// Uncomment for emulatorapp.use('/api/messages', messagesRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

@@ -1,6 +1,6 @@
 {
   "name": "react-native-maps-generated",
-  "version": "1.21.0",
+  "version": "1.22.6",
   "summary": "React Native Mapview component for iOS + Android",
   "authors": "Leland Richardson <leland.m.richardson@gmail.com>",
   "homepage": "https://github.com/react-native-maps/react-native-maps#readme",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://github.com/react-native-maps/react-native-maps.git",
-    "tag": "v1.21.0"
+    "tag": "v1.22.6"
   },
   "source_files": "ios/generated/**/*.{h,m,mm,cpp,swift}",
   "exclude_files": [
