@@ -123,6 +123,7 @@ const DriverFeedScreen = ({ route }) => {
         pickuptime: item.pickuptime,
         driverid: user.rhodesid
       });
+      fetchPosts();
       setPosts(prev => prev.map(p => {
         if (
           p.passengerrhodesid === item.passengerrhodesid &&
@@ -168,7 +169,8 @@ const DriverFeedScreen = ({ route }) => {
   const SwipeableCard = ({ item }) => {
     const translateX = useSharedValue(0);
     const postKey = `${item.passengerrhodesid}-${item.pickupdate}-${item.pickuptime}`;
-    const avatarSource = avatarImages[item.profile_picture]
+    const avatarSource = avatarImages[item.passenger_profile_picture]
+    const driverAvatar = avatarImages[item.driver_profile_picture];
 
     const panGesture = Gesture.Pan()
       .onUpdate((e) => {
@@ -209,6 +211,23 @@ const DriverFeedScreen = ({ route }) => {
               <Image source={avatarSource} style={{ width: 50, height: 50, borderRadius: 25 }} />
             </TouchableOpacity>
           )}
+          {item.ridestate && item.driverid && (
+          <TouchableOpacity
+            onPress={() => {
+              if (item.driverid === user.rhodesid) {
+                navigation.navigate('DriverAccount', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } });
+              } else {
+                navigation.navigate('ViewPassengerAccount', { user: { rhodesid: item.driverid, profile_picture: item.driver_profile_picture } });
+              }
+            }}
+            style={{ position: 'absolute', top: 10, right: 70 }}
+          >
+            <Image
+              source={driverAvatar}
+              style={{ width: 50, height: 50, borderRadius: 25 }}
+            />
+          </TouchableOpacity>
+        )}
           <Text style={styles.headerText}>{item.pickupdate} at {item.pickuptime}</Text>
           <Text style={styles.subHeaderText}>Passenger: {item.passengerrhodesid}</Text>
         </View>
