@@ -206,7 +206,7 @@ const DriverFeedScreen = ({ route }) => {
           {avatarSource && (
             <TouchableOpacity 
               onPress={() => navigation.navigate('ViewPassengerAccount', { user: { rhodesid: item.passengerrhodesid, profile_picture: user.profile_picture } })}
-              style={{ position: 'absolute', top: 10, right: 10 }}
+              style={{ position: 'absolute', top: 10, right: 10, zIndex: 10, elevation: 10 }}
             >
               <Image source={avatarSource} style={{ width: 50, height: 50, borderRadius: 25 }} />
             </TouchableOpacity>
@@ -220,7 +220,7 @@ const DriverFeedScreen = ({ route }) => {
                 navigation.navigate('ViewPassengerAccount', { user: { rhodesid: item.driverid, profile_picture: item.driver_profile_picture } });
               }
             }}
-            style={{ position: 'absolute', top: 10, right: 70 }}
+            style={{ position: 'absolute', top: 10, right: 70, zIndex: 10, elevation: 10 }}
           >
             <Image
               source={driverAvatar}
