@@ -18,7 +18,7 @@ const PassengerConversationsScreen = ({navigation, route}) => {
         });
 
         const formatted = response.data.map((item) => ({
-          id: item.driverid, // use driver rhodesid as ID
+          id: item.driverid, 
           driverid: item.driverid,
           user: item.driverid,
           lastMessage: item.lastmessage,
@@ -104,6 +104,23 @@ const styles = StyleSheet.create({
     height: 10,
     borderRadius: 5,
     backgroundColor: 'red',
+  },
+  bottomBar: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#6683A9',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingBottom: 50,
+  },
+  icon: {
+    width: 30,
+    height: 30,
+    resizeMode: 'contain',
   },
 });
 

@@ -38,7 +38,7 @@ const PassengerChatScreen = ({ navigation, route }) => {
       };
 
       fetchMessages();
-    }, [user.rhodesid]);
+    }, [user.rhodesid, driver.rhodesid]);
 
     const onSend = useCallback(async (messages = []) => {
       const message = messages[0];
@@ -46,22 +46,25 @@ const PassengerChatScreen = ({ navigation, route }) => {
         ...message,
         user: { _id: user.rhodesid }
       }]));
+
+      const payload = {
+        passengerrhodesid: user.rhodesid,
+        driverid: driver.rhodesid,
+        text: message.text,
+        senderid: user.rhodesid
+      };
+
+      if (pickupdate && pickuptime) {
+        payload.pickupdate = pickupdate;
+        payload.pickuptime = pickuptime;
+      }
   
       try {
-        await axios.post(API_BASE_URL, {
-          passengerrhodesid: user.rhodesid,
-          driverid: driver.rhodesid,
-          // pickupdate: pickupdate, 
-          // pickuptime: pickuptime,    
-          pickupdate: "",
-          pickuptime: "",
-          text: message.text,
-          senderid: user.rhodesid
-        });
+        await axios.post(API_BASE_URL, payload);
       } catch (error) {
         console.error('Error sending message:', error);
       }
-    }, [user.rhodesid]);
+    }, [user.rhodesid, driver.rhodesid, pickupdate, pickuptime]);
 
     return (
       <SafeAreaView style={styles.container}>
@@ -87,7 +90,7 @@ const PassengerChatScreen = ({ navigation, route }) => {
           <TouchableOpacity onPress={() => navigation.navigate('Browse', { user: { rhodesid: user.rhodesid } })}>
             <Image source={require('../assets/driver.png')} style={styles.icon} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('PassengerChat', { user: { rhodesid: user.rhodesid } })}>
+          <TouchableOpacity onPress={() => navigation.navigate('PassengerConversations', { user: { rhodesid: user.rhodesid }, driver: { rhodesid: driver.rhodesid } })}>
             <Image source={require('../assets/chat.png')} style={styles.icon} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('PassengerAccount', { user: { rhodesid: user.rhodesid } })}>
@@ -102,8 +105,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#80A1C2',
-    // justifyContent: 'center',
-    // alignItems: 'center',
     padding: 0,
   },
   title: {

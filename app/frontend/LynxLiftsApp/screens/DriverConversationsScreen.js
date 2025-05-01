@@ -13,7 +13,7 @@ const DriverConversationsScreen = ({ navigation, route }) => {
     const fetchConversations = async () => {
       try {
         const response = await axios.get(API_BASE_URL, {
-          params: { driverid: user.rhodesid } // adjust depending on backend route
+          params: { driverid: user.rhodesid } 
         });
 
         const formatted = response.data.map((item) => ({
@@ -63,9 +63,9 @@ const DriverConversationsScreen = ({ navigation, route }) => {
             <Image source={require('../assets/home.png')} style={styles.icon} />
           </TouchableOpacity>
            <TouchableOpacity onPress={() => console.log('Driver')}>
-             <Image source={require('../assets/driver.png')} style={styles.icon} />
+             <Image source={require('../assets/payment.png')} style={styles.icon} />
            </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('DriverChat', { user: { rhodesid: user.rhodesid } })}>
+          <TouchableOpacity onPress={() => navigation.navigate('DriverConversations', { user: { rhodesid: user.rhodesid } })}>
             <Image source={require('../assets/chat.png')} style={styles.icon} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('DriverAccount', { user: { rhodesid: user.rhodesid } })}>
@@ -93,6 +93,23 @@ const styles = StyleSheet.create({
   lastMessage: {
     fontSize: 14,
     color: '#555',
+  },
+  bottomBar: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: '#6683A9',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingBottom: 50,
+  },
+  icon: {
+    width: 30,
+    height: 30,
+    resizeMode: 'contain',
   },
 });
 

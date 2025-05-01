@@ -18,9 +18,7 @@ const DriverChatScreen = ({ navigation, route }) => {
           const response = await axios.get(API_BASE_URL, {
             params: {
               passengerrhodesid: passenger.rhodesid,
-              // passengerrhodesid: "mcmcj-25",
               driverid: user.rhodesid
-              // driverid: "zhama-25"
             }
           });
           const formattedMessages = response.data.map(msg => ({
@@ -40,18 +38,10 @@ const DriverChatScreen = ({ navigation, route }) => {
       };
 
       fetchMessages();
-    }, [user.rhodesid]);
+    }, [user.rhodesid, passenger.rhodesid]);
 
     const onSend = useCallback(async (messages = []) => {
       const message = messages[0];
-      // setMessages(previousMessages =>
-      //   GiftedChat.append(previousMessages, [{
-      //     _id: uuid.v4(),
-      //     text: message.text,
-      //     createdAt: new Date(),
-      //     user: { _id: user.rhodesid }
-      //   }])
-      // );
 
       setMessages(prevMessages => GiftedChat.append(prevMessages, [{
         ...message,
@@ -60,23 +50,24 @@ const DriverChatScreen = ({ navigation, route }) => {
         }
       }])
     );
-      // const { text } = messages[0];
+      const payload = {
+        passengerrhodesid: passenger.rhodesid,
+        driverid: user.rhodesid,
+        text: message.text,
+        senderid: user.rhodesid
+      };
+
+      if (pickupdate && pickuptime) {
+        payload.pickupdate = pickupdate;
+        payload.pickuptime = pickuptime;
+      }
   
       try {
-        await axios.post(API_BASE_URL, {
-          passengerrhodesid: passenger.rhodesid,
-          // passengerrhodesid: "mcmcj-25",
-          driverid: user.rhodesid,
-          // driverid: "zhama-25",
-          pickupdate: "", 
-          pickuptime: "",    
-          text: message.text,
-          senderid: user.rhodesid
-        });
+        await axios.post(API_BASE_URL, payload);
       } catch (error) {
         console.error('Error sending message:', error);
       }
-    }, [user.rhodesid]);
+    }, [user.rhodesid, passenger.rhodesid, pickupdate, pickuptime]);
 
     return (
       <SafeAreaView style={styles.container}>
@@ -90,7 +81,6 @@ const DriverChatScreen = ({ navigation, route }) => {
               onSend={messages => onSend(messages)}
               user={{ _id: user.rhodesid }}
               messageIdGenerator={() => uuid.v4()}
-              // messageIdGenerator={() => Math.random().toString(36).substring(7)}
               renderActions={() => null}
               minComposerHeight={90}
               maxComposerHeight={50}
@@ -103,7 +93,7 @@ const DriverChatScreen = ({ navigation, route }) => {
           <TouchableOpacity onPress={() => console.log('Driver')}>
             <Image source={require('../assets/driver.png')} style={styles.icon} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('DriverChat', { user: { rhodesid: user.rhodesid } })}>
+          <TouchableOpacity onPress={() => navigation.navigate('DriverConversations', { user: { rhodesid: user.rhodesid }, passenger: { rhodesid: passenger.rhodesid } })}>
             <Image source={require('../assets/chat.png')} style={styles.icon} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('DriverAccount', { user: { rhodesid: user.rhodesid } })}>
@@ -118,8 +108,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#80A1C2',
-    // justifyContent: 'center',
-    // alignItems: 'center',
     padding: 0,
   },
   title: {
