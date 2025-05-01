@@ -33,11 +33,11 @@ setInterval(() => {
 }, 10000);
 
 //Uncomment for emulator
-//app.listen(PORT, () => {
-  //console.log(`Server running on port ${PORT}`);
-//});
-
-//Uncomment for Physical device
-app.listen(PORT, '0.0.0.0', () => {
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+//Uncomment for Physical device
+//app.listen(PORT, '0.0.0.0', () => {
+  //console.log(`Server running on port ${PORT}`);
+//});
