@@ -22,6 +22,7 @@ import Report from './screens/RegisterScreen';
 import ReportScreen from './screens/ReportScreen';
 import ExlpainRide from './screens/ExplainRideScreen';
 import PassengerExplainRideScreen from './screens/PassengerExplainRideScreen';
+import ViewPassengerAccountScreen from './screens/ViewPassengerAccountScreen';
 
 // import { setupNotificationHandlers } from './notificationService';
 
@@ -62,6 +63,7 @@ const App = () => {
           <Stack.Screen name="Report" component={ReportScreen} options={{ headerShown: false }} />
           <Stack.Screen name="ExplainRide" component={ExlpainRide} options={{ headerShown: false }} />
           <Stack.Screen name="PassengerExplainRide" component={PassengerExplainRideScreen}  options={{ headerShown: false }} />
+          <Stack.Screen name="ViewPassengerAccount" component={ViewPassengerAccountScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>
