@@ -206,9 +206,9 @@ const DriverFeedScreen = ({ route }) => {
           {avatarSource && (
             <TouchableOpacity 
               onPress={() => navigation.navigate('ViewPassengerAccount', { user: { rhodesid: item.passengerrhodesid, profile_picture: user.profile_picture }, currentUserId: user.rhodesid })}
-              style={{ position: 'absolute', right: 10, zIndex: 10, elevation: 10 }}
+              style={{ position: 'absolute', right: 5, zIndex: 10, elevation: 10 }}
             >
-              <Image source={avatarSource} style={{ width: 50, height: 50, borderRadius: 25 }} />
+              <Image source={avatarSource} style={{ width: 47, height: 47, borderRadius: 25 }} />
             </TouchableOpacity>
           )}
           {item.ridestate && item.driverid && (
@@ -220,11 +220,11 @@ const DriverFeedScreen = ({ route }) => {
                 navigation.navigate('ViewDriverAccount', { user: { rhodesid: item.driverid, profile_picture: item.driver_profile_picture }, currentUserId: user.rhodesid });
               }
             }}
-            style={{ position: 'absolute', right: 70, zIndex: 10, elevation: 10 }}
+            style={{ position: 'absolute', right: 60, zIndex: 10, elevation: 10 }}
           >
             <Image
               source={driverAvatar}
-              style={{ width: 50, height: 50, borderRadius: 25 }}
+              style={{ width: 47, height: 47, borderRadius: 25 }}
             />
           </TouchableOpacity>
         )}

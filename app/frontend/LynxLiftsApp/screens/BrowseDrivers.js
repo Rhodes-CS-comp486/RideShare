@@ -51,11 +51,11 @@ const BrowseDrivers = ({ navigation, route }) => {
               {avatarSource ? (
                 <Image
                   source={avatarSource}
-                  style={{ width: 40, height: 40, borderRadius: 20 }}
+                  style={{ width: 45, height: 45, borderRadius: 20 }}
                 />
-              ) : (
+              ) : ( // Fallback
                 <View style={{
-                  width: 40, height: 40, borderRadius: 20,
+                  width: 45, height: 45, borderRadius: 20,
                   backgroundColor: '#A62C2C'
                 }} />
               )}
