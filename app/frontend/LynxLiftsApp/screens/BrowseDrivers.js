@@ -20,6 +20,7 @@ const BrowseDrivers = ({ navigation, route }) => {
 
   const requestRide = (driverId) => {
     Alert.alert("Ride Request Sent", `You requested a ride from ${driverId}`);
+    navigation.navigate("PassengerChat", { user: { rhodesid: user.rhodesid }, driver: { rhodesid: driverId } });
   };
 
   useEffect(() => {

@@ -9,7 +9,7 @@ const API_BASE_URL = `${API_URL}/api/messages`;
 
 
 const PassengerChatScreen = ({ navigation, route }) => {
-    const { user } = route.params;
+    const { user, driver } = route.params;
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
@@ -18,7 +18,7 @@ const PassengerChatScreen = ({ navigation, route }) => {
           const response = await axios.get(API_BASE_URL, {
             params: {
               passengerrhodesid: user.rhodesid,
-              driverid: "mcmcj-25"
+              driverid: driver.rhodesid
             }
           });
           const formattedMessages = response.data.map(msg => ({
@@ -50,7 +50,7 @@ const PassengerChatScreen = ({ navigation, route }) => {
       try {
         await axios.post(API_BASE_URL, {
           passengerrhodesid: user.rhodesid,
-          driverid: "mcmcj-25",
+          driverid: driver.rhodesid,
           pickupdate: "2025-05-01", 
           pickuptime: "14:00:00",    
           text: message.text,

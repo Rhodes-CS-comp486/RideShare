@@ -8,6 +8,7 @@ import { API_URL } from '@env'
 const FeedScreen = ({ navigation, route }) => {
   const { user } = route.params;
   const [posts, setPosts] = useState([]);
+  const [acceptedRide, setAcceptedRide] = useState(null);
 
   // function to fetch posts from the backend
   const fetchPosts = async () => {
@@ -24,7 +25,12 @@ const FeedScreen = ({ navigation, route }) => {
         const bPriority = b.ridestate === true && b.passengerrhodesid === user.rhodesid ? 1 : 0;
         return bPriority - aPriority; // Sort descending
       });
+
+      const topAcceptedPost = visiblePosts.find(
+        post => post.ridestate === true && post.passengerrhodesid === user.rhodesid
+      );
       
+      setAcceptedRide(topAcceptedPost || null);
       setPosts(visiblePosts);      
     } 
     catch (error) {
@@ -79,7 +85,14 @@ const FeedScreen = ({ navigation, route }) => {
         } else {
           translateX.value = withSpring(0);
         }
-      });      
+      });
+    
+    const navigateToChat = () => {
+      navigation.navigate('PassengerChat', {
+        user: { rhodesid: user.rhodesid },
+        driver: { rhodesid: item.driverid },
+      });
+    };
   
     return (
       <GestureDetector gesture={gesture}>
@@ -93,6 +106,16 @@ const FeedScreen = ({ navigation, route }) => {
             <Text style={styles.postText}>Payment: {item.payment}</Text>
             <Text style={styles.postText}>Distance: {item.distance}</Text>
             <Text style={styles.postText}>Duration: {item.duration}</Text>
+            {
+              item.ridestate === true && item.passengerrhodesid === user.rhodesid && item.driverid && (
+                <TouchableOpacity
+                  style={styles.chatButton}
+                  onPress={navigateToChat}
+                >
+                  <Text style={styles.chatButtonText}>Chat with Driver</Text>
+                </TouchableOpacity>
+              )
+            }
           </View>
         </Animated.View>
       </GestureDetector>
@@ -202,7 +225,21 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     overflow: 'hidden',
     marginBottom: 10,
-  },   
+  },
+  chatButton: {
+    marginTop: 10,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    backgroundColor: '#6683A9',
+    borderRadius: 10,
+    alignSelf: 'flex-start', // Aligns it to the left inside the post
+  },
+  chatButtonText: {
+    color: '#FAF2E6', 
+    fontSize: 16,
+    fontWeight: 'bold'
+  },
+  
 });
 
 export default FeedScreen;
