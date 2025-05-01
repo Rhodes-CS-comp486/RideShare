@@ -5,9 +5,11 @@ const router = express.Router();
 // route to get all feed posts
 router.get("/", async (req, res) => {
     try {
-        const result = await pool.query("SELECT passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, estimatedpayment, pickupdate, distance, duration, driverid, addcomments, pickuptimestamp, drivercomplete, driverdescription, passengercomplete, passengerdescription " +
-            "FROM feed ORDER BY timeposted DESC");
-          
+        const result = await pool.query("SELECT f.passengerrhodesid, f.pickuptime, f.pickuplocation, f.dropofflocation, " +
+        "f.ridestate, f.payment, f.estimatedpayment, f.pickupdate, f.distance, f.duration, f.driverid, f.addcomments, f.pickuptimestamp, " +
+        "f.drivercomplete, f.driverdescription, f.passengercomplete, f.passengerdescription, u.profile_picture " +
+        "FROM feed f LEFT JOIN users u ON f.passengerrhodesid = u.rhodesid ORDER BY f.timeposted DESC");
+        
         res.json(result.rows);
     } catch (err) {
         console.error("Error fetching feed:", err);

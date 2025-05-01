@@ -5,6 +5,13 @@ import Animated, { useSharedValue, useAnimatedStyle, withSpring, runOnJS } from 
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { API_URL } from '@env'
 
+const avatarImages = {
+  'billy.png': require('../assets/avatars/billy.png'),
+  'crosby.png': require('../assets/avatars/crosby.png'),
+  'matthew.png': require('../assets/avatars/matthew.png'),
+  'nalvi.png': require('../assets/avatars/nalvi.png'),
+};
+
 const FeedScreen = ({ navigation, route }) => {
   const { user } = route.params;
   const [posts, setPosts] = useState([]);
@@ -111,7 +118,8 @@ const FeedScreen = ({ navigation, route }) => {
   const RenderPost = ({ item }) => {
     const translateX = useSharedValue(0);
     const threshold = -100;
-  
+    const avatarSource = avatarImages[item.profile_picture]
+    
     const animatedStyle = useAnimatedStyle(() => ({
       transform: [{ translateX: translateX.value }],
     }));
@@ -145,6 +153,14 @@ const FeedScreen = ({ navigation, route }) => {
           item.ridestate === true && item.passengerrhodesid === user.rhodesid && { backgroundColor: '#BF4146' }
         ]}>
           <View style={{ marginBottom: 8 }}>
+          {avatarSource && (
+            <TouchableOpacity 
+              onPress={() => navigation.navigate('PassengerChat', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })} 
+              style={{ position: 'absolute', top: 10, right: 10 }}
+            >
+              <Image source={avatarSource} style={{ width: 50, height: 50, borderRadius: 25 }} />
+            </TouchableOpacity>
+          )}
             <Text style={styles.headerText}>{item.pickupdate} at {item.pickuptime}</Text>
             <Text style={styles.subHeaderText}>Passenger: {item.passengerrhodesid}</Text>
           </View>
