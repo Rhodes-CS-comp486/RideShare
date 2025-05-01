@@ -160,7 +160,7 @@ const FeedScreen = ({ navigation, route }) => {
               if (user.rhodesid === item.passengerrhodesid) {
                 navigation.navigate('PassengerAccount', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } });
               } else {
-                navigation.navigate('ViewPassengerAccount', { user: { rhodesid: item.passengerrhodesid, profile_picture: user.profile_picture } });
+                navigation.navigate('ViewPassengerAccount', { user: { rhodesid: item.passengerrhodesid, profile_picture: user.profile_picture }, currentUserId: user.rhodesid });
               }
             }}
             style={{ position: 'absolute', top: 10, right: 10, zIndex: 10, elevation: 10 }}
@@ -174,7 +174,7 @@ const FeedScreen = ({ navigation, route }) => {
                 if (item.driverid === user.rhodesid) {
                   navigation.navigate('DriverAccount', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } });
                 } else {
-                  navigation.navigate('ViewDriverAccount', { user: { rhodesid: item.driverid, profile_picture: item.driver_profile_picture } });
+                  navigation.navigate('ViewDriverAccount', { user: { rhodesid: item.driverid, profile_picture: item.driver_profile_picture }, currentUserId: user.rhodesid });
                 }
               }}
               style={{ position: 'absolute', top: 10, right: 70, zIndex: 10, elevation: 10 }}

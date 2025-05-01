@@ -205,7 +205,7 @@ const DriverFeedScreen = ({ route }) => {
         <View style={{ marginBottom: 8 }}>
           {avatarSource && (
             <TouchableOpacity 
-              onPress={() => navigation.navigate('ViewPassengerAccount', { user: { rhodesid: item.passengerrhodesid, profile_picture: user.profile_picture } })}
+              onPress={() => navigation.navigate('ViewPassengerAccount', { user: { rhodesid: item.passengerrhodesid, profile_picture: user.profile_picture }, currentUserId: user.rhodesid })}
               style={{ position: 'absolute', top: 10, right: 10, zIndex: 10, elevation: 10 }}
             >
               <Image source={avatarSource} style={{ width: 50, height: 50, borderRadius: 25 }} />
@@ -217,7 +217,7 @@ const DriverFeedScreen = ({ route }) => {
               if (item.driverid === user.rhodesid) {
                 navigation.navigate('DriverAccount', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } });
               } else {
-                navigation.navigate('ViewPassengerAccount', { user: { rhodesid: item.driverid, profile_picture: item.driver_profile_picture } });
+                navigation.navigate('ViewDriverAccount', { user: { rhodesid: item.driverid, profile_picture: item.driver_profile_picture }, currentUserId: user.rhodesid });
               }
             }}
             style={{ position: 'absolute', top: 10, right: 70, zIndex: 10, elevation: 10 }}
