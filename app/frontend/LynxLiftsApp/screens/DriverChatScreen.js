@@ -9,7 +9,7 @@ const API_BASE_URL = `${API_URL}/api/messages`;
 
 
 const DriverChatScreen = ({ navigation, route }) => {
-    const { user } = route.params;
+    const { user, passenger, pickupdate, pickuptime } = route.params;
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
@@ -17,8 +17,10 @@ const DriverChatScreen = ({ navigation, route }) => {
         try {
           const response = await axios.get(API_BASE_URL, {
             params: {
-              passengerrhodesid: "zhama-25",
+              passengerrhodesid: passenger.rhodesid,
+              // passengerrhodesid: "mcmcj-25",
               driverid: user.rhodesid
+              // driverid: "zhama-25"
             }
           });
           const formattedMessages = response.data.map(msg => ({
@@ -42,21 +44,32 @@ const DriverChatScreen = ({ navigation, route }) => {
 
     const onSend = useCallback(async (messages = []) => {
       const message = messages[0];
+      // setMessages(previousMessages =>
+      //   GiftedChat.append(previousMessages, [{
+      //     _id: uuid.v4(),
+      //     text: message.text,
+      //     createdAt: new Date(),
+      //     user: { _id: user.rhodesid }
+      //   }])
+      // );
 
       setMessages(prevMessages => GiftedChat.append(prevMessages, [{
         ...message,
         user: {
           _id: user.rhodesid,
         }
-      }]));
+      }])
+    );
       // const { text } = messages[0];
   
       try {
         await axios.post(API_BASE_URL, {
-          passengerrhodesid: "zhama-25",
+          passengerrhodesid: passenger.rhodesid,
+          // passengerrhodesid: "mcmcj-25",
           driverid: user.rhodesid,
-          pickupdate: "2025-05-01", 
-          pickuptime: "14:00:00",    
+          // driverid: "zhama-25",
+          pickupdate: "", 
+          pickuptime: "",    
           text: message.text,
           senderid: user.rhodesid
         });

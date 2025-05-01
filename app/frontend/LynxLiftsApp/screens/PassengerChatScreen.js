@@ -9,7 +9,7 @@ const API_BASE_URL = `${API_URL}/api/messages`;
 
 
 const PassengerChatScreen = ({ navigation, route }) => {
-    const { user, driver } = route.params;
+    const { user, driver, pickupdate, pickuptime } = route.params;
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
@@ -51,8 +51,10 @@ const PassengerChatScreen = ({ navigation, route }) => {
         await axios.post(API_BASE_URL, {
           passengerrhodesid: user.rhodesid,
           driverid: driver.rhodesid,
-          pickupdate: "2025-05-01", 
-          pickuptime: "14:00:00",    
+          // pickupdate: pickupdate, 
+          // pickuptime: pickuptime,    
+          pickupdate: "",
+          pickuptime: "",
           text: message.text,
           senderid: user.rhodesid
         });
@@ -85,9 +87,6 @@ const PassengerChatScreen = ({ navigation, route }) => {
           <TouchableOpacity onPress={() => navigation.navigate('Browse', { user: { rhodesid: user.rhodesid } })}>
             <Image source={require('../assets/driver.png')} style={styles.icon} />
           </TouchableOpacity>
-          {/* <TouchableOpacity onPress={() => navigation.navigate('PassengerChat', { user: { rhodesid: user.rhodesid }, driver: { rhodesid: driver.rhodesid }})}>
-            <Image source={require('../assets/chat.png')} style={styles.icon} />
-          </TouchableOpacity> */}
           <TouchableOpacity onPress={() => navigation.navigate('PassengerChat', { user: { rhodesid: user.rhodesid } })}>
             <Image source={require('../assets/chat.png')} style={styles.icon} />
           </TouchableOpacity>

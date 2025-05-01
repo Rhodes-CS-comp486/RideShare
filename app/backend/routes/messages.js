@@ -2,6 +2,48 @@ const express = require('express');
 const pool = require('../db') // database connection
 const router = express.Router();
 
+// Get list of conversations for a passenger
+router.get('/conversations', async (req, res) => {
+  const { passengerrhodesid, driverid } = req.query;
+
+  try {
+    let result;
+
+    if (passengerrhodesid) {
+      // Fetch conversations for passenger
+      result = await pool.query(
+        `
+        SELECT DISTINCT ON (m.driverid) m.driverid, m.text AS lastmessage, f.pickupdate, f.pickuptime
+        FROM messages m
+        JOIN feed f ON f.passengerrhodesid = m.passengerrhodesid
+        WHERE m.passengerrhodesid = $1
+        ORDER BY m.driverid, m.timesent DESC
+        `,
+        [passengerrhodesid]
+      );
+    } else if (driverid) {
+      // Fetch conversations for driver
+      result = await pool.query(
+        `
+        SELECT DISTINCT ON (m.passengerrhodesid) m.passengerrhodesid, m.text AS lastmessage, f.pickupdate, f.pickuptime
+        FROM messages m
+        JOIN feed f ON f.passengerrhodesid = m.passengerrhodesid
+        WHERE m.driverid = $1
+        ORDER BY m.passengerrhodesid, m.timesent DESC
+        `,
+        [driverid]
+      );
+    } else {
+      return res.status(400).json({ error: 'Missing required query parameter: passengerrhodesid or driverid' });
+    }
+
+    return res.json(result.rows);
+  } catch (err) {
+    console.error('Error fetching conversations:', err);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
 // Get all messages (latest first)
 router.get('/', async (req, res) => {
     const { passengerrhodesid, driverid } = req.query;
