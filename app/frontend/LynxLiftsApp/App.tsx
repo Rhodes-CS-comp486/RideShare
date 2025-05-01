@@ -18,7 +18,6 @@ import PassengerAccountScreen from './screens/PassengerAccountScreen';
 import PassengerChatScreen from './screens/PassengerChatScreen';
 import DriverChatScreen from './screens/ChatScreen';
 import BrowseDrivers from './screens/BrowseDrivers';
-import Report from './screens/RegisterScreen';
 import ReportScreen from './screens/ReportScreen';
 import ExlpainRide from './screens/ExplainRideScreen';
 import PassengerExplainRideScreen from './screens/PassengerExplainRideScreen';

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet, Platform, Alert, Dimensions, SafeAreaView, Image } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, Alert, Dimensions, SafeAreaView, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, runOnJS } from 'react-native-reanimated';
@@ -206,7 +206,7 @@ const DriverFeedScreen = ({ route }) => {
           {avatarSource && (
             <TouchableOpacity 
               onPress={() => navigation.navigate('ViewPassengerAccount', { user: { rhodesid: item.passengerrhodesid, profile_picture: user.profile_picture }, currentUserId: user.rhodesid })}
-              style={{ position: 'absolute', top: 10, right: 10, zIndex: 10, elevation: 10 }}
+              style={{ position: 'absolute', right: 10, zIndex: 10, elevation: 10 }}
             >
               <Image source={avatarSource} style={{ width: 50, height: 50, borderRadius: 25 }} />
             </TouchableOpacity>
@@ -220,7 +220,7 @@ const DriverFeedScreen = ({ route }) => {
                 navigation.navigate('ViewDriverAccount', { user: { rhodesid: item.driverid, profile_picture: item.driver_profile_picture }, currentUserId: user.rhodesid });
               }
             }}
-            style={{ position: 'absolute', top: 10, right: 70, zIndex: 10, elevation: 10 }}
+            style={{ position: 'absolute', right: 70, zIndex: 10, elevation: 10 }}
           >
             <Image
               source={driverAvatar}

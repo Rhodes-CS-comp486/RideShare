@@ -13,7 +13,7 @@ const DriverChatScreen = ({ navigation, route }) => {
           <Image source={require('../assets/home.png')} style={styles.icon} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => console.log('Driver')}>
-          <Image source={require('../assets/driver.png')} style={styles.icon} />
+          <Image source={require('../assets/payment.png')} style={styles.icon} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('DriverChat', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })}>
           <Image source={require('../assets/chat.png')} style={styles.icon} />

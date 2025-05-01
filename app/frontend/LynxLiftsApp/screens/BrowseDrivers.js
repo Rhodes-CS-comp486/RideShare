@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, SafeAreaView, ActivityIndicator, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, Text, FlatList, StyleSheet, SafeAreaView, TouchableOpacity, Image, Alert } from 'react-native';
 import axios from 'axios';
 import { API_URL } from '@env';
+
+const avatarImages = {
+  'billy.png': require('../assets/avatars/billy.png'),
+  'crosby.png': require('../assets/avatars/crosby.png'),
+  'matthew.png': require('../assets/avatars/matthew.png'),
+  'nalvi.png': require('../assets/avatars/nalvi.png'),
+};
+
 
 const BrowseDrivers = ({ navigation, route }) => {
   const { user } = route.params;
@@ -26,23 +34,47 @@ const BrowseDrivers = ({ navigation, route }) => {
     return unsubscribe;
   }, [navigation]);
 
-  const RenderDriver = ({ item }) => (
-    <View style={styles.swipeablePost}>
-      <View style={styles.post}>
-        <Text style={styles.postText}>Driver ID: {item.driverid}</Text>
-        <Text style={styles.postText}>Status: Online</Text>
-        <Text style={styles.postText}>Radius: {item.radius} miles</Text>
-        <Text style={styles.postText}>Time: {item.time} minutes</Text>
-
-        <TouchableOpacity
-          style={styles.chatButton}
-          onPress={() => requestRide(item.driverid)}
-        >
-          <Text style={styles.chatText}>Request</Text>
-        </TouchableOpacity>
+  const RenderDriver = ({ item }) => {
+    const avatarKey = item.profile_picture;
+    const avatarSource = avatarImages[avatarKey];
+  
+    return (
+      <View style={styles.swipeablePost}>
+        <View style={styles.post}>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            <Text style={styles.postText}>Driver ID: {item.driverid}</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ViewDriverAccount', {
+                user: { rhodesid: item.driverid, profile_picture: item.profile_picture }, currentUserId: user.rhodesid
+              })}
+            >
+              {avatarSource ? (
+                <Image
+                  source={avatarSource}
+                  style={{ width: 40, height: 40, borderRadius: 20 }}
+                />
+              ) : (
+                <View style={{
+                  width: 40, height: 40, borderRadius: 20,
+                  backgroundColor: '#A62C2C'
+                }} />
+              )}
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.postText}>Status: Online</Text>
+          <Text style={styles.postText}>Radius: {item.radius} miles</Text>
+          <Text style={styles.postText}>Time: {item.time} minutes</Text>
+  
+          <TouchableOpacity
+            style={styles.chatButton}
+            onPress={() => requestRide(item.driverid)}
+          >
+            <Text style={styles.chatText}>Request</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
-  );
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>

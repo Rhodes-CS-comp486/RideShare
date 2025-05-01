@@ -163,7 +163,7 @@ const FeedScreen = ({ navigation, route }) => {
                 navigation.navigate('ViewPassengerAccount', { user: { rhodesid: item.passengerrhodesid, profile_picture: user.profile_picture }, currentUserId: user.rhodesid });
               }
             }}
-            style={{ position: 'absolute', top: 10, right: 10, zIndex: 10, elevation: 10 }}
+            style={{ position: 'absolute', right: 10, zIndex: 10, elevation: 10 }}
           >
             <Image source={avatarSource} style={{ width: 50, height: 50, borderRadius: 25 }} />
           </TouchableOpacity>          
@@ -177,7 +177,7 @@ const FeedScreen = ({ navigation, route }) => {
                   navigation.navigate('ViewDriverAccount', { user: { rhodesid: item.driverid, profile_picture: item.driver_profile_picture }, currentUserId: user.rhodesid });
                 }
               }}
-              style={{ position: 'absolute', top: 10, right: 70, zIndex: 10, elevation: 10 }}
+              style={{ position: 'absolute', right: 70, zIndex: 10, elevation: 10 }}
             >
               <Image
                 source={driverAvatar}
