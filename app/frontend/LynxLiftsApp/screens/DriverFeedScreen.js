@@ -203,7 +203,7 @@ const DriverFeedScreen = ({ route }) => {
         <View style={{ marginBottom: 8 }}>
           {avatarSource && (
             <TouchableOpacity 
-              onPress={() => navigation.navigate('PassengerChat', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })} 
+              onPress={() => navigation.navigate('ViewPassengerAccount', { user: { rhodesid: item.passengerrhodesid, profile_picture: user.profile_picture } })}
               style={{ position: 'absolute', top: 10, right: 10 }}
             >
               <Image source={avatarSource} style={{ width: 50, height: 50, borderRadius: 25 }} />
