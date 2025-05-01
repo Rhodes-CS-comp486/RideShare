@@ -118,7 +118,8 @@ const FeedScreen = ({ navigation, route }) => {
   const RenderPost = ({ item }) => {
     const translateX = useSharedValue(0);
     const threshold = -100;
-    const avatarSource = avatarImages[item.profile_picture]
+    const avatarSource = avatarImages[item.passenger_profile_picture]
+    const driverAvatar = avatarImages[item.driver_profile_picture];
     
     const animatedStyle = useAnimatedStyle(() => ({
       transform: [{ translateX: translateX.value }],
@@ -166,6 +167,23 @@ const FeedScreen = ({ navigation, route }) => {
           >
             <Image source={avatarSource} style={{ width: 50, height: 50, borderRadius: 25 }} />
           </TouchableOpacity>          
+          )}
+          {item.ridestate && item.driverid && (
+            <TouchableOpacity
+              onPress={() => {
+                if (item.driverid === user.rhodesid) {
+                  navigation.navigate('DriverAccount', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } });
+                } else {
+                  navigation.navigate('ViewDriverAccount', { user: { rhodesid: item.driverid, profile_picture: item.driver_profile_picture } });
+                }
+              }}
+              style={{ position: 'absolute', top: 10, right: 70 }}
+            >
+              <Image
+                source={driverAvatar}
+                style={{ width: 50, height: 50, borderRadius: 25 }}
+              />
+            </TouchableOpacity>
           )}
             <Text style={styles.headerText}>{item.pickupdate} at {item.pickuptime}</Text>
             <Text style={styles.subHeaderText}>Passenger: {item.passengerrhodesid}</Text>
