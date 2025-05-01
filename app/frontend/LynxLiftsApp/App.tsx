@@ -16,7 +16,7 @@ import DriverAccountScreen from './screens/DriverAccountScreen';
 import SetPreferenceScreen from './screens/SetPreferenceScreen';
 import PassengerAccountScreen from './screens/PassengerAccountScreen';
 import PassengerChatScreen from './screens/PassengerChatScreen';
-import DriverChatScreen from './screens/ChatScreen';
+import DriverChatScreen from './screens/DriverChatScreen';
 import BrowseDrivers from './screens/BrowseDrivers';
 import ReportScreen from './screens/ReportScreen';
 import ExlpainRide from './screens/ExplainRideScreen';
@@ -25,6 +25,9 @@ import ViewPassengerAccountScreen from './screens/ViewPassengerAccountScreen';
 import ViewDriverAccountScreen from './screens/ViewDriverAccountScreen';
 
 // import { setupNotificationHandlers } from './notificationService';
+import PassengerConversationsScreen from './screens/PassengerConversationsScreen';
+import DriverConversationsScreen from './screens/DriverConversationsScreen';
+import ScheduleRideScreen from './screens/ScheduleRideScreen';
 
 const Stack = createStackNavigator();
 
@@ -56,8 +59,11 @@ const App = () => {
           <Stack.Screen name="DriverFeed" component={DriverFeedScreen} options={{ headerShown: false }} />
           <Stack.Screen name="DriverAccount" component={DriverAccountScreen} options={{ headerShown: false }} />
           <Stack.Screen name="SetPreference" component={SetPreferenceScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="PassengerConversations" component={PassengerConversationsScreen} options={{headerShown: false}}/>
+          <Stack.Screen name="DriverConversations" component={DriverConversationsScreen} options={{headerShown: false}}/>
           <Stack.Screen name="DriverChat" component={DriverChatScreen} options={{ headerShown: false }} />
           <Stack.Screen name="PassengerChat" component={PassengerChatScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="ScheduleRide" component={ScheduleRideScreen} options={{ headerShown: false }} />
           <Stack.Screen name="PassengerAccount" component={PassengerAccountScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Browse" component={BrowseDrivers} options={{ headerShown: false }} />
           <Stack.Screen name="Report" component={ReportScreen} options={{ headerShown: false }} />

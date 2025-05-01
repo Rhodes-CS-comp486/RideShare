@@ -15,6 +15,7 @@ const avatarImages = {
 const FeedScreen = ({ navigation, route }) => {
   const { user } = route.params;
   const [posts, setPosts] = useState([]);
+  const [acceptedRide, setAcceptedRide] = useState(null);
 
   // function to fetch posts from the backend
   const fetchPosts = async () => {
@@ -41,7 +42,12 @@ const FeedScreen = ({ navigation, route }) => {
         const bPriority = b.ridestate === true && b.passengerrhodesid === user.rhodesid ? 1 : 0;
         return bPriority - aPriority; // Sort descending
       });
+
+      const topAcceptedPost = visiblePosts.find(
+        post => post.ridestate === true && post.passengerrhodesid === user.rhodesid
+      );
       
+      setAcceptedRide(topAcceptedPost || null);
       setPosts(visiblePosts); 
       checkPassengerRideCompletion(visiblePosts);     
     } 
@@ -144,7 +150,16 @@ const FeedScreen = ({ navigation, route }) => {
         } else {
           translateX.value = withSpring(0);
         }
-      });      
+      });
+    
+    const navigateToChat = () => {
+      navigation.navigate('PassengerChat', {
+        user: { rhodesid: user.rhodesid },
+        driver: { rhodesid: item.driverid },
+        pickupdate: item.pickupdate,
+        pickuptime: item.pickuptime 
+      });
+    };
   
     return (
       <GestureDetector gesture={gesture}>
@@ -229,6 +244,16 @@ const FeedScreen = ({ navigation, route }) => {
           >
             <Text style={styles.reportText}>Report Post</Text>
           </TouchableOpacity>
+            {
+              item.ridestate === true && item.passengerrhodesid === user.rhodesid && item.driverid && (
+                <TouchableOpacity
+                  style={styles.chatButton}
+                  onPress={navigateToChat}
+                >
+                  <Text style={styles.chatButtonText}>Chat with Driver</Text>
+                </TouchableOpacity>
+              )
+            }
         </View>
         </Animated.View>
       </GestureDetector>
@@ -273,7 +298,7 @@ const FeedScreen = ({ navigation, route }) => {
         <TouchableOpacity onPress={() => navigation.navigate('Browse', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })}>
           <Image source={require('../assets/driver.png')} style={styles.icon} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('PassengerChat', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })}>
+        <TouchableOpacity onPress={() => navigation.navigate('PassengerConversations', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })}>
           <Image source={require('../assets/chat.png')} style={styles.icon} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('PassengerAccount', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })}>

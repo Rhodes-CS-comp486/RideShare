@@ -11,6 +11,7 @@ const tokenRoutes = require('./routes/token');
 const notifyUpcomingRides = require('./notifyUpcomingRides');
 const preferencesRoutes = require('./routes/preference');
 const browseRoutes = require('./routes/browse');
+const messagesRoutes = require('./routes/messages');;
 const welcomeNotification = require('./welcomeNotification');
 const reportRoutes = require('./routes/report');
 
@@ -36,7 +37,8 @@ app.use('/api', reportRoutes);
   //welcomeNotification();
 //}, 10000);
 
-//Uncomment for emulator
+//Uncomment for emulatorapp.use('/api/messages', messagesRoutes);
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

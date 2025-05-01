@@ -174,7 +174,7 @@ const PassengerAccountScreen = ({ route }) => {
           <TouchableOpacity onPress={() => navigation.navigate('Browse', { user: { rhodesid: user.rhodesi, profile_picture: user.profile_pictured } })}>
             <Image source={require('../assets/driver.png')} style={styles.icon} />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.navigate('PassengerChat', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })}>
+          <TouchableOpacity onPress={() => navigation.navigate('PassengerConversations', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })}>
             <Image source={require('../assets/chat.png')} style={styles.icon} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => navigation.navigate('PassengerAccount', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })}>

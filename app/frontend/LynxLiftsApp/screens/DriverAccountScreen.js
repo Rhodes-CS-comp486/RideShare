@@ -208,7 +208,7 @@ const DriverAccountScreen = ({ route }) => {
         <TouchableOpacity onPress={() => console.log('Driver')}>
           <Image source={require('../assets/payment.png')} style={styles.icon} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('DriverChat', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })}>
+        <TouchableOpacity onPress={() => navigation.navigate('DriverConversations', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })}>
           <Image source={require('../assets/chat.png')} style={styles.icon} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('DriverAccount', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })}>

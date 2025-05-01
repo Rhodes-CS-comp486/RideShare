@@ -27,6 +27,7 @@ const BrowseDrivers = ({ navigation, route }) => {
 
   const requestRide = (driverId) => {
     Alert.alert("Ride Request Sent", `You requested a ride from ${driverId}`);
+    navigation.navigate("PassengerChat", { user: { rhodesid: user.rhodesid }, driver: { rhodesid: driverId } });
   };
 
   useEffect(() => {
@@ -92,7 +93,7 @@ const BrowseDrivers = ({ navigation, route }) => {
         <TouchableOpacity onPress={() => navigation.navigate('Browse', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })}>
           <Image source={require('../assets/driver.png')} style={styles.icon} />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('PassengerChat', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })}>
+        <TouchableOpacity onPress={() => navigation.navigate('PassengerConversations', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })}>
           <Image source={require('../assets/chat.png')} style={styles.icon} />
         </TouchableOpacity>
         <TouchableOpacity onPress={() => navigation.navigate('PassengerAccount', { user: { rhodesid: user.rhodesid, profile_picture: user.profile_picture } })}>
