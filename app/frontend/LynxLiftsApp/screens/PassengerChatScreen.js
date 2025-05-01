@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { View, KeyboardAvoidingView, Platform, StyleSheet, SafeAreaView, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, KeyboardAvoidingView, Platform, StyleSheet, SafeAreaView, TouchableOpacity, Image, Alert, Text } from 'react-native';
 import axios from 'axios';
 import { GiftedChat } from 'react-native-gifted-chat';
 import uuid from 'react-native-uuid';
@@ -68,6 +68,12 @@ const PassengerChatScreen = ({ navigation, route }) => {
 
     return (
       <SafeAreaView style={styles.container}>
+          <TouchableOpacity 
+            style={styles.scheduleRideButton}
+            onPress={() => navigation.navigate('', {})}
+          >
+            <Text style={styles.scheduleButtonText}>Schedule Ride</Text>
+          </TouchableOpacity>
           <KeyboardAvoidingView
             style={{ flex: 1 }}
             behavior={Platform.OS === 'ios' ? 'padding' : undefined}
@@ -135,6 +141,20 @@ const styles = StyleSheet.create({
     height: 30,
     resizeMode: 'contain',
   },
+  scheduleRideButton: {
+    backgroundColor: '#A62C2C',
+    padding: 10,
+    borderRadius: 25,
+    alignSelf: 'flex-end',
+    marginTop: 10,
+    marginHorizontal: 20,
+  },
+  scheduleButtonText: {
+    color: '#FAF2E6', 
+    fontSize: 16,
+    fontWeight: 'bold'
+  }
+
 });
 
 export default PassengerChatScreen;

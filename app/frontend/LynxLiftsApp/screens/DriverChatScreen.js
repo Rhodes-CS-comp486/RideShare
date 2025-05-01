@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { View, KeyboardAvoidingView, Platform, StyleSheet, SafeAreaView, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, KeyboardAvoidingView, Platform, StyleSheet, SafeAreaView, TouchableOpacity, Image, Alert, Text } from 'react-native';
 import axios from 'axios';
 import { GiftedChat } from 'react-native-gifted-chat';
 import uuid from 'react-native-uuid';

@@ -77,10 +77,12 @@ const DriverConversationsScreen = ({ navigation, route }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-  },
+    container: { 
+        flex: 1, 
+        backgroundColor: '#80A1C2',
+        paddingTop: 20,
+        paddingHorizontal: 20,
+      },
   item: {
     padding: 15,
     borderBottomWidth: 1,
