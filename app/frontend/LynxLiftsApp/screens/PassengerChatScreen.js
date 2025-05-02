@@ -105,7 +105,7 @@ const PassengerChatScreen = ({ navigation, route }) => {
                     left: { backgroundColor: '#DDE6ED', marginBottom: 10, marginLeft: -40 },
                   }}
                   textStyle={{
-                    right: { color: '#FAF2E6', fontWeight: '600' },
+                    right: { color: '#FAF2E6' },
                     left: { color: '#1C1C1C' },
                   }}
                 />

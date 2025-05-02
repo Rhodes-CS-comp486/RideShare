@@ -1,8 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { View, KeyboardAvoidingView, Platform, StyleSheet, SafeAreaView, TouchableOpacity, Image, Alert, Text } from 'react-native';
+import { View, KeyboardAvoidingView, Platform, StyleSheet, TouchableOpacity, Image, Alert, Text } from 'react-native';
 import axios from 'axios';
-import { GiftedChat } from 'react-native-gifted-chat';
+import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 import uuid from 'react-native-uuid';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { API_URL } from '@env';
 
 const API_BASE_URL = `${API_URL}/api/messages`;
@@ -71,21 +72,35 @@ const DriverChatScreen = ({ navigation, route }) => {
 
     return (
       <SafeAreaView style={styles.container}>
+        <View style={{ flex: 1, paddingBottom: 60 }}>
           <KeyboardAvoidingView
             style={{ flex: 1 }}
             behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-            keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 70} // adjust depending on header or bottom bar
           >
             <GiftedChat
               messages={messages}
               onSend={messages => onSend(messages)}
               user={{ _id: user.rhodesid }}
               messageIdGenerator={() => uuid.v4()}
-              renderActions={() => null}
-              minComposerHeight={90}
-              maxComposerHeight={50}
+              renderBubble={(props) => (
+                <Bubble
+                  {...props}
+                  wrapperStyle={{
+                    right: { backgroundColor: '#A62C2C', marginBottom: 10, marginRight: 5 },
+                    left: { backgroundColor: '#DDE6ED', marginBottom: 10, marginLeft: -40 },
+                  }}
+                  textStyle={{
+                    right: { color: '#FAF2E6' },
+                    left: { color: '#1C1C1C' },
+                  }}
+                />
+              )}
+              minComposerHeight={40}
+              maxComposerHeight={100}
             />
           </KeyboardAvoidingView>
+        </View>
+  
         <View style={styles.bottomBar}>
           <TouchableOpacity onPress={() => navigation.navigate('DriverFeed', { user: { rhodesid: user.rhodesid } })}>
             <Image source={require('../assets/home.png')} style={styles.icon} />
@@ -108,18 +123,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#80A1C2',
-    padding: 0,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#FAF2E6',
-    marginBottom: 15,
-  },
-  message: {
-    fontSize: 16,
-    color: '#FAF2E6',
-    textAlign: 'center',
   },
   bottomBar: {
     position: 'absolute',
