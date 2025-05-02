@@ -13,16 +13,16 @@ const serveResetForm = async (req, res) => {
   }
 
   // Serve the reset form HTML page
-  res.send(`
+  res.send(
     <html>
       <head>
         <title>Reset Password</title>
         <style>
         ::placeholder {
           color: #FAF2E6;
-          opacity: 1;
+          opacity: 1; /* Ensure full opacity */
         }
-        </style>
+      </style>
       </head>
       <body style="margin: 0; padding: 0; background-color: #80A1C2; font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh;">
         <div style="padding: 20px; text-align: center;">
@@ -45,7 +45,7 @@ const serveResetForm = async (req, res) => {
         </div>
       </body>
     </html>
-  `);
+  );  
 };
 
 const register = async (req, res) => {
@@ -85,7 +85,7 @@ const register = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
     );
-    const verificationLink = `${process.env.BASE_URL}/api/auth/verify?token=${emailToken}`;    
+    const verificationLink = ${process.env.BASE_URL}/api/auth/verify?token=${emailToken};    
 
     // Send verification email
     const transporter = nodemailer.createTransport({
@@ -105,7 +105,7 @@ const register = async (req, res) => {
       from: process.env.EMAIL_USER,
       to: user.email,
       subject: 'Verify Your LynxLifts Account',
-      text: `Thank you for signing up to LynxLifts. Click the link to verify your account: ${verificationLink}`,
+      text: Thank you for sending up to LynxLifts. Click the link to verify your account: ${verificationLink},
     };
 
     res.status(201).json({ 
@@ -159,7 +159,7 @@ const login = async (req, res) => {
 
   // Append @rhodes.edu if not present
   if (!email.includes('@')) {
-    email = `${email}@rhodes.edu`;
+    email = ${email}@rhodes.edu;
   }
 
   try {
@@ -218,8 +218,7 @@ const forgotPassword = async (req, res) => {
       [resetToken, tokenExpiry, email.toLowerCase()]
     );
     
-  const resetLink = `${process.env.BASE_URL}/api/auth/reset-password?token=${resetToken}&email=${encodeURIComponent(email)}`;
-
+    const resetLink = ${process.env.BASE_URL}/api/auth/reset-password?token=${resetToken}&email=${encodeURIComponent(email)};
 
     const transporter = nodemailer.createTransport({
       host: 'smtp.mail.yahoo.com',
@@ -236,7 +235,7 @@ const forgotPassword = async (req, res) => {
       from: process.env.EMAIL_USER,
       to: email,
       subject: 'Reset Your LynxLifts Password',
-      text: `Click this link to reset your password: ${resetLink}`,
+      text: Click this link to reset your password: ${resetLink},
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -294,4 +293,83 @@ const resetPassword = async (req, res) => {
   }
 };
 
-module.exports = { register, verify, login, forgotPassword, resetPassword, serveResetForm };
+
+// ===================== Driver Payment Info (for Feed & PaymentOptionScreen) =====================
+const getDriverPaymentInfo = async (req, res) => {
+  const { rhodesid } = req.params;
+  try {
+    const query = `
+      SELECT venmo_handle, cashapp_handle, zelle_contact, paypal_link, cash_other_notes
+      FROM users
+      WHERE rhodesid = $1;
+    `;
+    const { rows } = await pool.query(query, [rhodesid]);
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Driver not found' });
+    }
+    res.status(200).json(rows[0]);
+  } catch (err) {
+    console.error('Error fetching driver payment info:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+const getDriverProfile = async (req, res) => {
+  const { rhodesid } = req.params;
+  try {
+    const user = await User.findByRhodesId(rhodesid);
+    res.json(user);
+  } catch (error) {
+    console.error('Error fetching driver profile:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+const updateDriverPaymentInfo = async (req, res) => {
+  const { rhodesid } = req.params;
+  const {
+    venmo_handle,
+    cashapp_handle,
+    zelle_contact,
+    paypal_link,
+    cash_other_notes
+  } = req.body;
+
+  try {
+    const query = `
+      UPDATE users
+      SET venmo_handle = $1,
+          cashapp_handle = $2,
+          zelle_contact = $3,
+          paypal_link = $4,
+          cash_other_notes = $5
+      WHERE rhodesid = $6
+      RETURNING *;
+    `;
+    const values = [
+      venmo_handle,
+      cashapp_handle,
+      zelle_contact,
+      paypal_link,
+      cash_other_notes,
+      rhodesid
+    ];
+    const { rows } = await pool.query(query, values);
+    res.status(200).json(rows[0]);
+  } catch (err) {
+    console.error('Error updating driver payment info:', err);
+    res.status(500).json({ error: 'Server error' });
+  }
+};
+
+
+module.exports = {
+  register,
+  verify,
+  login,
+  forgotPassword,
+  resetPassword,
+  serveResetForm,
+  getDriverPaymentInfo, // <-- newly added
+  updateDriverPaymentInfo // <-- newly added
+};

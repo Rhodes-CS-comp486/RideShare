@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, runOnJS } from 'react-native-reanimated';
 import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
-import { API_URL } from '@env'
+import { API_URL } from '@env';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const SWIPE_THRESHOLD = 0.3 * SCREEN_WIDTH;
@@ -36,7 +36,6 @@ const DriverFeedScreen = ({ route }) => {
   };
 
   useEffect(() => {
-    // Alert.alert("Logged in as", user.rhodesid);
     const unsubscribe = navigation.addListener('focus', fetchPosts);
     return unsubscribe;
   }, [navigation]);
@@ -132,55 +131,56 @@ const DriverFeedScreen = ({ route }) => {
     return (
       <GestureDetector gesture={panGesture}>
         <Animated.View style={[
-        styles.post, 
-        item.ridestate === true && item.driverid === user.rhodesid ? styles.acceptedPost : {}, 
-        animatedStyle
-      ]}>
-        <View style={{ marginBottom: 8 }}>
-          <Text style={styles.headerText}>{item.pickupdate} at {item.pickuptime}</Text>
-          <Text style={styles.subHeaderText}>Passenger: {item.passengerrhodesid}</Text>
-        </View>
-
-        <View style={{ marginBottom: 8 }}>
-          <Text style={styles.label}>Pickup:</Text>
-          <Text style={styles.postText}>{item.pickuplocation}</Text>
-        </View>
-
-        <View style={{ marginBottom: 8 }}>
-          <Text style={styles.label}>Dropoff:</Text>
-          <Text style={styles.postText}>{item.dropofflocation}</Text>
-        </View>
-
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
-          <View>
-            <Text style={styles.label}>Payment</Text>
-            <Text style={styles.postText}>{item.payment}</Text>
+          styles.post, 
+          item.ridestate === true && item.driverid === user.rhodesid ? styles.acceptedPost : {}, 
+          animatedStyle
+        ]}>
+          <View style={{ marginBottom: 8 }}>
+            <Text style={styles.headerText}>{item.pickupdate} at {item.pickuptime}</Text>
+            <Text style={styles.subHeaderText}>Passenger: {item.passengerrhodesid}</Text>
           </View>
-          <View>
-            <Text style={styles.label}>Distance</Text>
-            <Text style={styles.postText}>{item.distance}</Text>
-          </View>
-          <View>
-            <Text style={styles.label}>Duration</Text>
-            <Text style={styles.postText}>{item.duration}</Text>
-          </View>
-        </View>
 
-        <View style={{ marginBottom: 8 }}>
-          <Text style={styles.label}>Estimated Cost</Text>
-          <Text style={styles.postText}>${item.estimatedpayment}</Text>
-        </View>
-        <View style={{ marginBottom: 8 }}>
-          <Text style={styles.label}>Additional Notes:</Text>
-          <Text style={styles.postText}>{item.addcomments}</Text>
-        </View>
-         <TouchableOpacity 
+          <View style={{ marginBottom: 8 }}>
+            <Text style={styles.label}>Pickup:</Text>
+            <Text style={styles.postText}>{item.pickuplocation}</Text>
+          </View>
+
+          <View style={{ marginBottom: 8 }}>
+            <Text style={styles.label}>Dropoff:</Text>
+            <Text style={styles.postText}>{item.dropofflocation}</Text>
+          </View>
+
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 8 }}>
+            <View>
+              <Text style={styles.label}>Payment</Text>
+              <Text style={styles.postText}>{item.payment}</Text>
+            </View>
+            <View>
+              <Text style={styles.label}>Distance</Text>
+              <Text style={styles.postText}>{item.distance}</Text>
+            </View>
+            <View>
+              <Text style={styles.label}>Duration</Text>
+              <Text style={styles.postText}>{item.duration}</Text>
+            </View>
+          </View>
+
+          <View style={{ marginBottom: 8 }}>
+            <Text style={styles.label}>Estimated Cost</Text>
+            <Text style={styles.postText}>${item.estimatedpayment}</Text>
+          </View>
+          <View style={{ marginBottom: 8 }}>
+            <Text style={styles.label}>Additional Notes:</Text>
+            <Text style={styles.postText}>{item.addcomments}</Text>
+          </View>
+
+          <TouchableOpacity 
             onPress={() => navigation.navigate('Report', { reportedUser: item.passengerrhodesid, currentUser: user.rhodesid, postInfo: item })}
             style={{ alignSelf: 'flex-end', marginTop: 10, marginRight: 10 }}
           >
             <Text style={styles.reportText}>Report Post</Text>
           </TouchableOpacity>
-      </Animated.View>
+        </Animated.View>
       </GestureDetector>
     );
   };

@@ -8,6 +8,8 @@ const PaymentOptionScreen = ({ navigation, route }) => {
   const [venmo, setVenmo] = useState('');
   const [cashapp, setCashapp] = useState('');
   const [zelle, setZelle] = useState('');
+  const [paypal, setPaypal] = useState('');
+  const [other, setOther] = useState('');
 
   useEffect(() => {
     const fetchPaymentInfo = async () => {
@@ -17,6 +19,8 @@ const PaymentOptionScreen = ({ navigation, route }) => {
           setVenmo(res.data.venmo_handle || '');
           setCashapp(res.data.cashapp_handle || '');
           setZelle(res.data.zelle_contact || '');
+          setPaypal(res.data.paypal_handle || '');
+          setOther(res.data.other_payment || '');
         }
       } catch (error) {
         console.error('Failed to load payment info:', error);
@@ -31,7 +35,9 @@ const PaymentOptionScreen = ({ navigation, route }) => {
       await axios.put(`${API_URL}/api/auth/driver/${user.rhodesid}/payment`, {
         venmo_handle: venmo,
         cashapp_handle: cashapp,
-        zelle_contact: zelle
+        zelle_contact: zelle,
+        paypal_handle: paypal,
+        other_payment: other
       });
       Alert.alert("Success", "Payment info updated.");
       navigation.goBack();
@@ -64,6 +70,20 @@ const PaymentOptionScreen = ({ navigation, route }) => {
         style={styles.input}
         value={zelle}
         onChangeText={setZelle}
+        placeholderTextColor="#ccc"
+      />
+      <TextInput
+        placeholder="PayPal Email or Link"
+        style={styles.input}
+        value={paypal}
+        onChangeText={setPaypal}
+        placeholderTextColor="#ccc"
+      />
+      <TextInput
+        placeholder="Cash / Other Instructions"
+        style={styles.input}
+        value={other}
+        onChangeText={setOther}
         placeholderTextColor="#ccc"
       />
 

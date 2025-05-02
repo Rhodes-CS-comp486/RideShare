@@ -10,7 +10,6 @@ const DriverAccountScreen = ({ route }) => {
 
   const handleLogout = async () => {
     try {
-
       navigation.reset({
         index: 0,
         routes: [{ name: 'Login' }],
@@ -123,7 +122,7 @@ const DriverAccountScreen = ({ route }) => {
         onPress={() => navigation.navigate('Feed', { user })}
       >
         <Text style={styles.buttonText}>Switch to Passenger</Text>
-       </TouchableOpacity>
+      </TouchableOpacity>
 
       <TouchableOpacity 
         style={[styles.button, styles.logoutButton]} 

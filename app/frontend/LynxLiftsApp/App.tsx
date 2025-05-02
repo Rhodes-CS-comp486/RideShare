@@ -18,34 +18,28 @@ import PassengerAccountScreen from './screens/PassengerAccountScreen';
 import PassengerChatScreen from './screens/PassengerChatScreen';
 import DriverChatScreen from './screens/ChatScreen';
 import BrowseDrivers from './screens/BrowseDrivers';
-import Report from './screens/RegisterScreen';
 import ReportScreen from './screens/ReportScreen';
-import PaymentOptionScreen from './screens/PaymentOptionScreen'; // ✅ Added payment option screen
-
-// import { setupNotificationHandlers } from './notificationService';
+import PaymentOptionScreen from './screens/PaymentOptionScreen';
 
 const Stack = createStackNavigator();
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     setupNotificationHandlers();
-  //   }
-  // }, [isLoggedIn]);
-
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName="Login">
           <Stack.Screen name="Register" component={RegisterScreen} options={{ headerShown: false }} />
-          <Stack.Screen 
-            name="Login" 
-            component={LoginScreen} 
-            options={{ headerShown: false }} 
-            initialParams={{ setIsLoggedIn }} // Pass setIsLoggedIn to LoginScreen as an initial param
-          />
+          
+          {/* ✅ Fix: Pass setIsLoggedIn using a render function */}
+          <Stack.Screen
+            name="Login"
+            options={{ headerShown: false }}
+          >
+            {(props) => <LoginScreen {...props} setIsLoggedIn={setIsLoggedIn} />}
+          </Stack.Screen>
+
           <Stack.Screen name="Welcome" component={BufferScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Feed" component={FeedScreen} options={{ headerShown: false }} />
           <Stack.Screen name="Status" component={StatusScreen} options={{ headerShown: false }} />

@@ -78,12 +78,20 @@ const FeedScreen = ({ navigation, route }) => {
     const handlePayDriver = async () => {
       try {
         const response = await axios.get(`${API_URL}/api/auth/driver/${item.driverid}/payment`);
-        const { venmo_handle, cashapp_handle, zelle_contact } = response.data;
+        const {
+          venmo_handle,
+          cashapp_handle,
+          zelle_contact,
+          paypal_link,
+          cash_other_notes
+        } = response.data;
 
         let message = 'Choose a payment method:\n';
         if (venmo_handle) message += `Venmo: ${venmo_handle}\n`;
         if (cashapp_handle) message += `CashApp: ${cashapp_handle}\n`;
-        if (zelle_contact) message += `Zelle: ${zelle_contact}`;
+        if (zelle_contact) message += `Zelle: ${zelle_contact}\n`;
+        if (paypal_link) message += `PayPal: ${paypal_link}\n`;
+        if (cash_other_notes) message += `Cash/Other: ${cash_other_notes}`;
 
         Alert.alert('Pay Your Driver', message);
       } catch (err) {
