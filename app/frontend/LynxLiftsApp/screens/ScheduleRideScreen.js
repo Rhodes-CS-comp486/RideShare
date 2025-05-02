@@ -56,18 +56,20 @@ const ScheduleRideScreen = ({ route }) => {
         style={{ flex: 1 }}
       >
         <ScrollView contentContainerStyle={styles.form}>
-          <Text style={styles.label}>Pickup Date (YYYY-MM-DD)</Text>
+          <Text style={styles.label}>Pickup Date (MM-DD-YYYY)</Text>
           <TextInput
             style={styles.input}
             placeholder="2025-05-01"
+            placeholderTextColor="#80A1C2"
             value={pickupDate}
             onChangeText={setPickupDate}
           />
 
-          <Text style={styles.label}>Pickup Time (HH:MM)</Text>
+          <Text style={styles.label}>Pickup Time</Text>
           <TextInput
             style={styles.input}
-            placeholder="14:30"
+            placeholder="HH:MM (AM/PM)"
+            placeholderTextColor="#80A1C2"
             value={pickupTime}
             onChangeText={setPickupTime}
           />
@@ -75,7 +77,8 @@ const ScheduleRideScreen = ({ route }) => {
           <Text style={styles.label}>Pickup Location</Text>
           <TextInput
             style={styles.input}
-            placeholder="Dorms"
+            placeholder="e.g. Dorms"
+            placeholderTextColor="#80A1C2"
             value={pickupLocation}
             onChangeText={setPickupLocation}
           />
@@ -83,13 +86,14 @@ const ScheduleRideScreen = ({ route }) => {
           <Text style={styles.label}>Dropoff Location</Text>
           <TextInput
             style={styles.input}
-            placeholder="Airport"
+            placeholder="e.g. Airport"
+            placeholderTextColor="#80A1C2"
             value={dropoffLocation}
             onChangeText={setDropoffLocation}
           />
 
           <View style={styles.button}>
-            <Button title="Schedule" onPress={handleSchedule} color="#4A90E2" />
+            <Button title="Schedule" onPress={handleSchedule} color="#FAF2E6" />
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -100,7 +104,7 @@ const ScheduleRideScreen = ({ route }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FAF2E6',
+    backgroundColor: '#80A1C2',
   },
   form: {
     padding: 20,
@@ -110,17 +114,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     marginTop: 15,
+    color: '#FAF2E6'
   },
   input: {
     borderWidth: 1,
-    borderColor: '#CCC',
+    borderColor: '#6683A9',
     borderRadius: 8,
     padding: 10,
     marginTop: 5,
-    backgroundColor: '#FFF',
+    backgroundColor: '#6683A9',
+    color: '#FAF2E6',
   },
   button: {
     marginTop: 30,
+    backgroundColor: '#A62C2C',
+    borderRadius: 25,
   },
 });
 

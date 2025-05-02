@@ -65,7 +65,7 @@ const PassengerConversationsScreen = ({navigation, route}) => {
             <Text style={styles.username}>{item.user}</Text>
             <Text style={styles.message}>{item.lastMessage}</Text>
             <Text style={styles.timestamp}>
-              {item.pickupdate} at {item.pickuptime}
+              Pick up info: {item.pickupdate} at {item.pickuptime}
             </Text>
           </View>
           {item.unread && <View style={styles.unreadDot} />}
