@@ -31,6 +31,7 @@ const PassengerChatScreen = ({ navigation, route }) => {
             }
           }));
           setMessages(formattedMessages);
+          setTimeout(fetchMessages, 5000);
         } 
         catch (error) {
           Alert.alert('Cannot fetch messages. Please try again.');

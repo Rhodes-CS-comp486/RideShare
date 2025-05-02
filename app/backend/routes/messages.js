@@ -20,7 +20,7 @@ router.get('/conversations', async (req, res) => {
           f.pickuptime,
           u.profile_picture
           FROM messages m
-          JOIN feed f ON f.passengerrhodesid = m.passengerrhodesid AND f.driverid = m.driverid
+          LEFT JOIN feed f ON f.passengerrhodesid = m.passengerrhodesid AND f.driverid = m.driverid
           JOIN users u ON m.driverid = u.rhodesid
           WHERE m.passengerrhodesid = $1
           ORDER BY m.driverid, m.timesent DESC

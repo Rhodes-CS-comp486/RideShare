@@ -35,6 +35,7 @@ const DriverConversationsScreen = ({ navigation, route }) => {
         }));
 
         setConversations(formatted);
+        setTimeout(fetchConversations, 5000);
       } catch (err) {
         console.error('Error fetching driver conversations:', err);
       }

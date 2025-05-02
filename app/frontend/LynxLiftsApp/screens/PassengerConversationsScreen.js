@@ -35,6 +35,7 @@ const PassengerConversationsScreen = ({navigation, route}) => {
         }));
 
         setConversations(formatted);
+        setTimeout(fetchConversations, 5000);
       } catch (err) {
         console.error('Error fetching conversations:', err);
       }
@@ -51,8 +52,8 @@ const PassengerConversationsScreen = ({navigation, route}) => {
           navigation.navigate('PassengerChat', {
             user: { rhodesid: user.rhodesid },
             driver: { rhodesid: item.driverid },
-            pickupdate: item.pickupdate,
-            pickuptime: item.pickuptime,
+            pickupdate: item.pickupdate ? item.pickupdate : "",
+            pickuptime: item.pickuptime ? item.pickuptime : "",
           })
         }
       >
@@ -65,7 +66,7 @@ const PassengerConversationsScreen = ({navigation, route}) => {
             <Text style={styles.username}>{item.user}</Text>
             <Text style={styles.message}>{item.lastMessage}</Text>
             <Text style={styles.timestamp}>
-              Pick up info: {item.pickupdate} at {item.pickuptime}
+             {item.pickupdate && item.pickuptime ? `Pick up info: ${item.pickupdate} at ${item.pickuptime}` : 'Pickup not scheduled'}
             </Text>
           </View>
           {item.unread && <View style={styles.unreadDot} />}

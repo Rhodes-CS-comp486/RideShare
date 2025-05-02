@@ -92,6 +92,22 @@ const ViewDriverAccountScreen = ({ route }) => {
           <Text style={styles.value}>{profile.num_passengers ?? 'Not set'}</Text></View>
         </View>
       </ScrollView>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Report', {
+          reportedUser: user.rhodesid,
+          currentUser: route.params.currentUserId, 
+          postInfo: null, 
+        })}
+        style={{
+          backgroundColor: '#A62C2C',
+          padding: 12,
+          borderRadius: 20,
+          margin: 20,
+          alignItems: 'center',
+        }}
+      >
+        <Text style={{ color: '#FAF2E6', fontSize: 16 }}>Report Profile</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
