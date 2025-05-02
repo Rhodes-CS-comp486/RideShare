@@ -1,8 +1,9 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { View, KeyboardAvoidingView, Platform, StyleSheet, SafeAreaView, TouchableOpacity, Image, Alert, Text } from 'react-native';
+import { View, KeyboardAvoidingView, Platform, StyleSheet, TouchableOpacity, Image, Alert, Text } from 'react-native';
 import axios from 'axios';
-import { GiftedChat } from 'react-native-gifted-chat';
+import { GiftedChat, Bubble } from 'react-native-gifted-chat';
 import uuid from 'react-native-uuid';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { API_URL } from '@env';
 
 const API_BASE_URL = `${API_URL}/api/messages`;
@@ -72,27 +73,47 @@ const PassengerChatScreen = ({ navigation, route }) => {
 
     return (
       <SafeAreaView style={styles.container}>
+        <View style={styles.topBar}>
           <TouchableOpacity 
             style={styles.scheduleRideButton}
-            onPress={() => navigation.navigate('ScheduleRide', {user: { rhodesid: user.rhodesid }, driver: { rhodesid: driver.rhodesid }})}
+            onPress={() =>
+              navigation.navigate('ScheduleRide', {
+                user: { rhodesid: user.rhodesid },
+                driver: { rhodesid: driver.rhodesid },
+                pickupdate,
+                pickuptime,
+              })
+            }
           >
             <Text style={styles.scheduleButtonText}>Schedule Ride</Text>
           </TouchableOpacity>
-          <KeyboardAvoidingView
-            style={{ flex: 1 }}
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-            keyboardVerticalOffset={Platform.OS === 'ios' ? 90 : 70} // adjust depending on header or bottom bar
-          >
+        </View>
+  
+        <View style={{ flex: 1, paddingBottom: 60 }}>
+          <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
             <GiftedChat
               messages={messages}
-              onSend={messages => onSend(messages)}
+              onSend={(messages) => onSend(messages)}
               user={{ _id: user.rhodesid }}
-              messageIdGenerator={() => uuid.v4()}
-              renderActions={() => null}
-              minComposerHeight={90}
-              maxComposerHeight={50}
+              minComposerHeight={40}
+              maxComposerHeight={100}
+              renderBubble={(props) => (
+                <Bubble
+                  {...props}
+                  wrapperStyle={{
+                    right: { backgroundColor: '#A62C2C', marginBottom: 10, marginRight: 5},
+                    left: { backgroundColor: '#DDE6ED', marginBottom: 10, marginLeft: -40 },
+                  }}
+                  textStyle={{
+                    right: { color: '#FAF2E6', fontWeight: '600' },
+                    left: { color: '#1C1C1C' },
+                  }}
+                />
+              )}
             />
           </KeyboardAvoidingView>
+        </View>
+  
         <View style={styles.bottomBar}>
           <TouchableOpacity onPress={() => navigation.navigate('Feed', { user: { rhodesid: user.rhodesid } })}>
             <Image source={require('../assets/home.png')} style={styles.icon} />
@@ -115,18 +136,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#80A1C2',
-    padding: 0,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  topBar: {
+    paddingHorizontal: 20,
+    paddingTop: 10,
+    backgroundColor: '#80A1C2',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
+  scheduleRideButton: {
+    backgroundColor: '#A62C2C',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 25,
+  },
+  scheduleButtonText: {
     color: '#FAF2E6',
-    marginBottom: 15,
-  },
-  message: {
     fontSize: 16,
-    color: '#FAF2E6',
-    textAlign: 'center',
+    fontWeight: 'bold',
   },
   bottomBar: {
     position: 'absolute',
@@ -145,20 +172,6 @@ const styles = StyleSheet.create({
     height: 30,
     resizeMode: 'contain',
   },
-  scheduleRideButton: {
-    backgroundColor: '#A62C2C',
-    padding: 10,
-    borderRadius: 25,
-    alignSelf: 'flex-end',
-    marginTop: 10,
-    marginHorizontal: 20,
-  },
-  scheduleButtonText: {
-    color: '#FAF2E6', 
-    fontSize: 16,
-    fontWeight: 'bold'
-  }
-
 });
 
 export default PassengerChatScreen;
