@@ -13,11 +13,17 @@ router.get('/conversations', async (req, res) => {
       // Fetch conversations for passenger
       result = await pool.query(
         `
-        SELECT DISTINCT ON (m.driverid) m.driverid, m.text AS lastmessage, f.pickupdate, f.pickuptime
-        FROM messages m
-        JOIN feed f ON f.passengerrhodesid = m.passengerrhodesid
-        WHERE m.passengerrhodesid = $1
-        ORDER BY m.driverid, m.timesent DESC
+        SELECT DISTINCT ON (m.driverid) 
+          m.driverid, 
+          m.text AS lastmessage, 
+          f.pickupdate, 
+          f.pickuptime,
+          u.profile_picture
+          FROM messages m
+          JOIN feed f ON f.passengerrhodesid = m.passengerrhodesid AND f.driverid = m.driverid
+          JOIN users u ON m.driverid = u.rhodesid
+          WHERE m.passengerrhodesid = $1
+          ORDER BY m.driverid, m.timesent DESC
         `,
         [passengerrhodesid]
       );
@@ -25,9 +31,15 @@ router.get('/conversations', async (req, res) => {
       // Fetch conversations for driver
       result = await pool.query(
         `
-        SELECT DISTINCT ON (m.passengerrhodesid) m.passengerrhodesid, m.text AS lastmessage, f.pickupdate, f.pickuptime
+        SELECT DISTINCT ON (m.passengerrhodesid)
+        m.passengerrhodesid,
+        m.text AS lastmessage,
+        f.pickupdate,
+        f.pickuptime,
+        u.profile_picture
         FROM messages m
-        JOIN feed f ON f.passengerrhodesid = m.passengerrhodesid
+        JOIN feed f ON f.passengerrhodesid = m.passengerrhodesid AND f.driverid = m.driverid
+        JOIN users u ON u.rhodesid = m.passengerrhodesid
         WHERE m.driverid = $1
         ORDER BY m.passengerrhodesid, m.timesent DESC
         `,
