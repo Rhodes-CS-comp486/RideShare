@@ -55,7 +55,7 @@ const RegisterScreen = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
-        
+        <Image source={require('../assets/12.png')} style={styles.carImage} />
       </View>
 
       <TextInput
