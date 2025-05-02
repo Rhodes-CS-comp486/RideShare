@@ -237,23 +237,24 @@ const FeedScreen = ({ navigation, route }) => {
             <Text style={styles.label}>Additional Notes:</Text>
             <Text style={styles.postText}>{item.addcomments}</Text>
           </View>
-
-          <TouchableOpacity 
-            onPress={() => navigation.navigate('Report', { reportedUser: item.passengerrhodesid, currentUser: user.rhodesid, postInfo: item })}
-            style={{ alignSelf: 'flex-end', marginTop: 10, marginRight: 10 }}
-          >
-            <Text style={styles.reportText}>Report Post</Text>
-          </TouchableOpacity>
-            {
-              item.ridestate === true && item.passengerrhodesid === user.rhodesid && item.driverid && (
-                <TouchableOpacity
-                  style={styles.chatButton}
-                  onPress={navigateToChat}
-                >
-                  <Text style={styles.chatButtonText}>Chat with Driver</Text>
-                </TouchableOpacity>
-              )
-            }
+          <View style={styles.bottomRow}>
+            <TouchableOpacity 
+              onPress={() => navigation.navigate('Report', { reportedUser: item.passengerrhodesid, currentUser: user.rhodesid, postInfo: item })}
+              style={{ alignSelf: 'flex-end', marginTop: 10, marginRight: 10 }}
+            >
+              <Text style={styles.reportText}>Report Post</Text>
+            </TouchableOpacity>
+              {
+                item.ridestate === true && item.passengerrhodesid === user.rhodesid && item.driverid && (
+                  <TouchableOpacity
+                    style={styles.chatButton}
+                    onPress={navigateToChat}
+                  >
+                    <Text style={styles.chatButtonText}>Chat with Driver</Text>
+                  </TouchableOpacity>
+                )
+              }
+            </View>
         </View>
         </Animated.View>
       </GestureDetector>
@@ -381,6 +382,26 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
     fontSize: 14,
   },  
+  chatButton: {
+    backgroundColor: '#FFCE67',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 25,
+    alignSelf: 'center',
+    marginTop: 10,
+  },
+  chatButtonText: {
+    color: '#A62C2C',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },  
+  bottomRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 10,
+    paddingHorizontal: 10,
+  },
 });
 
 export default FeedScreen;
