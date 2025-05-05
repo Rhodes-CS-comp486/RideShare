@@ -212,7 +212,6 @@ const CreatePostScreen = ({ navigation, route }) => {
                                 passengercomplete: false, 
                                 driverdescription: null,       
                                 passengerdescription: null,
-                                pickuptimestamp: pickuptimestamp,
                             });
     
                             console.log("Post created:", response.data);

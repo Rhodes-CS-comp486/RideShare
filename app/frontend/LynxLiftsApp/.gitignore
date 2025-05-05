@@ -40,6 +40,9 @@ app/frontend/LynxLiftsApp/node_modules/
 app/backend/node_modules/
 node_modules
 
+# Ignore Gradle-specific files
+**/.gradle/
+**/build/
 
 #API Key Files
 apikey.properties

@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
         SELECT 
           f.passengerrhodesid, f.pickuptime, f.pickuplocation, f.dropofflocation, 
           f.ridestate, f.payment, f.estimatedpayment, f.pickupdate, f.distance, f.duration, 
-          f.driverid, pickuptimestamp, f.addcomments, f.pickuptimestamp, 
+          f.driverid, f.addcomments, f.pickuptimestamp, 
           f.drivercomplete, f.driverdescription, f.passengercomplete, f.passengerdescription,
           u.profile_picture AS passenger_profile_picture,
           u2.profile_picture AS driver_profile_picture
@@ -40,9 +40,9 @@ router.post("/", async (req, res) => {
 
         //Insert into feed table
         const result = await client.query(
-            "INSERT INTO feed (passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment, pickuptimestamp, addcomments, pickuptimestamp, drivercomplete, passengercomplete, driverdescription, passengerdescription) " +
-            "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $12, $13, $14, $15, $16, $17) RETURNING *",
-            [passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment, pickuptimestamp, addcomments, pickuptimestamp, drivercomplete, passengercomplete, driverdescription, passengerdescription]
+            "INSERT INTO feed (passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment, addcomments, pickuptimestamp, drivercomplete, passengercomplete, driverdescription, passengerdescription) " +
+            "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING *",
+            [passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment, addcomments, pickuptimestamp, drivercomplete, passengercomplete, driverdescription, passengerdescription]
         );
 
         //Insert into notifications table 
