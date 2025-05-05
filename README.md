@@ -1,1 +1,3 @@
 # Lynx Lifts
+
+## Project Documentation
