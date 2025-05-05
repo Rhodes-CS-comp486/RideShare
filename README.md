@@ -87,7 +87,7 @@ Based on this collaboration, we prioritized safety features such as report syste
 - Node.js – for running the backend API server
 - React Native - for running frontend
 
-### Backend Dependencies
+### Backend Products and Services
 - PostgreSQL – main relational database
 - Firebase Cloud Messaging – push notifications
 - Google Maps API – for interactive map
@@ -95,3 +95,17 @@ Based on this collaboration, we prioritized safety features such as report syste
 - Google Distance Matrix API - calculating distance and time between locations
 
 ## 3. Quick Start Guide
+
+## API Documentation
+### Google Geocoding API
+'https://developers.google.com/maps/documentation/geocoding/?hl=en&_gl=1*osynl6*_ga*MTgxODI3OTkyNC4xNzQ2NDc4NjU1*_ga_NRWSTWS78N*MTc0NjQ3ODY1NS4xLjEuMTc0NjQ3ODcxNi4wLjAuMA..'
+
+### Google Maps API
+'https://developers.google.com/codelabs/maps-platform/maps-platform-101-react-js#1'
+
+### Google Distance Matrix API
+'https://developers.google.com/maps/documentation/distance-matrix/overview'
+
+### Firebase Cloud Messaging API
+'https://firebase.google.com/docs/cloud-messaging'
+
