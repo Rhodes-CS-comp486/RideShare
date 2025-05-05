@@ -97,8 +97,24 @@ Based on this collaboration, we prioritized safety features such as report syste
 ## 3. Quick Start Guide
 
 ### Installation Instructions
+- Clone repository to have the shortest path length possible (I have mine on C:) 
+- Remove the node_module files in both the Rideshare/app/frontend/LynxLiftsApp and Rideshare/app/backend
+- Remove the package-lock.json files in both the Rideshare/app/frontend/LynxLiftsApp and Rideshare/app/backend (DO NOT DELETE THE package.json)
+- (Android Only) Under Rideshare/app/frontend/LynxLiftsApp/android/app delete the .cxx and build files
+- (iOS FIXES)...
+- Now in both the Rideshare/app/frontend/LynxLiftsApp and Rideshare/app/backend run the command
+      - npm install
+- (Android Only) Under Rideshare/app/frontend/LynxLiftsApp/android run the command
+      - ./gradlew clean
 
 ### Run Instructions
+
+Once everything is installed, while in Rideshare/app/frontend/LynxLiftsApp directory run the command (in Terminal)
+- Android: npx react-native run-android
+- iOS:
+
+While this is loading, in the Rideshare/app/backend run the command (in a seperate terminal)
+- Android and iOS: node index.js
 
 ### API Documentation
 
