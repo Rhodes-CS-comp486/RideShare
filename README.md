@@ -19,8 +19,7 @@ Key design goals:
 ## Features
 
 ### Authentication
-- Secure login using @rhodes.edu Outlook accounts  
-- Manual validation to ensure user authenticity  
+- Secure login using @rhodes.edu Outlook accounts   
 
 ### Dual User Interfaces
 
@@ -47,8 +46,7 @@ Key design goals:
 
 ### System Diagram
 
-####![Lynx Lifts System Diagram](https://github.com/user-attachments/assets/457cbb69-347b-44ea-aa6b-357632402b64)
-
+<img src="https://github.com/user-attachments/assets/457cbb69-347b-44ea-aa6b-357632402b64" alt="Lynx Lifts System Diagram" width="600"/>
 
 ## 2. Project Dependencies
 
