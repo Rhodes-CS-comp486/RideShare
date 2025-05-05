@@ -101,15 +101,15 @@ Based on this collaboration, we prioritized safety features such as report syste
 ### Run Instructions
 
 ### API Documentation
-### Google Geocoding API
+-#### Google Geocoding API
 'https://developers.google.com/maps/documentation/geocoding/?hl=en&_gl=1*osynl6*_ga*MTgxODI3OTkyNC4xNzQ2NDc4NjU1*_ga_NRWSTWS78N*MTc0NjQ3ODY1NS4xLjEuMTc0NjQ3ODcxNi4wLjAuMA..'
 
-### Google Maps API
+-#### Google Maps API
 'https://developers.google.com/codelabs/maps-platform/maps-platform-101-react-js#1'
 
-### Google Distance Matrix API
+-#### Google Distance Matrix API
 'https://developers.google.com/maps/documentation/distance-matrix/overview'
 
-### Firebase Cloud Messaging API
+-#### Firebase Cloud Messaging API
 'https://firebase.google.com/docs/cloud-messaging'
 
