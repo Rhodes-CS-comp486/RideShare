@@ -2,7 +2,7 @@
 
 ### 1. Project Description
 
-**Lynx Lifts is a mobile application developed to address transportation challenges faced by students at Rhodes College. Many students on campus do not have access to personal vehicles, which makes it difficult to travel to grocery stores, internships, off-campus jobs, or other essential locations. Traditional ride-sharing services like Uber and Lyft can be costly and are not always accessible or tailored to student schedules. Lynx Lifts offers a student-centered solution by connecting student drivers with student passengers, creating a safe, convenient, and cost-effective transportation option within the Rhodes community.
+Lynx Lifts is a mobile application developed to address transportation challenges faced by students at Rhodes College. Many students on campus do not have access to personal vehicles, which makes it difficult to travel to grocery stores, internships, off-campus jobs, or other essential locations. Traditional ride-sharing services like Uber and Lyft can be costly and are not always accessible or tailored to student schedules. Lynx Lifts offers a student-centered solution by connecting student drivers with student passengers, creating a safe, convenient, and cost-effective transportation option within the Rhodes community.
 
 The app allows students who need rides to submit requests for specific times and destinations. Student drivers can then view and accept these requests, providing rides in exchange for a small payment. This peer-to-peer model not only helps passengers get where they need to go, but also allows drivers to earn money on their own schedules. By keeping the service within the Rhodes College network, there is a sense of community among students.
 
@@ -19,7 +19,7 @@ Key design goals:
 ## Features
 
 ### Authentication
-- Secure login using `@rhodes.edu` Outlook accounts  
+- Secure login using @rhodes.edu Outlook accounts  
 - Manual validation to ensure user authenticity  
 
 ### Dual User Interfaces
