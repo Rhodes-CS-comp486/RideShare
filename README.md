@@ -74,7 +74,7 @@ Based on this collaboration, we prioritized safety features such as report syste
 - react-native-calendars – Calendar component for date selection
 - react-native-keyboard-controller – For managing the keyboard in forms
 
-## Backend Software Libraries
+### Backend Software Libraries
 - express – Web framework for building the backend API
 - pg – database interaction
 - bcrypt – for password hashing
