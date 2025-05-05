@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Platform } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { API_URL } from '@env'
-import { sendTokenToBackend } from './notificationService';
+import { sendTokenToBackend } from '../notificationService';
 
 //import { useFonts } from 'expo-font';
 //import { Poppins_400Regular } from '@expo-google-fonts/poppins'; 
@@ -41,7 +41,7 @@ const RegisterScreen = () => {
       const { rhodesid } = response.data;
 
       //Send token to backend
-      await notificationService.sendTokenToBackend(rhodesid);
+      await sendTokenToBackend(rhodesid);
 
       Alert.alert("User registered", "Verification email sent.");
       navigation.navigate('Login', {user: { username, rhodesid } });

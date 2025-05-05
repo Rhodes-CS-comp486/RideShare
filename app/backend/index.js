@@ -12,7 +12,6 @@ const notifyUpcomingRides = require('./notifyUpcomingRides');
 const preferencesRoutes = require('./routes/preference');
 const browseRoutes = require('./routes/browse');
 const messagesRoutes = require('./routes/messages');;
-const welcomeNotification = require('./welcomeNotification');
 const reportRoutes = require('./routes/report');
 
 const app = express();
@@ -34,9 +33,9 @@ app.use('/api', reportRoutes);
 app.use('/api/messages', messagesRoutes);
 
 // Schedule notification every minute
-//setInterval(() => {
-  //welcomeNotification();
-//}, 10000);
+setInterval(() => {
+  notifyUpcomingRides();
+}, 10000);
 
 // Uncomment for emulatorapp.use('/api/messages', messagesRoutes);
 

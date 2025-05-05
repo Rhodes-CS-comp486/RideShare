@@ -3,7 +3,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 import { API_URL } from '@env'
 
-
 const getAndStoreToken = async () => {
   const authStatus = await messaging().requestPermission();
   const enabled =
@@ -52,8 +51,10 @@ const handleForegroundNotifications = () => {
   messaging().onMessage(async (remoteMessage) => {
     console.log('Foreground Notification:', remoteMessage);
     Alert.alert('New Notification', remoteMessage.notification.title);
+    Alert.alert('Upcoming Ride!', remoteMessage.notification.body);
   });
 };
+
 
 // Function to handle background notifications (when app is in the background)
 const handleBackgroundNotifications = () => {

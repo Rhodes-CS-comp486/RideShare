@@ -9,7 +9,7 @@ router.get("/", async (req, res) => {
         SELECT 
           f.passengerrhodesid, f.pickuptime, f.pickuplocation, f.dropofflocation, 
           f.ridestate, f.payment, f.estimatedpayment, f.pickupdate, f.distance, f.duration, 
-          f.driverid, f.addcomments, f.pickuptimestamp, 
+          f.driverid, pickuptimestamp, f.addcomments, f.pickuptimestamp, 
           f.drivercomplete, f.driverdescription, f.passengercomplete, f.passengerdescription,
           u.profile_picture AS passenger_profile_picture,
           u2.profile_picture AS driver_profile_picture
@@ -28,17 +28,52 @@ router.get("/", async (req, res) => {
 
 // route to add a new feed post
 router.post("/", async (req, res) => {
+  const client = await pool.connect(); 
     try {
-        const { passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment, addcomments, pickuptimestamp, drivercomplete = false, passengercomplete = false, driverdescription = null, passengerdescription = null } = req.body; 
-        const result = await pool.query(
-            "INSERT INTO feed (passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment, addcomments, pickuptimestamp, drivercomplete, passengercomplete, driverdescription, passengerdescription) " +
-            "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17) RETURNING *",
-            [passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment, addcomments, pickuptimestamp, drivercomplete, passengercomplete, driverdescription, passengerdescription]
+        const { passengerrhodesid, pickuptime, pickuplocation, 
+                dropofflocation, ridestate, payment, pickupdate, 
+                distance, duration, timeposted, estimatedpayment, 
+                pickuptimestamp
+              , addcomments, drivercomplete = false, passengercomplete = false, driverdescription = null, passengerdescription = null } = req.body; 
+
+        await client.query('BEGIN');
+
+        //Insert into feed table
+        const result = await client.query(
+            "INSERT INTO feed (passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment, pickuptimestamp, addcomments, pickuptimestamp, drivercomplete, passengercomplete, driverdescription, passengerdescription) " +
+            "VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $12, $13, $14, $15, $16, $17) RETURNING *",
+            [passengerrhodesid, pickuptime, pickuplocation, dropofflocation, ridestate, payment, pickupdate, distance, duration, timeposted, estimatedpayment, pickuptimestamp, addcomments, pickuptimestamp, drivercomplete, passengercomplete, driverdescription, passengerdescription]
         );
-        res.json(result.rows[0]);
+
+        //Insert into notifications table 
+        await client.query(
+            `INSERT INTO notification (passengerrhodesid, pickuptime, pickuplocation, dropofflocation, pickuptimestamp, beennotified)
+             VALUES ($1, $2, $3, $4, $5, $6)`,
+            [
+                passengerrhodesid,
+                pickuptime,
+                pickuplocation,
+                dropofflocation,
+                pickuptimestamp,
+                false // start as false
+            ]
+        );
+
+      await client.query('COMMIT'); // commit transaction
+
+        res.json(result.rows[0])
     } catch (err) {
-        console.error("Error inserting post:", err);
+        console.error("Error inserting post and notification:", err);
+        if (client) {
+            try { await client.query('ROLLBACK'); } catch (rollbackError) {
+                console.error("Rollback failed:", rollbackError);
+            }
+        } 
+
         res.status(500).json({ error: "Server error" });
+    }
+      finally {
+        client.release(); // release the client back to the pool
     }
 });
 

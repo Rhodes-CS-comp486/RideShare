@@ -12,6 +12,7 @@ const CreatePostScreen = ({ navigation, route }) => {
     const [pickupDate, setPickupDate] = useState('');
     const [markedDates, setMarkedDates] = useState({});
     const [pickupTime, setPickupTime] = useState(null);
+    const [pickuptimestamp, setpickuptimestamp] = useState('');
     const [openTimePicker, setOpenTimePicker] = useState(false);
     const [rideState, setRideState] = useState(false);
     const [payment, setPayment] = useState('');
@@ -211,6 +212,7 @@ const CreatePostScreen = ({ navigation, route }) => {
                                 passengercomplete: false, 
                                 driverdescription: null,       
                                 passengerdescription: null,
+                                pickuptimestamp: pickuptimestamp,
                             });
     
                             console.log("Post created:", response.data);

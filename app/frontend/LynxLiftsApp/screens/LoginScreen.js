@@ -29,7 +29,7 @@ const LoginScreen = () => {
       console.log(rhodesid);
      
       //send token to backend after login
-      //await sendTokenToBackend(rhodesid);
+      await sendTokenToBackend(rhodesid);
       
       Alert.alert('Welcome Lynx!', 'You are now a lynx on the road');
       //Update the login state
