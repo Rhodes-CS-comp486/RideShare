@@ -23,11 +23,12 @@ import ExlpainRide from './screens/ExplainRideScreen';
 import PassengerExplainRideScreen from './screens/PassengerExplainRideScreen';
 import ViewPassengerAccountScreen from './screens/ViewPassengerAccountScreen';
 import ViewDriverAccountScreen from './screens/ViewDriverAccountScreen';
-
-// import { setupNotificationHandlers } from './notificationService';
 import PassengerConversationsScreen from './screens/PassengerConversationsScreen';
 import DriverConversationsScreen from './screens/DriverConversationsScreen';
 import ScheduleRideScreen from './screens/ScheduleRideScreen';
+import PaymentOptionScreen from './screens/PaymentOptionScreen'; // ✅ Payment screen for driver to edit handles
+
+// import { setupNotificationHandlers } from './notificationService';
 
 const Stack = createStackNavigator();
 
@@ -71,6 +72,7 @@ const App = () => {
           <Stack.Screen name="PassengerExplainRide" component={PassengerExplainRideScreen}  options={{ headerShown: false }} />
           <Stack.Screen name="ViewPassengerAccount" component={ViewPassengerAccountScreen} options={{ headerShown: false }} />
           <Stack.Screen name="ViewDriverAccount" component={ViewDriverAccountScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="PaymentOption" component={PaymentOptionScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

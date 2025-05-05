@@ -37,8 +37,14 @@
     "React-jsi": [
       "0.77.0"
     ],
-    "React-RCTFBReactNativeSpec": [],
-    "ReactCommon": [],
-    "React-NativeModulesApple": []
+    "React-RCTFBReactNativeSpec": [
+
+    ],
+    "ReactCommon": [
+
+    ],
+    "React-NativeModulesApple": [
+
+    ]
   }
 }

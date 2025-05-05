@@ -244,16 +244,56 @@ const FeedScreen = ({ navigation, route }) => {
             >
               <Text style={styles.reportText}>Report Post</Text>
             </TouchableOpacity>
-              {
-                item.ridestate === true && item.passengerrhodesid === user.rhodesid && item.driverid && (
-                  <TouchableOpacity
-                    style={styles.chatButton}
-                    onPress={navigateToChat}
-                  >
-                    <Text style={styles.chatButtonText}>Chat with Driver</Text>
-                  </TouchableOpacity>
-                )
+            {
+            
+            item.ridestate === true && item.passengerrhodesid === user.rhodesid && item.driverid && (
+            <>
+            <TouchableOpacity
+            style={styles.chatButton}
+            onPress={navigateToChat}
+            >
+              <Text style={styles.chatButtonText}>Chat with Driver</Text>
+              </TouchableOpacity>
+              
+              <TouchableOpacity
+              style={[styles.chatButton, { backgroundColor: '#A62C2C', marginTop: 10 }]}
+              onPress={async () => {
+                try {
+                  const response = await axios.get(`${API_URL}/api/auth/driver/${item.driverid}/payment`);
+                  const {
+                    venmo_handle,
+                    cashapp_handle,
+                    zelle_contact,
+                    paypal_handle,
+                    other_payment
+                  } = response.data;
+                  
+                  let message = 'Choose a payment method:\n';
+                  if (venmo_handle) message += `Venmo: ${venmo_handle}\n`;
+                  if (cashapp_handle) message += `Cash App: ${cashapp_handle}\n`;
+                  if (zelle_contact) message += `Zelle: ${zelle_contact}\n`; 
+                  if (paypal_handle) message += `PayPal: ${paypal_handle}\n`;
+                  if (other_payment) message += `Cash/Other: ${other_payment}`;
+                  
+                  Alert.alert('Pay Your Driver', message);
+                } catch (err) {
+                  
+                  Alert.alert('Error', 'Unable to fetch payment options.');
+                
+                }
+              }}
+              
+              >
+                
+                <Text style={[styles.chatButtonText, { color: '#FAF2E6' }]}>Pay Driver</Text>
+                
+                </TouchableOpacity>
+                
+                </>
+              )
               }
+
+
             </View>
         </View>
         </Animated.View>
