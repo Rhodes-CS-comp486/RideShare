@@ -48,6 +48,15 @@ Key design goals:
 
 <img src="https://github.com/user-attachments/assets/457cbb69-347b-44ea-aa6b-357632402b64" alt="Lynx Lifts System Diagram" width="600"/>
 
+### Frontend Clips
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/d4154a43-5e70-41bb-b768-6355c3738209" alt="Clip 1" width="250"/>
+  <img src="https://github.com/user-attachments/assets/02010349-1498-4243-be3e-2b32a00f2b9f" alt="Clip 2" width="250"/>
+  <img src="https://github.com/user-attachments/assets/9c8a9286-4dec-4e56-b6dc-73b64522ad67" alt="Clip 3" width="250"/>
+</p>
+
 ## 2. Project Dependencies
+
 
 ## 3. Quick Start Guide
