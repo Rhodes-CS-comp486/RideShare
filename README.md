@@ -103,9 +103,9 @@ Based on this collaboration, we prioritized safety features such as report syste
 - (Android Only) Under Rideshare/app/frontend/LynxLiftsApp/android/app delete the .cxx and build files
 - (iOS FIXES)...
 - Now in both the Rideshare/app/frontend/LynxLiftsApp and Rideshare/app/backend run the command
-      - npm install
+  - npm install
 - (Android Only) Under Rideshare/app/frontend/LynxLiftsApp/android run the command
-      - ./gradlew clean
+  - ./gradlew clean
 
 ### Run Instructions
 
