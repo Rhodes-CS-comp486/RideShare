@@ -110,11 +110,11 @@ Based on this collaboration, we prioritized safety features such as report syste
 ### Run Instructions
 
 Once everything is installed, while in Rideshare/app/frontend/LynxLiftsApp directory run the command (in Terminal)
-- Android: npx react-native run-android
-- iOS:
+  - Android: npx react-native run-android
+  - iOS:
 
 While this is loading, in the Rideshare/app/backend run the command (in a seperate terminal)
-- Android and iOS: node index.js
+  - Android and iOS: node index.js
 
 ### API Documentation
 
