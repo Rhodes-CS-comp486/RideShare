@@ -10,12 +10,6 @@ During development, we worked closely with the Lynx Lifts organization on campus
 
 Based on this collaboration, we prioritized safety features such as report system, limited access to rides within the Rhodes community (checking email condition), and transparent communication between drivers and passengers. With that, the user interface was designed to be clean and intuitive, allowing students to quickly find rides or offer them with minimal difficulty.
 
-Key design goals:
-- Prioritize **ride safety** with a report system
-- **Restrict access** to Rhodes students only (via email check)
-- Enable **transparent and real-time communication** between users
-- Deliver a clean, **user-friendly interface**
-
 ## Features
 
 ### Authentication
@@ -51,9 +45,9 @@ Key design goals:
 ### Frontend Clips
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/d4154a43-5e70-41bb-b768-6355c3738209" alt="Clip 1" width="250"/>
-  <img src="https://github.com/user-attachments/assets/02010349-1498-4243-be3e-2b32a00f2b9f" alt="Clip 2" width="250"/>
-  <img src="https://github.com/user-attachments/assets/9c8a9286-4dec-4e56-b6dc-73b64522ad67" alt="Clip 3" width="250"/>
+  <img src="https://github.com/user-attachments/assets/d4154a43-5e70-41bb-b768-6355c3738209" alt="Clip 1" width="150"/>
+  <img src="https://github.com/user-attachments/assets/ce35074a-7c36-47e2-ad68-f48946e6e681" alt="Clip 3" width="150"/>
+  <img src="https://github.com/user-attachments/assets/9c8a9286-4dec-4e56-b6dc-73b64522ad67" alt="Clip 3" width="150"/>
 </p>
 
 ## 2. Project Dependencies
