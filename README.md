@@ -101,15 +101,17 @@ Based on this collaboration, we prioritized safety features such as report syste
 ### Run Instructions
 
 ### API Documentation
-#### Google Geocoding API
-'https://developers.google.com/maps/documentation/geocoding/?hl=en&_gl=1*osynl6*_ga*MTgxODI3OTkyNC4xNzQ2NDc4NjU1*_ga_NRWSTWS78N*MTc0NjQ3ODY1NS4xLjEuMTc0NjQ3ODcxNi4wLjAuMA..'
 
-#### Google Maps API
-'https://developers.google.com/codelabs/maps-platform/maps-platform-101-react-js#1'
+#### [Google Geocoding API](https://developers.google.com/maps/documentation/geocoding/?hl=en&_gl=1*osynl6*_ga*MTgxODI3OTkyNC4xNzQ2NDc4NjU1*_ga_NRWSTWS78N*MTc0NjQ3ODY1NS4xLjEuMTc0NjQ3ODcxNi4wLjAuMA..)
+[Google Geocoding API Documentation](https://developers.google.com/maps/documentation/geocoding/?hl=en&_gl=1*osynl6*_ga*MTgxODI3OTkyNC4xNzQ2NDc4NjU1*_ga_NRWSTWS78N*MTc0NjQ3ODY1NS4xLjEuMTc0NjQ3ODcxNi4wLjAuMA..)
 
-#### Google Distance Matrix API
-'https://developers.google.com/maps/documentation/distance-matrix/overview'
+#### [Google Maps API](https://developers.google.com/codelabs/maps-platform/maps-platform-101-react-js#1)
+[Google Maps API Documentation](https://developers.google.com/codelabs/maps-platform/maps-platform-101-react-js#1)
 
-#### Firebase Cloud Messaging API
-'https://firebase.google.com/docs/cloud-messaging'
+#### [Google Distance Matrix API](https://developers.google.com/maps/documentation/distance-matrix/overview)
+[Google Distance Matrix API Documentation](https://developers.google.com/maps/documentation/distance-matrix/overview)
+
+#### [Firebase Cloud Messaging API](https://firebase.google.com/docs/cloud-messaging)
+[Firebase Cloud Messaging API Documentation](https://firebase.google.com/docs/cloud-messaging)
+
 
