@@ -35,7 +35,10 @@ local.properties
 !debug.keystore
 
 package-lock.json
-# node_modules
+# node_module
+app/frontend/LynxLiftsApp/node_modules/
+app/backend/node_modules/
+node_modules
 
 
 #API Key Files
