@@ -6,36 +6,42 @@ Lynx Lifts is a mobile application developed to address transportation challenge
 
 The app allows students who need rides to submit requests for specific times and destinations. Student drivers can then view and accept these requests, providing rides in exchange for a small payment. This helps passengers get where they need to go while also allowing drivers to earn money on their own schedules. By keeping the service within the Rhodes College network, there is a sense of community among students.
 
-During development, we worked closely with the Lynx Lifts organization on campus. They gave us valuable input on what they invisioned for the app, providing feedback on features such as ride safety (report system), and ease of use. Their insights helped us focus more on the basic needs of students that we may have overlooked. 
+During development, we worked closely with the Lynx Lifts organization on campus. They gave us valuable input on what they invisioned for the app, providing feedback on features such as ride safety (report system), and ease of use. Their insights helped us focus more on the basic needs of students that we may have overlooked.
 
 Based on this collaboration, we prioritized safety features such as report system, limited access to rides within the Rhodes community (checking email condition), and transparent communication between drivers and passengers. With that, the user interface was designed to be clean and intuitive, allowing students to quickly find rides or offer them with minimal difficulty.
 
 ## Features
 
 ### Authentication
-- Secure login using @rhodes.edu Outlook accounts   
+
+- Secure login using @rhodes.edu Outlook accounts
 
 ### Dual User Interfaces
 
 #### Driver Mode
+
 - Toggle online/offline availability
 - Set ride preferences (distance, time)
 - View, accept, or decline ride requests
 
 #### Passenger Mode
+
 - Post ride requests (time, date, pickup/dropoff, ETA, distance)
 - Use interactive map to select pickup and destination points
 - Browse available drivers
 
 ### Communication & Notifications
+
 - In-app chat between drivers and passengers
 - Push notifications for upcoming ride reminders
 - User bios to encourage safe and informed interactions
 
 ### Payment System
+
 - Third-party for secure transactions (e.g., PayPal, Venmo)
 
 ### Safety Features
+
 - In-app report system to maintain respectful, safe use of the app
 
 ### System Diagram
@@ -55,6 +61,7 @@ Based on this collaboration, we prioritized safety features such as report syste
 ## 2. Project Dependencies
 
 ### Frontend Software Libraries
+
 - react-native – Framework for building mobile apps
 - react – Core React library
 - @react-navigation/native – Navigation between screens
@@ -75,6 +82,7 @@ Based on this collaboration, we prioritized safety features such as report syste
 - react-native-keyboard-controller – For managing the keyboard in forms
 
 ### Backend Software Libraries
+
 - express – Web framework for building the backend API
 - pg – database interaction
 - bcrypt – for password hashing
@@ -84,10 +92,12 @@ Based on this collaboration, we prioritized safety features such as report syste
 - dotenv – for managing environment variables
 
 ### Runtime Environments
+
 - Node.js – for running the backend API server
 - React Native - for running frontend
 
 ### Backend Products and Services
+
 - PostgreSQL – main relational database
 - Firebase Cloud Messaging – push notifications
 - Google Maps API – for interactive map
@@ -97,29 +107,35 @@ Based on this collaboration, we prioritized safety features such as report syste
 ## 3. Quick Start Guide
 
 ### Installation Instructions
-- Clone repository to have the shortest path length possible (I have mine on C:) 
+
+- Clone repository to have the shortest path length possible (I have mine on C:)
 - Remove the node_module files in both the Rideshare/app/frontend/LynxLiftsApp and Rideshare/app/backend
 - Remove the package-lock.json files in both the Rideshare/app/frontend/LynxLiftsApp and Rideshare/app/backend (DO NOT DELETE THE package.json)
 - (Android Only) Under Rideshare/app/frontend/LynxLiftsApp/android/app delete the .cxx and build files
-- (iOS FIXES)...
+- (iOS Only) Under Rideshare/app/frontend/LynxLiftsApp/ios remove the Pods directory and Podfile.lock file
 - Now in both the Rideshare/app/frontend/LynxLiftsApp and Rideshare/app/backend run the command
   - npm install
+- (iOS Only) Under Rideshare/app/frontend/LynxLiftsApp/ios run the command
+  - pod install
 - (Android Only) Under Rideshare/app/frontend/LynxLiftsApp/android run the command
   - ./gradlew clean
 
 ### Run Instructions
 
 Once everything is installed, while in Rideshare/app/frontend/LynxLiftsApp directory run the command (in Terminal)
-  - Android: npx react-native run-android
-  - iOS:
+
+- Android: npx react-native run-android
+- iOS:
+  - npx react-native start (or 'npm start -- --reset-cache' if you want to clean the cache simultaneously)
+  - npx react-native run-ios
 
 While this is loading, in the Rideshare/app/backend run the command (in a seperate terminal)
-  - Android and iOS: node index.js
+
+- Android and iOS: node index.js
 
 ### API Documentation
 
 - [PostgreSQL npm Documentation](https://www.npmjs.com/package/pg)
-  
 - [Google Geocoding API](https://developers.google.com/maps/documentation/geocoding/?hl=en&_gl=1*osynl6*_ga*MTgxODI3OTkyNC4xNzQ2NDc4NjU1*_ga_NRWSTWS78N*MTc0NjQ3ODY1NS4xLjEuMTc0NjQ3ODcxNi4wLjAuMA..)
 
 - [Google Maps API](https://developers.google.com/codelabs/maps-platform/maps-platform-101-react-js#1)
@@ -127,6 +143,3 @@ While this is loading, in the Rideshare/app/backend run the command (in a sepera
 - [Google Distance Matrix API](https://developers.google.com/maps/documentation/distance-matrix/overview)
 
 - [Firebase Cloud Messaging API](https://firebase.google.com/docs/cloud-messaging)
-
-
-
