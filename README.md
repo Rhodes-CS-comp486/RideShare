@@ -27,7 +27,7 @@ Based on this collaboration, we prioritized safety features such as a report sys
 #### Passenger Mode
 
 - Post ride requests (time, date, pickup/dropoff, ETA, distance)
-- Use interactive map to select pickup and destination points
+- Use an interactive map to select pickup and destination points
 - Browse available drivers
 
 ### Communication & Notifications
@@ -86,21 +86,21 @@ Based on this collaboration, we prioritized safety features such as a report sys
 - pg – database interaction
 - bcrypt – for password hashing
 - jsonwebtoken – for generating JWT tokens
-- firebase-admin – firebase Admin SDK for notifications
+- firebase-admin – Firebase Admin SDK for notifications
 - nodemailer – for sending email notifications
 - dotenv – for managing environment variables
 
 ### Runtime Environments
 
 - Node.js – for running the backend API server
-- React Native - for running frontend
+- React Native - for running the frontend
 
 ### Backend Products and Services
 
 - PostgreSQL – main relational database
 - Firebase Cloud Messaging – push notifications
 - Google Maps API – for interactive map
-- Google Geocoding API - for the conversion of coordinates to readible addresses
+- Google Geocoding API - for the conversion of coordinates to readable addresses
 - Google Distance Matrix API - calculating distance and time between locations
 
 ## 3. Quick Start Guide
@@ -110,25 +110,25 @@ Based on this collaboration, we prioritized safety features such as a report sys
 - Clone repository to have the shortest path length possible (I have mine on C:)
 - Remove the node_module files in both the Rideshare/app/frontend/LynxLiftsApp and Rideshare/app/backend
 - Remove the package-lock.json files in both the Rideshare/app/frontend/LynxLiftsApp and Rideshare/app/backend (DO NOT DELETE THE package.json)
-- (Android Only) Under Rideshare/app/frontend/LynxLiftsApp/android/app delete the .cxx and build files
-- (iOS Only) Under Rideshare/app/frontend/LynxLiftsApp/ios remove the Pods directory and Podfile.lock file
-- Now in both the Rideshare/app/frontend/LynxLiftsApp and Rideshare/app/backend run the command
+- (Android Only) Under Rideshare/app/frontend/LynxLiftsApp/android/app, delete the .cxx and build files
+- (iOS Only) Under Rideshare/app/frontend/LynxLiftsApp/ios, remove the Pods directory and Podfile.lock file
+- Now, in both the Rideshare/app/frontend/LynxLiftsApp and Rideshare/app/backend, run the command
   - npm install
-- (iOS Only) Under Rideshare/app/frontend/LynxLiftsApp/ios run the command
+- (iOS Only) Under Rideshare/app/frontend/LynxLiftsApp/ios, run the command
   - pod install
-- (Android Only) Under Rideshare/app/frontend/LynxLiftsApp/android run the command
+- (Android Only) Under Rideshare/app/frontend/LynxLiftsApp/android, run the command
   - ./gradlew clean
 
 ### Run Instructions
 
-Once everything is installed, while in Rideshare/app/frontend/LynxLiftsApp directory run the command (in Terminal)
+Once everything is installed, while in Rideshare/app/frontend/LynxLiftsApp directory, run the command (in Terminal)
 
 - Android: npx react-native run-android
 - iOS:
-  - npx react-native start (or 'npm start -- --reset-cache' if you want to clean the cache simultaneously)
+  - npx react-native start (or 'npm start --reset-cache' if you want to clean the cache simultaneously)
   - npx react-native run-ios
 
-While this is loading, in the Rideshare/app/backend run the command (in a seperate terminal)
+While this is loading, in the Rideshare/app/backend run the command (in a separate terminal)
 
 - Android and iOS: node index.js
 
