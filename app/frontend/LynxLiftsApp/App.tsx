@@ -23,22 +23,23 @@ import ExlpainRide from './screens/ExplainRideScreen';
 import PassengerExplainRideScreen from './screens/PassengerExplainRideScreen';
 import ViewPassengerAccountScreen from './screens/ViewPassengerAccountScreen';
 import ViewDriverAccountScreen from './screens/ViewDriverAccountScreen';
-
-// import { setupNotificationHandlers } from './notificationService';
 import PassengerConversationsScreen from './screens/PassengerConversationsScreen';
 import DriverConversationsScreen from './screens/DriverConversationsScreen';
 import ScheduleRideScreen from './screens/ScheduleRideScreen';
+import PaymentOptionScreen from './screens/PaymentOptionScreen';
+
+import { setupNotificationHandlers } from './notificationService';
 
 const Stack = createStackNavigator();
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     setupNotificationHandlers();
-  //   }
-  // }, [isLoggedIn]);
+   useEffect(() => {
+     if (isLoggedIn) {
+       setupNotificationHandlers();
+     }
+   }, [isLoggedIn]);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -71,6 +72,7 @@ const App = () => {
           <Stack.Screen name="PassengerExplainRide" component={PassengerExplainRideScreen}  options={{ headerShown: false }} />
           <Stack.Screen name="ViewPassengerAccount" component={ViewPassengerAccountScreen} options={{ headerShown: false }} />
           <Stack.Screen name="ViewDriverAccount" component={ViewDriverAccountScreen} options={{ headerShown: false }} />
+          <Stack.Screen name="PaymentOption" component={PaymentOptionScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </GestureHandlerRootView>

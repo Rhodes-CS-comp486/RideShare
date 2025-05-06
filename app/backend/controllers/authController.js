@@ -349,4 +349,62 @@ const updateUserProfile = async (req, res) => {
   }
 };
 
-module.exports = { register, verify, login, forgotPassword, resetPassword, serveResetForm, getUserProfile, updateUserProfile };
+const getDriverPaymentInfo = async (req, res) => {
+  const { rhodesid } = req.params;
+  try {
+    const { rows } = await pool.query(
+      `SELECT venmo_handle, cashapp_handle, zelle_contact, paypal_handle, cash_or_other_note
+      FROM users WHERE rhodesid = $1`,
+      [rhodesid]
+    );
+    if (rows.length === 0) {
+      return res.status(404).json({ error: 'Driver not found' });
+    }
+    res.json(rows[0]);
+  } catch (error) {
+    console.error('Error fetching payment info:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+const updateDriverPaymentInfo = async (req, res) => {
+  const { rhodesid } = req.params;
+  const {
+    venmo_handle,
+    cashapp_handle,
+    zelle_contact,
+    paypal_handle,
+    cash_or_other_note
+  } = req.body;
+
+  try {
+    await pool.query(
+      `UPDATE users 
+       SET venmo_handle = $1,
+           cashapp_handle = $2,
+           zelle_contact = $3,
+           paypal_handle = $4,
+           cash_or_other_note = $5
+       WHERE rhodesid = $6`,
+      [venmo_handle, cashapp_handle, zelle_contact, paypal_handle, cash_or_other_note, rhodesid]
+    );
+    res.json({ message: 'Payment info updated successfully' });
+  } catch (error) {
+    console.error('Error updating payment info:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+
+module.exports = { 
+  register, 
+  verify, 
+  login, 
+  forgotPassword, 
+  resetPassword, 
+  serveResetForm, 
+  getUserProfile, 
+  updateUserProfile,
+  getDriverPaymentInfo,
+  updateDriverPaymentInfo
+};

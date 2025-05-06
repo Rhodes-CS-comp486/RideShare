@@ -12,4 +12,8 @@ router.get('/reset-password', authController.serveResetForm);
 router.get('/user/:rhodesid/profile', authController.getUserProfile);
 router.put('/user/:rhodesid/profile', authController.updateUserProfile);
 
+// Payment Option routes for driver
+router.get('/driver/:rhodesid/payment', authController.getDriverPaymentInfo);
+router.put('/driver/:rhodesid/payment', authController.updateDriverPaymentInfo);
+
 module.exports = router;
