@@ -6,9 +6,9 @@ Lynx Lifts is a mobile application developed to address transportation challenge
 
 The app allows students who need rides to submit requests for specific times and destinations. Student drivers can then view and accept these requests, providing rides in exchange for a small payment. This helps passengers get where they need to go while also allowing drivers to earn money on their own schedules. By keeping the service within the Rhodes College network, there is a sense of community among students.
 
-During development, we worked closely with the Lynx Lifts organization on campus. They gave us valuable input on what they invisioned for the app, providing feedback on features such as ride safety (report system), and ease of use. Their insights helped us focus more on the basic needs of students that we may have overlooked.
+During development, we worked closely with the Lynx Lifts organization on campus. They gave us valuable input on what they envisioned for the app, providing feedback on features such as ride safety (report system) and ease of use. Their insights helped us focus more on the basic needs of students that we may have overlooked.
 
-Based on this collaboration, we prioritized safety features such as report system, limited access to rides within the Rhodes community (checking email condition), and transparent communication between drivers and passengers. With that, the user interface was designed to be clean and intuitive, allowing students to quickly find rides or offer them with minimal difficulty.
+Based on this collaboration, we prioritized safety features such as a report system, limited access to rides within the Rhodes community (checking email conditions), and transparent communication between drivers and passengers. With that, the user interface was designed to be clean and intuitive, allowing students to quickly find rides or offer them with minimal difficulty.
 
 ## Features
 
