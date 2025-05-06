@@ -45,14 +45,12 @@ Based on this collaboration, we prioritized safety features such as a report sys
 - In-app report system to maintain respectful, safe use of the app
 
 ### System Diagram
-
-<img src="https://github.com/user-attachments/assets/457cbb69-347b-44ea-aa6b-357632402b64" alt="Lynx Lifts System Diagram" width="600/>
+<img width="600" alt="Lynx Lifts System Diagram" src="https://github.com/user-attachments/assets/db26ec82-5277-42c8-84da-d69f9f7ad029" />
 
 
 ### Frontend Clips
-
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/d4154a43-5e70-41bb-b768-6355c3738209" alt="Clip 1" width="150"/>
+  <img src="https://github.com/user-attachments/assets/c1ae7dcb-e160-4e0d-9d4a-d8165c709488" alt="Clip 1" width="150"/>
   <img src="https://github.com/user-attachments/assets/829111c8-f679-42f5-8a0e-5eb7a5cdb5dd" alt="Clip 2" width="150"/>
   <img src="https://github.com/user-attachments/assets/9c8a9286-4dec-4e56-b6dc-73b64522ad67" alt="Clip 3" width="150"/>
 </p>
