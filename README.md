@@ -53,7 +53,7 @@ Based on this collaboration, we prioritized safety features such as a report sys
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/d4154a43-5e70-41bb-b768-6355c3738209" alt="Clip 1" width="150"/>
-  <img src="https://github.com/user-attachments/assets/ce35074a-7c36-47e2-ad68-f48946e6e681" alt="Clip 3" width="150"/>
+  <img src="https://github.com/user-attachments/assets/829111c8-f679-42f5-8a0e-5eb7a5cdb5dd" alt="Clip 2" width="150"/>
   <img src="https://github.com/user-attachments/assets/9c8a9286-4dec-4e56-b6dc-73b64522ad67" alt="Clip 3" width="150"/>
 </p>
 
