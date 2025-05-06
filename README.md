@@ -47,7 +47,7 @@ Based on this collaboration, we prioritized safety features such as report syste
 ### System Diagram
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/457cbb69-347b-44ea-aa6b-357632402b64" alt="Lynx Lifts System Diagram" height="300" width="300/>
+  <img src="https://github.com/user-attachments/assets/457cbb69-347b-44ea-aa6b-357632402b64" alt="Lynx Lifts System Diagram" width="600/>
 </p>
 
 ### Frontend Clips
