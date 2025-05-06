@@ -105,7 +105,7 @@ Based on this collaboration, we prioritized safety features such as a report sys
 
 ### Installation Instructions
 
-- Clone repository to have the shortest path length possible (I have mine on C:)
+- Clone repository to have the shortest path length possible (For Android, I have mine on C:)
 - Remove the node_module files in both the Rideshare/app/frontend/LynxLiftsApp and Rideshare/app/backend
 - Remove the package-lock.json files in both the Rideshare/app/frontend/LynxLiftsApp and Rideshare/app/backend (DO NOT DELETE THE package.json)
 - (Android Only) Under Rideshare/app/frontend/LynxLiftsApp/android/app, delete the .cxx and build files
